@@ -9,10 +9,10 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDServiceWorkerDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDServiceWorkerTypes.h>
+#import "PDObject.h"
+#import "PDServiceWorkerDomain.h"
+#import "PDObject.h"
+#import "PDServiceWorkerTypes.h"
 
 
 @interface PDServiceWorkerDomain ()

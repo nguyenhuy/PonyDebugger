@@ -6,7 +6,7 @@
 //  Copyright © 2016 yidian. All rights reserved.
 //
 
-#import <PonyDebugger/PDDomainController.h>
+#import "PDDomainController.h"
 #import "PDInputDomain.h"
 
 @interface PDInputDomainController : PDDomainController<PDInputCommandDelegate>

@@ -9,9 +9,9 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDScreenOrientationDomain.h>
-#import <PonyDebugger/PDObject.h>
+#import "PDObject.h"
+#import "PDScreenOrientationDomain.h"
+#import "PDObject.h"
 
 
 @interface PDScreenOrientationDomain ()

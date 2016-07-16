@@ -6,7 +6,7 @@
 //  Copyright © 2016 yidian. All rights reserved.
 //
 
-#import <PonyDebugger/PDDynamicDebuggerDomain.h>
+#import "PDDynamicDebuggerDomain.h"
 
 @class PDInputDomain;
 

@@ -175,7 +175,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     callback([self rootNode], nil);
 }
 
-- (void)domain:(PDDOMDomain *)domain highlightNodeWithNodeId:(NSNumber *)nodeId highlightConfig:(PDDOMHighlightConfig *)highlightConfig callback:(void (^)(id))callback;
+- (void)domain:(PDDOMDomain *)domain highlightNodeWithHighlightConfig:(PDDOMHighlightConfig *)highlightConfig nodeId:(NSNumber *)nodeId backendNodeId:(NSNumber *)backendNodeId objectId:(NSString *)objectId callback:(void (^)(id error))callback;
 {
     id objectForNodeId = [self.objectsForNodeIds objectForKey:nodeId];
     if ([objectForNodeId isKindOfClass:[UIView class]]) {
@@ -748,6 +748,9 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
         }
     }
     
+    //id as raw pointer
+    [attributes addObjectsFromArray:@[@"id", [NSString stringWithFormat:@"0x%lx", (unsigned long)(__bridge const void*)object]]];
+    
     return attributes;
 }
 
@@ -831,8 +834,8 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     id objectForNodeId = [self.objectsForNodeIds objectForKey:nodeId];
     if ([objectForNodeId isKindOfClass:[UIView class]]) {
         UIView *view = objectForNodeId;
-        CGRect frame = view.frame;
-        CGRect frameInWindow = [view.window convertRect:frame fromView:view];
+        CGRect frame = view.bounds;
+        frame = [view.window convertRect:frame fromView:view];
         PDDOMBoxModel *box = [[PDDOMBoxModel alloc] init];
         NSArray *quad = @[@(frame.origin.x),@(frame.origin.y),
                           @(frame.origin.x+frame.size.width),@(frame.origin.y),
@@ -858,6 +861,86 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
         box.height = @(0);
         callback(box, nil);
     }
+}
+
+static NSMutableArray *searchResult = nil;
+
+- (void)domain:(PDDOMDomain *)domain performSearchWithQuery:(NSString *)query callback:(void (^)(NSString *, NSNumber *, id))callback{
+    searchResult = [[NSMutableArray alloc] init];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (NSString *nodeId in self.objectsForNodeIds) {
+            UIView *view = [self.objectsForNodeIds objectForKey:nodeId];
+            NSString *className = NSStringFromClass([view class]);
+            NSString *strId = [NSString stringWithFormat:@"0x%lx", (unsigned long)(__bridge const void*)view];
+            if([strId rangeOfString:query].location != NSNotFound){
+                [searchResult addObject:@([nodeId integerValue])];
+                continue;
+            }
+            if ([className rangeOfString:query].location != NSNotFound) {
+                [searchResult addObject:@([nodeId integerValue])];
+                continue;
+            }
+            if([view respondsToSelector:@selector(accessibilityIdentifier)]){
+                NSString *q = [(id)view accessibilityIdentifier];
+                if (q && [q rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(text)]){
+                NSString *q = [(id)view text];
+                if (q && [q rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(attributedText)]){
+                NSString *q = [(id)view attributedText].string;
+                if (q && [q rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(title)]){
+                NSString *q = [(id)view title];
+                if (q && [q rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(request)]){
+                NSURLRequest *q = [(id)view request];
+                if (q && [q.URL.absoluteString rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(URL)]){
+                NSURL *q = [(id)view URL];
+                if (q && [q.absoluteString rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+        }
+        
+        callback(@"1", @(searchResult.count), nil);
+    });
+}
+
+- (void)domain:(PDDOMDomain *)domain getSearchResultsWithSearchId:(NSString *)searchId fromIndex:(NSNumber *)fromIndex toIndex:(NSNumber *)toIndex callback:(void (^)(NSArray *, id))callback{
+    callback([searchResult subarrayWithRange:NSMakeRange(fromIndex.integerValue, toIndex.integerValue-fromIndex.integerValue)], nil);
+}
+
+-(void)domain:(PDDOMDomain *)domain discardSearchResultsWithSearchId:(NSString *)searchId callback:(void (^)(id))callback{
+    callback(nil);
+}
+
+- (void)domain:(PDDOMDomain *)domain pushNodesByBackendIdsToFrontendWithBackendNodeIds:(NSArray *)backendNodeIds callback:(void (^)(NSArray *, id))callback{
+    [self domain:domain hideHighlightWithCallback:^(id error) {
+        
+    }];
+    callback(backendNodeIds, nil);
 }
 
 @end

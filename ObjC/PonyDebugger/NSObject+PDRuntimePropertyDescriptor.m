@@ -11,9 +11,9 @@
 
 #import "NSObject+PDRuntimePropertyDescriptor.h"
 
-#import <PonyDebugger/PDDefinitions.h>
-#import <PonyDebugger/PDRuntimeDomainController.h>
-#import <PonyDebugger/PDRuntimeTypes.h>
+#import "PDDefinitions.h"
+#import "PDRuntimeDomainController.h"
+#import "PDRuntimeTypes.h"
 #import <UIKit/UIAccessibilityIdentification.h>
 
 #pragma mark - Definitions

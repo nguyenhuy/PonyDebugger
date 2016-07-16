@@ -98,7 +98,7 @@
     }
 }
 
-- (void)domain:(PDDatabaseDomain *)domain executeSQLWithDatabaseIdV11:(NSString *)databaseId query:(NSString *)query callback:(void (^)(NSArray *columnNames, NSArray *values, id error))callback{
+- (void)domain:(PDDatabaseDomain *)domain executeSQLWithDatabaseId:(NSString *)databaseId query:(NSString *)query callback:(void (^)(NSArray *columnNames, NSArray *values, PDDatabaseError *sqlError, id error))callback{
     sqlite3 *dbHandle;
     if (sqlite3_open([databaseId UTF8String], &dbHandle)==SQLITE_OK) {
         NSMutableArray *columnNames = [[NSMutableArray alloc] init];
@@ -164,10 +164,10 @@
             }
         }
         sqlite3_close(dbHandle);
-        callback(columnNames, columnValues, nil);
+        callback(columnNames, columnValues, nil, nil);
     }
     else{
-        callback(@[], @[], nil);
+        callback(@[], @[], nil, nil);
     }
     
 }

@@ -9,11 +9,11 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDPageDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDPageTypes.h>
-#import <PonyDebugger/PDDOMTypes.h>
+#import "PDObject.h"
+#import "PDPageDomain.h"
+#import "PDObject.h"
+#import "PDPageTypes.h"
+#import "PDDOMTypes.h"
 
 
 @interface PDPageDomain ()

@@ -9,10 +9,9 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDebugger.h>
-#import <PonyDebugger/PDDynamicDebuggerDomain.h>
-#import <PonyDebugger/PDDomBoxModel.h>
+#import "PDObject.h"
+#import "PDDebugger.h"
+#import "PDDynamicDebuggerDomain.h"
 
 @class PDDOMHighlightConfig;
 @class PDDOMRGBA;

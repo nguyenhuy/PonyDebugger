@@ -195,7 +195,7 @@ static NSTimer *screencastTimer;
 
 - (void)domain:(PDPageDomain *)domain startScreencast:(void (^)(id error))callback{
     if(screencastTimer == nil){
-        screencastTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(screencastFrame) userInfo:nil repeats:@YES];
+        screencastTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(screencastFrame) userInfo:nil repeats:YES];
     }
     
     callback(nil);

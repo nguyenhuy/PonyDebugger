@@ -6,7 +6,7 @@
 //  Copyright © 2016 yidian. All rights reserved.
 //
 
-#import <PonyDebugger/PDObject.h>
+#import "PDObject.h"
 
 @interface PDDomBoxModel : PDObject
 

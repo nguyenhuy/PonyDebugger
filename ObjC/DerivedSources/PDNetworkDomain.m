@@ -9,10 +9,10 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDNetworkDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDNetworkTypes.h>
+#import "PDObject.h"
+#import "PDNetworkDomain.h"
+#import "PDObject.h"
+#import "PDNetworkTypes.h"
 
 
 @interface PDNetworkDomain ()

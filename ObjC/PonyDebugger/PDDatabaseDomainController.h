@@ -6,9 +6,9 @@
 //  Copyright © 2016 yidian. All rights reserved.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDebugger.h>
-#import <PonyDebugger/PDDynamicDebuggerDomain.h>
+#import "PDObject.h"
+#import "PDDebugger.h"
+#import "PDDynamicDebuggerDomain.h"
 #import "PDDatabaseDomain.h"
 #import "PDDomainController.h"
 
@@ -16,8 +16,5 @@
 
 + (PDDatabaseDomainController *)defaultInstance;
 - (void)enable;
-
-
-- (void)domain:(PDDatabaseDomain *)domain executeSQLWithDatabaseIdV11:(NSString *)databaseId query:(NSString *)query callback:(void (^)(NSArray *columnNames, NSArray *values, id error))callback;
 
 @end

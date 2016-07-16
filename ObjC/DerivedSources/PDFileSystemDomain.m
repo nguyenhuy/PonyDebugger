@@ -9,10 +9,10 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDFileSystemDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDFileSystemTypes.h>
+#import "PDObject.h"
+#import "PDFileSystemDomain.h"
+#import "PDObject.h"
+#import "PDFileSysteMTypes.h"
 
 
 @interface PDFileSystemDomain ()

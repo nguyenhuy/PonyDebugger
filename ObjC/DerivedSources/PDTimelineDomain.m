@@ -9,10 +9,10 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDTimelineDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDTimelineTypes.h>
+#import "PDObject.h"
+#import "PDTimelineDomain.h"
+#import "PDObject.h"
+#import "PDTimelineTypes.h"
 
 
 @interface PDTimelineDomain ()

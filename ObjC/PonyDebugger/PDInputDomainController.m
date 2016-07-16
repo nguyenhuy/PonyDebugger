@@ -7,16 +7,16 @@
 //
 
 #import "PDInputDomainController.h"
-#import <PonyDebugger/PDDebugger.h>
+#import "PDDebugger.h"
 #import <UIKit/UIKit.h>
 #import "ChromeVirtualMachine.h"
-#import <PonyDebugger/PDDOMDomainController.h>
-#import <PonyDebugger/PDConsoleDomainController.h>
-#import <PonyDebugger/PDInspectorDomainController.h>
-#import <PonyDebugger/PDRuntimeTypes.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/NSObject+PDRuntimePropertyDescriptor.h>
-#import <PonyDebugger/PDConsoleTypes.h>
+#import "PDDOMDomainController.h"
+#import "PDConsoleDomainController.h"
+#import "PDInspectorDomainController.h"
+#import "PDRuntimeTypes.h"
+#import "PDObject.h"
+#import "NSObject+PDRuntimePropertyDescriptor.h"
+#import "PDConsoleTypes.h"
 #import <objc/runtime.h>
 
 @interface PDDebugger ()
@@ -94,7 +94,7 @@
     return views;
 }
 
-- (void)domain:(PDInputDomain *)domain dispatchMouseEventWithType:(NSString *)type x:(NSNumber*)x y:(NSNumber*)y modifiers:(NSNumber*)modifiers timestamp:(NSNumber*)timestamp button:(NSString*)button clickCount:(NSNumber*)clickCount callback:(void (^)(id error))callback{
+- (void)domain:(PDInputDomain *)domain dispatchMouseEventWithType:(NSString *)type x:(NSNumber *)x y:(NSNumber *)y modifiers:(NSNumber *)modifiers timestamp:(NSNumber *)timestamp button:(NSString *)button clickCount:(NSNumber *)clickCount callback:(void (^)(id error))callback{
 
     if(![type isEqualToString:@"mouseReleased"]){
         return;
@@ -121,6 +121,8 @@
         remoteObject.objectId = [chosenNodeId stringValue];
         
         [inspectorDomain inspectWithObject:remoteObject hints:nil];
+        
+        [domC.domain inspectNodeRequestedWithBackendNodeId:chosenNodeId];
 
         if(chosenView){
             NSArray<UIView*> * views = [self chooseViewsAtPoint:point givenStartingView:[[UIApplication sharedApplication] keyWindow]];
@@ -143,7 +145,7 @@
     callback(nil);
 }
 
-- (void)domain:(PDInputDomain *)domain emulateTouchFromMouseEventWithType:(NSString *)type x:(NSNumber*)x y:(NSNumber*)y deltaX:(NSNumber*)deltaX deltaY:(NSNumber*)deltaY modifiers:(NSNumber*)modifiers timestamp:(NSNumber*)timestamp button:(NSString*)button clickCount:(NSNumber*)clickCount callback:(void (^)(id error))callback{
+- (void)domain:(PDInputDomain *)domain emulateTouchFromMouseEventWithType:(NSString *)type x:(NSNumber *)x y:(NSNumber *)y timestamp:(NSNumber *)timestamp button:(NSString *)button deltaX:(NSNumber *)deltaX deltaY:(NSNumber *)deltaY modifiers:(NSNumber *)modifiers clickCount:(NSNumber *)clickCount callback:(void (^)(id error))callback{
     [self domain:domain dispatchMouseEventWithType:type x:x y:y modifiers:modifiers timestamp:timestamp button:button clickCount:clickCount callback:callback];
 }
 @end

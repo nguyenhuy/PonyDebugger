@@ -9,11 +9,11 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDOMDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDOMTypes.h>
-#import <PonyDebugger/PDRuntimeTypes.h>
+#import "PDObject.h"
+#import "PDDOMDomain.h"
+#import "PDObject.h"
+#import "PDDOMTypes.h"
+#import "PDRuntimeTypes.h"
 
 
 @interface PDDOMDomain ()
@@ -63,6 +63,16 @@
     }
     
     [self.debuggingServer sendEventWithName:@"DOM.setChildNodes" parameters:params];
+}
+
+- (void)inspectNodeRequestedWitBackendNodeId:(NSNumber *)nodeId{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:3];
+    
+    if (nodeId != nil) {
+        [params setObject:[nodeId PD_JSONObject] forKey:@"backendNodeId"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"DOM.inspectNodeRequested" parameters:params];
 }
 
 // Fired when <code>Element</code>'s attribute is modified.

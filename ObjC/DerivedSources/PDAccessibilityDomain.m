@@ -9,10 +9,10 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDAccessibilityDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDAccessibilityTypes.h>
+#import "PDObject.h"
+#import "PDAccessibilityDomain.h"
+#import "PDObject.h"
+#import "PDAccessibilityTypes.h"
 
 
 @interface PDAccessibilityDomain ()
