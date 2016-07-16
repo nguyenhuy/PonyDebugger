@@ -826,14 +826,14 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     return encoding;
 }
 
-- (void)domain:(PDDOMDomain *)domain getBoxModelWithNodeId:(NSNumber *)nodeId callback:(void (^)(PDDomBoxModel *box, id error))callback
+- (void)domain:(PDDOMDomain *)domain getBoxModelWithNodeId:(NSNumber *)nodeId callback:(void (^)(PDDOMBoxModel *box, id error))callback
 {
     id objectForNodeId = [self.objectsForNodeIds objectForKey:nodeId];
     if ([objectForNodeId isKindOfClass:[UIView class]]) {
         UIView *view = objectForNodeId;
         CGRect frame = view.frame;
         CGRect frameInWindow = [view.window convertRect:frame fromView:view];
-        PDDomBoxModel *box = [[PDDomBoxModel alloc] init];
+        PDDOMBoxModel *box = [[PDDOMBoxModel alloc] init];
         NSArray *quad = @[@(frame.origin.x),@(frame.origin.y),
                           @(frame.origin.x+frame.size.width),@(frame.origin.y),
                           @(frame.origin.x+frame.size.width),@(frame.origin.y+frame.size.height),
@@ -848,7 +848,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
         
     }
     else{
-        PDDomBoxModel *box = [[PDDomBoxModel alloc] init];
+        PDDOMBoxModel *box = [[PDDOMBoxModel alloc] init];
         NSArray *quad = @[@(0),@(0),@(0),@(0),@(0),@(0),@(0),@(0),];
         box.content = quad;
         box.padding = quad;

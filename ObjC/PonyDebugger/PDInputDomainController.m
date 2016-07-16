@@ -69,7 +69,7 @@
     [[PDDebugger defaultInstance] performSelector:@selector(_addController:) withObject:self];
 }
 
-- (void)domain:(PDInputDomain *)domain dispatchKeyEventWithType:(NSString *)type modifiers:(NSInteger)modifiers timestamp:(NSTimeInterval)timestamp text:(NSString*)text unmodifiedText:(NSString*)unmodifiedText keyIdentifier:(NSString*)keyIdentifier code:(NSString*)code key:(NSString*)key windowsVirtualKeyCode:(NSInteger)windowsVirtualKeyCode nativeVirtualKeyCode:(NSInteger)nativeVirtualKeyCode autoRepeat:(BOOL)autoRepeat isKeypad:(BOOL)isKeypad isSystemKey:(BOOL)isSystemKey callback:(void (^)(id error))callback{
+- (void)domain:(PDInputDomain *)domain dispatchKeyEventWithType:(NSString *)type modifiers:(NSNumber*)modifiers timestamp:(NSNumber*)timestamp text:(NSString*)text unmodifiedText:(NSString*)unmodifiedText keyIdentifier:(NSString*)keyIdentifier code:(NSString*)code key:(NSString*)key windowsVirtualKeyCode:(NSNumber*)windowsVirtualKeyCode nativeVirtualKeyCode:(NSNumber*)nativeVirtualKeyCode autoRepeat:(NSNumber*)autoRepeat isKeypad:(NSNumber*)isKeypad isSystemKey:(NSNumber*)isSystemKey callback:(void (^)(id error))callback{
     callback(nil);
 }
 
@@ -94,13 +94,13 @@
     return views;
 }
 
-- (void)domain:(PDInputDomain *)domain dispatchMouseEventWithType:(NSString *)type x:(NSInteger)x y:(NSInteger)y modifiers:(NSInteger)modifiers timestamp:(NSTimeInterval)timestamp button:(NSString*)button clickCount:(NSInteger)clickCount callback:(void (^)(id error))callback{
+- (void)domain:(PDInputDomain *)domain dispatchMouseEventWithType:(NSString *)type x:(NSNumber*)x y:(NSNumber*)y modifiers:(NSNumber*)modifiers timestamp:(NSNumber*)timestamp button:(NSString*)button clickCount:(NSNumber*)clickCount callback:(void (^)(id error))callback{
 
     if(![type isEqualToString:@"mouseReleased"]){
         return;
     }
     
-    CGPoint point = CGPointMake(x,y);
+    CGPoint point = CGPointMake([x doubleValue],[y doubleValue]);
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         PDDOMDomainController *domC = [PDDOMDomainController defaultInstance];
@@ -143,7 +143,7 @@
     callback(nil);
 }
 
-- (void)domain:(PDInputDomain *)domain emulateTouchFromMouseEventWithType:(NSString *)type x:(NSInteger)x y:(NSInteger)y deltaX:(NSInteger)deltaX deltaY:(NSInteger)deltaY modifiers:(NSInteger)modifiers timestamp:(NSTimeInterval)timestamp button:(NSString*)button clickCount:(NSInteger)clickCount callback:(void (^)(id error))callback{
+- (void)domain:(PDInputDomain *)domain emulateTouchFromMouseEventWithType:(NSString *)type x:(NSNumber*)x y:(NSNumber*)y deltaX:(NSNumber*)deltaX deltaY:(NSNumber*)deltaY modifiers:(NSNumber*)modifiers timestamp:(NSNumber*)timestamp button:(NSString*)button clickCount:(NSNumber*)clickCount callback:(void (^)(id error))callback{
     [self domain:domain dispatchMouseEventWithType:type x:x y:y modifiers:modifiers timestamp:timestamp button:button clickCount:clickCount callback:callback];
 }
 @end

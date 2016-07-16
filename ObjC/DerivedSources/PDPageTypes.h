@@ -2,7 +2,7 @@
 //  PDPageTypes.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 7/10/15
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -14,125 +14,104 @@
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
 
-// Information about the Frame on the page.
+/// Information about the Frame on the page.
 @interface PDPageFrame : PDObject
 
-// Frame unique identifier.
-// Type: string
+/// Frame unique identifier.
+/// Type: string
 @property (nonatomic, strong) NSString *identifier;
 
-// Parent frame identifier.
-// Type: string
+/// Parent frame identifier.
+/// Type: string
 @property (nonatomic, strong) NSString *parentId;
 
-// Identifier of the loader associated with this frame.
+/// Identifier of the loader associated with this frame.
 @property (nonatomic, strong) NSString *loaderId;
 
-// Frame's name as specified in the tag.
-// Type: string
+/// Frame's name as specified in the tag.
+/// Type: string
 @property (nonatomic, strong) NSString *name;
 
-// Frame document's URL.
-// Type: string
+/// Frame document's URL.
+/// Type: string
 @property (nonatomic, strong) NSString *url;
 
-// Frame document's security origin.
-// Type: string
+/// Frame document's security origin.
+/// Type: string
 @property (nonatomic, strong) NSString *securityOrigin;
 
-// Frame document's mimeType as determined by the browser.
-// Type: string
+/// Frame document's mimeType as determined by the browser.
+/// Type: string
 @property (nonatomic, strong) NSString *mimeType;
 
 @end
 
 
-// Information about the Frame hierarchy along with their cached resources.
+/// Information about the Frame hierarchy along with their cached resources.
 @interface PDPageFrameResourceTree : PDObject
 
-// Frame information for this tree item.
+/// Frame information for this tree item.
 @property (nonatomic, strong) PDPageFrame *frame;
 
-// Child frames.
-// Type: array
+/// Child frames.
+/// Type: array
 @property (nonatomic, strong) NSArray *childFrames;
 
-// Information about frame resources.
-// Type: array
+/// Information about frame resources.
+/// Type: array
 @property (nonatomic, strong) NSArray *resources;
 
 @end
 
 
-// Search match for resource.
-@interface PDPageSearchMatch : PDObject
+/// Navigation history entry.
+@interface PDPageNavigationEntry : PDObject
 
-// Line number in resource content.
-// Type: number
-@property (nonatomic, strong) NSNumber *lineNumber;
+/// Unique id of the navigation history entry.
+/// Type: integer
+@property (nonatomic, strong) NSNumber *identifier;
 
-// Line with match content.
-// Type: string
-@property (nonatomic, strong) NSString *lineContent;
-
-@end
-
-
-// Search result for resource.
-@interface PDPageSearchResult : PDObject
-
-// Resource URL.
-// Type: string
+/// URL of the navigation history entry.
+/// Type: string
 @property (nonatomic, strong) NSString *url;
 
-// Resource frame id.
-@property (nonatomic, strong) NSString *frameId;
-
-// Number of matches in the resource content.
-// Type: number
-@property (nonatomic, strong) NSNumber *matchesCount;
+/// Title of the navigation history entry.
+/// Type: string
+@property (nonatomic, strong) NSString *title;
 
 @end
 
 
-// Cookie object
-@interface PDPageCookie : PDObject
+/// Screencast frame metadata
+@interface PDPageScreencastFrameMetadata : PDObject
 
-// Cookie name.
-// Type: string
-@property (nonatomic, strong) NSString *name;
+/// Top offset in DIP.
+/// Type: number
+@property (nonatomic, strong) NSNumber *offsetTop;
 
-// Cookie value.
-// Type: string
-@property (nonatomic, strong) NSString *value;
+/// Page scale factor.
+/// Type: number
+@property (nonatomic, strong) NSNumber *pageScaleFactor;
 
-// Cookie domain.
-// Type: string
-@property (nonatomic, strong) NSString *domain;
+/// Device screen width in DIP.
+/// Type: number
+@property (nonatomic, strong) NSNumber *deviceWidth;
 
-// Cookie path.
-// Type: string
-@property (nonatomic, strong) NSString *path;
+/// Device screen height in DIP.
+/// Type: number
+@property (nonatomic, strong) NSNumber *deviceHeight;
 
-// Cookie expires.
-// Type: number
-@property (nonatomic, strong) NSNumber *expires;
+/// Position of horizontal scroll in CSS pixels.
+/// Type: number
+@property (nonatomic, strong) NSNumber *scrollOffsetX;
 
-// Cookie size.
-// Type: integer
-@property (nonatomic, strong) NSNumber *size;
+/// Position of vertical scroll in CSS pixels.
+/// Type: number
+@property (nonatomic, strong) NSNumber *scrollOffsetY;
 
-// True if cookie is http-only.
-// Type: boolean
-@property (nonatomic, strong) NSNumber *httpOnly;
-
-// True if cookie is secure.
-// Type: boolean
-@property (nonatomic, strong) NSNumber *secure;
-
-// True in case of session cookie.
-// Type: boolean
-@property (nonatomic, strong) NSNumber *session;
+/// Frame swap timestamp.
+/// Type: number
+@property (nonatomic, strong) NSNumber *timestamp;
 
 @end
 

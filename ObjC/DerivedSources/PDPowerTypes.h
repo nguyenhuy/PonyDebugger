@@ -1,8 +1,8 @@
 //    
-//  PDWebGLTypes.h
+//  PDPowerTypes.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 7/10/15
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
@@ -14,20 +14,20 @@
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
 
-@interface PDWebGLCall : PDObject
+/// PowerEvent item
+@interface PDPowerPowerEvent : PDObject
 
-// Type: string
-@property (nonatomic, strong) NSString *functionName;
+/// Power Event Type.
+/// Type: string
+@property (nonatomic, strong) NSString *type;
 
-@end
+/// Power Event Time, in milliseconds.
+/// Type: number
+@property (nonatomic, strong) NSNumber *timestamp;
 
-
-@interface PDWebGLTraceLog : PDObject
-
-@property (nonatomic, strong) NSString *identifier;
-
-// Type: array
-@property (nonatomic, strong) NSArray *calls;
+/// Power Event Value.
+/// Type: number
+@property (nonatomic, strong) NSNumber *value;
 
 @end
 

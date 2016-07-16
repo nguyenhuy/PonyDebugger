@@ -92,6 +92,13 @@
     resourceTree.frame = frame;
     resourceTree.resources = @[];
     resourceTree.childFrames = [self resourceTreesForPath:NSHomeDirectory()];
+
+    resourceTree.resources = @[@{
+        @"url": [NSBundle mainBundle].bundleURL.absoluteString,
+        @"type": @"Document",
+        @"mimeType": @"",
+        
+    }];
     
     callback(resourceTree, nil);
 }
@@ -100,6 +107,7 @@
 {
     callback(nil);
 }
+
 
 - (void)domain:(PDPageDomain *)domain getResourceContentWithFrameId:(NSString *)frameId url:(NSString *)url callback:(void (^)(NSString *content, NSNumber *base64Encoded, id error))callback{
     
@@ -202,6 +210,12 @@ static NSTimer *screencastTimer;
     [screencastTimer invalidate];
     screencastTimer = nil;
     callback(nil);
+}
+
+
+- (void)domain:(PDPageDomain *)domain canScreencastWithCallback:(void (^)(NSNumber *, id))callback;
+{
+    callback(@YES, nil);
 }
 
 
