@@ -140,23 +140,23 @@
 // Param returnByValue: Whether the result is expected to be a JSON object that should be sent by value.
 // Callback Param result: Evaluation result.
 // Callback Param wasThrown: True if the result was thrown during the evaluation.
-- (void)domain:(PDRuntimeDomain *)domain evaluateWithExpression:(NSString *)expression objectGroup:(NSString *)objectGroup includeCommandLineAPI:(NSNumber *)includeCommandLineAPI doNotPauseOnExceptionsAndMuteConsole:(NSNumber *)doNotPauseOnExceptionsAndMuteConsole contextId:(NSNumber *)contextId returnByValue:(NSNumber *)returnByValue callback:(void (^)(PDRuntimeRemoteObject *result, NSNumber *wasThrown, id error))callback{
+- (void)domain:(PDRuntimeDomain *)domain evaluateWithExpression:(NSString *)expression objectGroup:(NSString *)objectGroup includeCommandLineAPI:(NSNumber *)includeCommandLineAPI doNotPauseOnExceptionsAndMuteConsole:(NSNumber *)doNotPauseOnExceptionsAndMuteConsole contextId:(NSNumber *)contextId returnByValue:(NSNumber *)returnByValue generatePreview:(NSNumber *)generatePreview callback:(void (^)(PDRuntimeRemoteObject *result, NSNumber *wasThrown, PDDebuggerExceptionDetails *exceptionDetails, id error))callback{
     NSLog(@"will eval expr = %@", expression);
     ChromeVirtualMachine *vm = [ChromeVirtualMachine sharedInstance];
     JSValue *value = [vm evaluateScript:expression];
     if([[value description] hasPrefix:@"function"] || [[value description] isEqualToString:@"[object GlobalObject]"]){
-        callback([NSObject PD_remoteObjectRepresentationForObject:[value toString]], @(0), nil);
+        callback([NSObject PD_remoteObjectRepresentationForObject:[value toString]], @(0), nil, nil);
     }
     else if(value.isArray){
-        callback([NSObject PD_remoteObjectRepresentationForObject:value.toArray], @(0), nil);
+        callback([NSObject PD_remoteObjectRepresentationForObject:value.toArray], @(0), nil, nil);
     }
     else{
         NSString *desc = [value.toObject description];
         if([desc hasPrefix:@"<__NSMallocBlock__"] || [desc hasPrefix:@"<__NSGlobalBlock__"]){
-            callback([NSObject PD_remoteObjectRepresentationForObject:value.toString], @(0), nil);
+            callback([NSObject PD_remoteObjectRepresentationForObject:value.toString], @(0), nil, nil);
         }
         else{
-            callback([NSObject PD_remoteObjectRepresentationForObject:value.toObject], @(0), nil);
+            callback([NSObject PD_remoteObjectRepresentationForObject:value.toObject], @(0), nil, nil);
         }
     }
 }
