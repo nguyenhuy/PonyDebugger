@@ -93,7 +93,8 @@ class DeviceHandler(tornado.websocket.WebSocketHandler):
     deviceID = None
     page = None
     devTools = None
-
+    def check_origin(self, origin):
+        return True
     def open(self):
         logger.info("Device Connected")
         self.deviceID = None

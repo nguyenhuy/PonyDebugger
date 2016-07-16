@@ -13,7 +13,7 @@
 #import <PonyDebugger/PDRuntimeDomain.h>
 #import <PonyDebugger/PDObject.h>
 #import <PonyDebugger/PDRuntimeTypes.h>
-
+#import <UIKit/UIKit.h>
 
 @interface PDRuntimeDomain ()
 //Commands
@@ -47,7 +47,25 @@
 
 - (void)handleMethodWithName:(NSString *)methodName parameters:(NSDictionary *)params responseCallback:(PDResponseCallback)responseCallback;
 {
-    if ([methodName isEqualToString:@"evaluate"] && [self.delegate respondsToSelector:@selector(domain:evaluateWithExpression:objectGroup:includeCommandLineAPI:doNotPauseOnExceptionsAndMuteConsole:contextId:returnByValue:callback:)]) {
+    if ([methodName isEqualToString:@"enable"]) {
+        responseCallback(nil, nil);
+        PDRuntimeExecutionContextDescription *context = [[PDRuntimeExecutionContextDescription alloc] init];
+        context.identifier = @(1);
+        context.isPageContext = @(NO);
+        context.name = [NSString stringWithFormat:@"%@ at %@", [[NSBundle mainBundle] bundleIdentifier], [UIDevice currentDevice].name];
+        context.frameId = @"1";
+        NSMutableDictionary *contextDict = [[context PD_JSONObject] mutableCopy];
+        contextDict[@"origin"] = @"http://localhost/";
+        contextDict[@"isDefault"] = @(1);
+        [self.debuggingServer sendEventWithName:@"Runtime.executionContextCreated" parameters:@{@"context":contextDict, @"frameId":@(1)}];
+        responseCallback(nil, nil);
+        return;
+    }
+    else if ([methodName isEqualToString:@"run"]) {
+        responseCallback(nil, nil);
+        return;
+    }
+    else if ([methodName isEqualToString:@"evaluate"] && [self.delegate respondsToSelector:@selector(domain:evaluateWithExpression:objectGroup:includeCommandLineAPI:doNotPauseOnExceptionsAndMuteConsole:contextId:returnByValue:callback:)]) {
         [self.delegate domain:self evaluateWithExpression:[params objectForKey:@"expression"] objectGroup:[params objectForKey:@"objectGroup"] includeCommandLineAPI:[params objectForKey:@"includeCommandLineAPI"] doNotPauseOnExceptionsAndMuteConsole:[params objectForKey:@"doNotPauseOnExceptionsAndMuteConsole"] contextId:[params objectForKey:@"contextId"] returnByValue:[params objectForKey:@"returnByValue"] callback:^(PDRuntimeRemoteObject *result, NSNumber *wasThrown, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
 

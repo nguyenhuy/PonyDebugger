@@ -92,7 +92,18 @@
 
             responseCallback(params, error);
         }];
-    } else if ([methodName isEqualToString:@"executeSQL"] && [self.delegate respondsToSelector:@selector(domain:executeSQLWithDatabaseId:query:callback:)]) {
+    }
+    else if ([methodName isEqualToString:@"executeSQL"] && [self.delegate respondsToSelector:@selector(domain:executeSQLWithDatabaseIdV11:query:callback:)]) {
+        [self.delegate domain:self executeSQLWithDatabaseIdV11:[params objectForKey:@"databaseId"] query:[params objectForKey:@"query"] callback:^(NSArray *columnNames, NSArray *values, id error) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
+            
+            params[@"columnNames"] = columnNames;
+            params[@"values"] = values;
+            
+            responseCallback(params, error);
+        }];
+    }
+    else if ([methodName isEqualToString:@"executeSQL"] && [self.delegate respondsToSelector:@selector(domain:executeSQLWithDatabaseId:query:callback:)]) {
         [self.delegate domain:self executeSQLWithDatabaseId:[params objectForKey:@"databaseId"] query:[params objectForKey:@"query"] callback:^(NSNumber *success, NSNumber *transactionId, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
 

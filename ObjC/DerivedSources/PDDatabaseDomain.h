@@ -38,6 +38,7 @@
 - (void)domain:(PDDatabaseDomain *)domain disableWithCallback:(void (^)(id error))callback;
 - (void)domain:(PDDatabaseDomain *)domain getDatabaseTableNamesWithDatabaseId:(NSString *)databaseId callback:(void (^)(NSArray *tableNames, id error))callback;
 - (void)domain:(PDDatabaseDomain *)domain executeSQLWithDatabaseId:(NSString *)databaseId query:(NSString *)query callback:(void (^)(NSNumber *success, NSNumber *transactionId, id error))callback;
+- (void)domain:(PDDatabaseDomain *)domain executeSQLWithDatabaseIdV11:(NSString *)databaseId query:(NSString *)query callback:(void (^)(NSArray *columnNames, NSArray *values, id error))callback;
 
 @end
 

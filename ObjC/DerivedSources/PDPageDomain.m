@@ -245,7 +245,23 @@
         [self.delegate domain:self setTouchEmulationEnabledWithEnabled:[params objectForKey:@"enabled"] callback:^(id error) {
             responseCallback(nil, error);
         }];
-    } else {
+    }
+    else if ([methodName isEqualToString:@"startScreencast"] && [self.delegate respondsToSelector:@selector(domain:startScreencast:)]) {
+        [(id)self.delegate domain:self startScreencast:^(id error) {
+            responseCallback(nil, error);
+        }];
+    }
+    else if ([methodName isEqualToString:@"stopScreencast"] && [self.delegate respondsToSelector:@selector(domain:stopScreencast:)]) {
+        [(id)self.delegate domain:self stopScreencast:^(id error) {
+            responseCallback(nil, error);
+        }];
+    }
+    else if ([methodName isEqualToString:@"screencastFrameAck"] && [self.delegate respondsToSelector:@selector(domain:screencastFrameAck:)]) {
+        [(id)self.delegate domain:self screencastFrameAck:^(id error) {
+            responseCallback(nil, error);
+        }];
+    }
+    else {
         [super handleMethodWithName:methodName parameters:params responseCallback:responseCallback];
     }
 }

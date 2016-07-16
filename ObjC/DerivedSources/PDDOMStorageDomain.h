@@ -38,6 +38,7 @@
 - (void)domain:(PDDOMStorageDomain *)domain getDOMStorageEntriesWithStorageId:(NSString *)storageId callback:(void (^)(NSArray *entries, id error))callback;
 - (void)domain:(PDDOMStorageDomain *)domain setDOMStorageItemWithStorageId:(NSString *)storageId key:(NSString *)key value:(NSString *)value callback:(void (^)(NSNumber *success, id error))callback;
 - (void)domain:(PDDOMStorageDomain *)domain removeDOMStorageItemWithStorageId:(NSString *)storageId key:(NSString *)key callback:(void (^)(NSNumber *success, id error))callback;
+- (void)domain:(PDDOMStorageDomain *)domain getDOMStorageItemsWithStorageId:(NSDictionary *)storageId callback:(void (^)(NSArray *entries, id error))callback;
 
 @end
 

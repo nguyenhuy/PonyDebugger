@@ -127,9 +127,26 @@
 		943D444E160A73810091CA77 /* PDDOMDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943D444C160A73810091CA77 /* PDDOMDomainController.m */; };
 		947CE06F163CA24E0035FB90 /* PDInspectorDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = 947CE06D163CA24E0035FB90 /* PDInspectorDomainController.h */; };
 		947CE070163CA24E0035FB90 /* PDInspectorDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947CE06E163CA24E0035FB90 /* PDInspectorDomainController.m */; };
+		BFE838351D3A29A90032F3CE /* PDDomBoxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE838331D3A29A90032F3CE /* PDDomBoxModel.m */; };
+		BFE838361D3A29A90032F3CE /* PDDomBoxModel.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE838341D3A29A90032F3CE /* PDDomBoxModel.h */; };
+		BFE838391D3A29C80032F3CE /* PDInputDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE838371D3A29C80032F3CE /* PDInputDomain.m */; };
+		BFE8383A1D3A29C80032F3CE /* PDInputDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE838381D3A29C80032F3CE /* PDInputDomain.h */; };
+		BFE8383D1D3A29FA0032F3CE /* PDInputDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE8383B1D3A29FA0032F3CE /* PDInputDomainController.m */; };
+		BFE8383E1D3A29FA0032F3CE /* PDInputDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE8383C1D3A29FA0032F3CE /* PDInputDomainController.h */; };
+		BFE838411D3A2A680032F3CE /* ChromeVirtualMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE8383F1D3A2A680032F3CE /* ChromeVirtualMachine.m */; };
+		BFE838421D3A2A680032F3CE /* ChromeVirtualMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE838401D3A2A680032F3CE /* ChromeVirtualMachine.h */; };
+		BFE838471D3A317C0032F3CE /* NSDictionary+PD_JSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE838431D3A317C0032F3CE /* NSDictionary+PD_JSONObject.m */; };
+		BFE838481D3A317C0032F3CE /* NSDictionary+PD_JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE838441D3A317C0032F3CE /* NSDictionary+PD_JSONObject.h */; };
+		BFE838491D3A317C0032F3CE /* NSValue+PD_JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE838451D3A317C0032F3CE /* NSValue+PD_JSONObject.h */; };
+		BFE8384A1D3A317C0032F3CE /* NSValue+PD_JSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE838461D3A317C0032F3CE /* NSValue+PD_JSONObject.m */; };
+		BFE8384D1D3A31C60032F3CE /* PDDatabaseDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE8384B1D3A31C60032F3CE /* PDDatabaseDomainController.m */; };
+		BFE8384E1D3A31C60032F3CE /* PDDatabaseDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE8384C1D3A31C60032F3CE /* PDDatabaseDomainController.h */; };
+		BFE838511D3A334D0032F3CE /* PDDOMStorageDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE8384F1D3A334D0032F3CE /* PDDOMStorageDomainController.m */; };
+		BFE838521D3A334D0032F3CE /* PDDOMStorageDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE838501D3A334D0032F3CE /* PDDOMStorageDomainController.h */; };
 		E8D8B39316E00C9600081F80 /* PDPrettyStringPrinter.h in Headers */ = {isa = PBXBuildFile; fileRef = E8D8B39116E00C9600081F80 /* PDPrettyStringPrinter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8D8B39416E00C9600081F80 /* PDPrettyStringPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8B39216E00C9600081F80 /* PDPrettyStringPrinter.m */; };
 		F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */; };
+		F82FF02B898A870AFF721DCF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1900FD55D6CC7D916ABA008C /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +188,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1900FD55D6CC7D916ABA008C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2516711015E61023002F2F95 /* PDApplicationCacheDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDApplicationCacheDomain.h; sourceTree = "<group>"; };
 		2516711115E61023002F2F95 /* PDApplicationCacheDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDApplicationCacheDomain.m; sourceTree = "<group>"; };
 		2516711215E61023002F2F95 /* PDApplicationCacheTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDApplicationCacheTypes.h; sourceTree = "<group>"; };
@@ -292,8 +310,26 @@
 		943D444C160A73810091CA77 /* PDDOMDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDDOMDomainController.m; sourceTree = "<group>"; };
 		947CE06D163CA24E0035FB90 /* PDInspectorDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDInspectorDomainController.h; sourceTree = "<group>"; };
 		947CE06E163CA24E0035FB90 /* PDInspectorDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDInspectorDomainController.m; sourceTree = "<group>"; };
+		B597EDBBBA573F281BA627D6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		BFE838331D3A29A90032F3CE /* PDDomBoxModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDDomBoxModel.m; sourceTree = "<group>"; };
+		BFE838341D3A29A90032F3CE /* PDDomBoxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDDomBoxModel.h; sourceTree = "<group>"; };
+		BFE838371D3A29C80032F3CE /* PDInputDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDInputDomain.m; sourceTree = "<group>"; };
+		BFE838381D3A29C80032F3CE /* PDInputDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDInputDomain.h; sourceTree = "<group>"; };
+		BFE8383B1D3A29FA0032F3CE /* PDInputDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDInputDomainController.m; sourceTree = "<group>"; };
+		BFE8383C1D3A29FA0032F3CE /* PDInputDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDInputDomainController.h; sourceTree = "<group>"; };
+		BFE8383F1D3A2A680032F3CE /* ChromeVirtualMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChromeVirtualMachine.m; sourceTree = "<group>"; };
+		BFE838401D3A2A680032F3CE /* ChromeVirtualMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChromeVirtualMachine.h; sourceTree = "<group>"; };
+		BFE838431D3A317C0032F3CE /* NSDictionary+PD_JSONObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+PD_JSONObject.m"; sourceTree = "<group>"; };
+		BFE838441D3A317C0032F3CE /* NSDictionary+PD_JSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+PD_JSONObject.h"; sourceTree = "<group>"; };
+		BFE838451D3A317C0032F3CE /* NSValue+PD_JSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+PD_JSONObject.h"; sourceTree = "<group>"; };
+		BFE838461D3A317C0032F3CE /* NSValue+PD_JSONObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+PD_JSONObject.m"; sourceTree = "<group>"; };
+		BFE8384B1D3A31C60032F3CE /* PDDatabaseDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDDatabaseDomainController.m; sourceTree = "<group>"; };
+		BFE8384C1D3A31C60032F3CE /* PDDatabaseDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDDatabaseDomainController.h; sourceTree = "<group>"; };
+		BFE8384F1D3A334D0032F3CE /* PDDOMStorageDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDDOMStorageDomainController.m; sourceTree = "<group>"; };
+		BFE838501D3A334D0032F3CE /* PDDOMStorageDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDDOMStorageDomainController.h; sourceTree = "<group>"; };
 		E8D8B39116E00C9600081F80 /* PDPrettyStringPrinter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDPrettyStringPrinter.h; sourceTree = "<group>"; };
 		E8D8B39216E00C9600081F80 /* PDPrettyStringPrinter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDPrettyStringPrinter.m; sourceTree = "<group>"; };
+		F1800994D56DA87580AEF34D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F60EBEA114FC87EE0095B011 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F60EBEA714FC92450095B011 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F60EBEAA14FC92630095B011 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -310,6 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */,
+				F82FF02B898A870AFF721DCF /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +356,12 @@
 		2516710F15E61023002F2F95 /* DerivedSources */ = {
 			isa = PBXGroup;
 			children = (
+				BFE8383F1D3A2A680032F3CE /* ChromeVirtualMachine.m */,
+				BFE838401D3A2A680032F3CE /* ChromeVirtualMachine.h */,
+				BFE838371D3A29C80032F3CE /* PDInputDomain.m */,
+				BFE838381D3A29C80032F3CE /* PDInputDomain.h */,
+				BFE838331D3A29A90032F3CE /* PDDomBoxModel.m */,
+				BFE838341D3A29A90032F3CE /* PDDomBoxModel.h */,
 				2516711015E61023002F2F95 /* PDApplicationCacheDomain.h */,
 				2516711115E61023002F2F95 /* PDApplicationCacheDomain.m */,
 				2516711215E61023002F2F95 /* PDApplicationCacheTypes.h */,
@@ -457,6 +500,12 @@
 		3DE2293315D587540035A508 /* Domain Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				BFE8384F1D3A334D0032F3CE /* PDDOMStorageDomainController.m */,
+				BFE838501D3A334D0032F3CE /* PDDOMStorageDomainController.h */,
+				BFE8384B1D3A31C60032F3CE /* PDDatabaseDomainController.m */,
+				BFE8384C1D3A31C60032F3CE /* PDDatabaseDomainController.h */,
+				BFE8383B1D3A29FA0032F3CE /* PDInputDomainController.m */,
+				BFE8383C1D3A29FA0032F3CE /* PDInputDomainController.h */,
 				947CE06D163CA24E0035FB90 /* PDInspectorDomainController.h */,
 				947CE06E163CA24E0035FB90 /* PDInspectorDomainController.m */,
 				25E5BCD716B9205200152A45 /* PDConsoleDomainController.h */,
@@ -480,6 +529,10 @@
 		3DE2293415D5876F0035A508 /* PDObject */ = {
 			isa = PBXGroup;
 			children = (
+				BFE838431D3A317C0032F3CE /* NSDictionary+PD_JSONObject.m */,
+				BFE838441D3A317C0032F3CE /* NSDictionary+PD_JSONObject.h */,
+				BFE838451D3A317C0032F3CE /* NSValue+PD_JSONObject.h */,
+				BFE838461D3A317C0032F3CE /* NSValue+PD_JSONObject.m */,
 				3DE228C315D5874C0035A508 /* PDObject.h */,
 				3DE228C415D5874C0035A508 /* PDObject.m */,
 				3DE228A715D5874C0035A508 /* NSArray+PD_JSONObject.h */,
@@ -505,7 +558,7 @@
 			children = (
 				3DE2295415D5885D0035A508 /* libSocketRocket.a */,
 				3D0696B415D58B3B0025D563 /* SocketRocket.framework */,
-				3DE2295615D5885D0035A508 /* SRWebSocketTests.octest */,
+				3DE2295615D5885D0035A508 /* SRWebSocketTests.xctest */,
 				3DE2295815D5885D0035A508 /* TestChat.app */,
 			);
 			name = Products;
@@ -564,6 +617,7 @@
 				3DE2292715D5874C0035A508 /* PDIndexedDBDomainController.h in Headers */,
 				3DE2292915D5874C0035A508 /* PDNetworkDomainController.h in Headers */,
 				3DE2292B15D5874C0035A508 /* PDObject.h in Headers */,
+				BFE8383E1D3A29FA0032F3CE /* PDInputDomainController.h in Headers */,
 				3DE2292D15D5874C0035A508 /* PDPageDomainController.h in Headers */,
 				3DE2292F15D5874C0035A508 /* PDRuntimeDomainController.h in Headers */,
 				3DE2293115D5874C0035A508 /* PonyDebugger-Prefix.pch in Headers */,
@@ -575,6 +629,7 @@
 				2516715E15E61023002F2F95 /* PDCSSDomain.h in Headers */,
 				2516716015E61023002F2F95 /* PDCSSTypes.h in Headers */,
 				2516716215E61023002F2F95 /* PDDatabaseDomain.h in Headers */,
+				BFE838481D3A317C0032F3CE /* NSDictionary+PD_JSONObject.h in Headers */,
 				2516716415E61023002F2F95 /* PDDatabaseTypes.h in Headers */,
 				2516716615E61023002F2F95 /* PDDebuggerDomain.h in Headers */,
 				2516716815E61023002F2F95 /* PDDebuggerTypes.h in Headers */,
@@ -585,6 +640,7 @@
 				2516717215E61023002F2F95 /* PDDOMTypes.h in Headers */,
 				2516717415E61023002F2F95 /* PDFileSystemDomain.h in Headers */,
 				2516717615E61023002F2F95 /* PDFileSystemTypes.h in Headers */,
+				BFE838421D3A2A680032F3CE /* ChromeVirtualMachine.h in Headers */,
 				2516717815E61023002F2F95 /* PDIndexedDBDomain.h in Headers */,
 				2516717A15E61023002F2F95 /* PDIndexedDBTypes.h in Headers */,
 				2516717C15E61023002F2F95 /* PDInspectorDomain.h in Headers */,
@@ -601,6 +657,7 @@
 				2516719015E61023002F2F95 /* PDRuntimeTypes.h in Headers */,
 				2516719215E61023002F2F95 /* PDTimelineDomain.h in Headers */,
 				2516719415E61023002F2F95 /* PDTimelineTypes.h in Headers */,
+				BFE8384E1D3A31C60032F3CE /* PDDatabaseDomainController.h in Headers */,
 				2516719615E61023002F2F95 /* PDWebGLDomain.h in Headers */,
 				2516719815E61023002F2F95 /* PDWebGLTypes.h in Headers */,
 				2516719A15E61023002F2F95 /* PDWorkerDomain.h in Headers */,
@@ -609,11 +666,15 @@
 				25E5BCD916B9205200152A45 /* PDConsoleDomainController.h in Headers */,
 				25E5BCE616BA41EA00152A45 /* NSDate+PDDebugger.h in Headers */,
 				25E5BCEB16BE3F1C00152A45 /* NSDictionary+PDRuntimePropertyDescriptor.h in Headers */,
+				BFE838491D3A317C0032F3CE /* NSValue+PD_JSONObject.h in Headers */,
+				BFE8383A1D3A29C80032F3CE /* PDInputDomain.h in Headers */,
 				2560D50F16BE4C06001BAE89 /* NSArray+PDRuntimePropertyDescriptor.h in Headers */,
 				2560D51616BE53EB001BAE89 /* NSSet+PDRuntimePropertyDescriptor.h in Headers */,
 				2560D51A16BE56BF001BAE89 /* NSOrderedSet+PDRuntimePropertyDescriptor.h in Headers */,
+				BFE838361D3A29A90032F3CE /* PDDomBoxModel.h in Headers */,
 				25F6AADA172DD5E100515EF7 /* PDContainerIndex.h in Headers */,
 				2EE444DD1F0668F2F356527F /* NSData+PDDebugger.h in Headers */,
+				BFE838521D3A334D0032F3CE /* PDDOMStorageDomainController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,10 +745,10 @@
 			remoteRef = 3DE2295315D5885D0035A508 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3DE2295615D5885D0035A508 /* SRWebSocketTests.octest */ = {
+		3DE2295615D5885D0035A508 /* SRWebSocketTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SRWebSocketTests.octest;
+			path = SRWebSocketTests.xctest;
 			remoteRef = 3DE2295515D5885D0035A508 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -707,12 +768,14 @@
 			files = (
 				3DE2291015D5874C0035A508 /* NSArray+PD_JSONObject.m in Sources */,
 				3DE2291215D5874C0035A508 /* NSDate+PD_JSONObject.m in Sources */,
+				BFE838511D3A334D0032F3CE /* PDDOMStorageDomainController.m in Sources */,
 				3DE2291415D5874C0035A508 /* NSError+PD_JSONObject.m in Sources */,
 				3DE2291615D5874C0035A508 /* NSManagedObject+PDRuntimePropertyDescriptor.m in Sources */,
 				3DE2291815D5874C0035A508 /* NSObject+PDRuntimePropertyDescriptor.m in Sources */,
 				3DE2291E15D5874C0035A508 /* PDDebugger.m in Sources */,
 				3DE2292015D5874C0035A508 /* PDDefinitions.m in Sources */,
 				3DE2292415D5874C0035A508 /* PDDomainController.m in Sources */,
+				BFE838391D3A29C80032F3CE /* PDInputDomain.m in Sources */,
 				3DE2292615D5874C0035A508 /* PDDynamicDebuggerDomain.m in Sources */,
 				3DE2292815D5874C0035A508 /* PDIndexedDBDomainController.m in Sources */,
 				3DE2292A15D5874C0035A508 /* PDNetworkDomainController.m in Sources */,
@@ -727,10 +790,14 @@
 				2516716115E61023002F2F95 /* PDCSSTypes.m in Sources */,
 				2516716315E61023002F2F95 /* PDDatabaseDomain.m in Sources */,
 				2516716515E61023002F2F95 /* PDDatabaseTypes.m in Sources */,
+				BFE838351D3A29A90032F3CE /* PDDomBoxModel.m in Sources */,
 				2516716715E61023002F2F95 /* PDDebuggerDomain.m in Sources */,
 				2516716915E61023002F2F95 /* PDDebuggerTypes.m in Sources */,
 				2516716B15E61023002F2F95 /* PDDOMDebuggerDomain.m in Sources */,
 				2516716D15E61023002F2F95 /* PDDOMDomain.m in Sources */,
+				BFE8384D1D3A31C60032F3CE /* PDDatabaseDomainController.m in Sources */,
+				BFE838411D3A2A680032F3CE /* ChromeVirtualMachine.m in Sources */,
+				BFE8383D1D3A29FA0032F3CE /* PDInputDomainController.m in Sources */,
 				2516716F15E61023002F2F95 /* PDDOMStorageDomain.m in Sources */,
 				2516717115E61023002F2F95 /* PDDOMStorageTypes.m in Sources */,
 				2516717315E61023002F2F95 /* PDDOMTypes.m in Sources */,
@@ -758,9 +825,11 @@
 				947CE070163CA24E0035FB90 /* PDInspectorDomainController.m in Sources */,
 				25E5BCDA16B9205200152A45 /* PDConsoleDomainController.m in Sources */,
 				25E5BCE716BA41EA00152A45 /* NSDate+PDDebugger.m in Sources */,
+				BFE8384A1D3A317C0032F3CE /* NSValue+PD_JSONObject.m in Sources */,
 				25E5BCEC16BE3F1C00152A45 /* NSDictionary+PDRuntimePropertyDescriptor.m in Sources */,
 				2560D51016BE4C06001BAE89 /* NSArray+PDRuntimePropertyDescriptor.m in Sources */,
 				2560D51716BE53EB001BAE89 /* NSSet+PDRuntimePropertyDescriptor.m in Sources */,
+				BFE838471D3A317C0032F3CE /* NSDictionary+PD_JSONObject.m in Sources */,
 				2560D51B16BE56BF001BAE89 /* NSOrderedSet+PDRuntimePropertyDescriptor.m in Sources */,
 				E8D8B39416E00C9600081F80 /* PDPrettyStringPrinter.m in Sources */,
 				25F6AADB172DD5E100515EF7 /* PDContainerIndex.m in Sources */,

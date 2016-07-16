@@ -80,7 +80,13 @@
     if ([remoteValueObject.type isEqualToString:@"object"] && !remoteValueObject.subtype) {
         remoteValueObject.objectId = [[PDRuntimeDomainController defaultInstance] registerAndGetKeyForObject:propertyValue];
         remoteValueObject.objectDescription = remoteValueObject.classNameString;
-    } else {
+    }
+    else if ([remoteValueObject.type isEqualToString:@"object"] && [remoteValueObject.subtype isEqualToString:@"array"]){
+        //If we do not do this for array, we cannot expand array type in console
+        remoteValueObject.objectId = [[PDRuntimeDomainController defaultInstance] registerAndGetKeyForObject:propertyValue];
+        remoteValueObject.objectDescription = remoteValueObject.classNameString;
+    }
+    else {
         remoteValueObject.value = propertyValue;
     }
     

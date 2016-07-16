@@ -392,7 +392,19 @@
         [self.delegate domain:self markUndoableStateWithCallback:^(id error) {
             responseCallback(nil, error);
         }];
-    } else {
+    }
+    else if ([methodName isEqualToString:@"getBoxModel"] && [self.delegate respondsToSelector:@selector(domain:getBoxModelWithNodeId:callback:)]){
+        [self.delegate domain:self getBoxModelWithNodeId:[params objectForKey:@"nodeId"] callback:^(PDDomBoxModel *box, id error) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+            
+            if (box != nil) {
+                [params setObject:box forKey:@"model"];
+            }
+            
+            responseCallback(params, error);
+        }];
+    }
+    else {
         [super handleMethodWithName:methodName parameters:params responseCallback:responseCallback];
     }
 }

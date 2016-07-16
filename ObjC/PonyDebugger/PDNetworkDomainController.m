@@ -18,6 +18,8 @@
 #import <objc/message.h>
 #import <dispatch/queue.h>
 
+#import <zlib.h>
+
 
 // For reference from the private class dump
 //@interface __NSCFURLSessionConnection : NSObject
@@ -578,11 +580,42 @@ static NSArray *prettyStringPrinters = nil;
 
 #pragma mark - Private Methods
 
+- (NSData *)gunzippedData:(NSData*)data
+{
+    if ([data length] == 0)
+    {
+        return data;
+    }
+    z_stream zlibStreamStruct;
+    zlibStreamStruct.zalloc    = Z_NULL; // Set zalloc, zfree, and opaque to Z_NULL so
+    zlibStreamStruct.zfree     = Z_NULL; // that when we call deflateInit2 they will be
+    zlibStreamStruct.opaque    = Z_NULL; // updated to use default allocation functions.
+    zlibStreamStruct.total_out = 0; // Total number of output bytes produced so far
+    zlibStreamStruct.next_in   = (Bytef*)[data bytes]; // Pointer to input bytes
+    zlibStreamStruct.avail_in  = (uInt)[data length]; // Number of input bytes left to process
+    if (inflateInit2(&zlibStreamStruct, (15+32)) != Z_OK) return nil;
+    NSMutableData *decompressed = [NSMutableData dataWithLength:data.length+data.length/2];
+    int status = Z_OK;
+    while (status == Z_OK) {
+        if (zlibStreamStruct.total_out >= [decompressed length])
+            [decompressed increaseLengthBy: data.length/2];
+        zlibStreamStruct.next_out = decompressed.mutableBytes + zlibStreamStruct.total_out;
+        zlibStreamStruct.avail_out = (uInt)(decompressed.length - zlibStreamStruct.total_out);
+        status = inflate(&zlibStreamStruct, Z_SYNC_FLUSH);
+    }
+    if (status == Z_STREAM_END) {
+        decompressed.length = zlibStreamStruct.total_out;
+        return [decompressed copy];
+    }
+    return nil;
+}
+
 - (void)setResponse:(NSData *)responseBody forRequestID:(NSString *)requestID response:(NSURLResponse *)response request:(NSURLRequest *)request;
 {
     id<PDPrettyStringPrinting> prettyStringPrinter = [PDNetworkDomainController prettyStringPrinterForResponse:response withRequest:request];
 
     NSString *encodedBody;
+    
     BOOL isBinary;
     if (!prettyStringPrinter) {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
@@ -592,8 +625,36 @@ static NSArray *prettyStringPrinters = nil;
 #endif
         isBinary = YES;
     } else {
-        encodedBody = [prettyStringPrinter prettyStringForData:responseBody forResponse:response request:request];
-        isBinary = NO;
+        
+        if([response isKindOfClass:[NSHTTPURLResponse class]]){
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+            NSString *contentEncoding = httpResponse.allHeaderFields[@"Content-Encoding"];
+            if ([contentEncoding isEqualToString:@"gzip"]) {
+                //unzip
+                NSData *unzipped = [self gunzippedData:responseBody];
+                if(unzipped){
+                    responseBody = unzipped;
+                    encodedBody = [prettyStringPrinter prettyStringForData:responseBody forResponse:response request:request];
+                    isBinary = NO;
+                }
+                else{
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+                    encodedBody = [responseBody base64EncodedStringWithOptions:0];
+#else
+                    encodedBody = responseBody.base64Encoding;
+#endif
+                    isBinary = YES;
+                }
+                
+            }
+            else{
+                isBinary = NO;
+            }
+        }
+        else{
+            encodedBody = [prettyStringPrinter prettyStringForData:responseBody forResponse:response request:request];
+            isBinary = NO;
+        }
     }
 
     NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:

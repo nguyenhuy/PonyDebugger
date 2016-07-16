@@ -153,6 +153,10 @@
 // Param enabled: Whether the touch event emulation should be enabled.
 - (void)domain:(PDPageDomain *)domain setTouchEmulationEnabledWithEnabled:(NSNumber *)enabled callback:(void (^)(id error))callback;
 
+- (void)domain:(PDPageDomain *)domain startScreencast:(void (^)(id error))callback;
+- (void)domain:(PDPageDomain *)domain stopScreencast:(void (^)(id error))callback;
+- (void)domain:(PDPageDomain *)domain screencastFrameAck:(void (^)(id error))callback;
+
 @end
 
 @interface PDDebugger (PDPageDomain)

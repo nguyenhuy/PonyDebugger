@@ -93,7 +93,19 @@
 
             responseCallback(params, error);
         }];
-    } else {
+    }
+    else if ([methodName isEqualToString:@"getDOMStorageItems"] && [self.delegate respondsToSelector:@selector(domain:getDOMStorageItemsWithStorageId:callback:)]) {
+        [(id)self.delegate domain:self getDOMStorageItemsWithStorageId:[params objectForKey:@"storageId"] callback:^(NSArray *entries, id error) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+            
+            if (entries != nil) {
+                [params setObject:entries forKey:@"entries"];
+            }
+            
+            responseCallback(params, error);
+        }];
+    }
+    else {
         [super handleMethodWithName:methodName parameters:params responseCallback:responseCallback];
     }
 }

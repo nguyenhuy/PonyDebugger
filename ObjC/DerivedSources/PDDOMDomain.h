@@ -12,6 +12,7 @@
 #import <PonyDebugger/PDObject.h>
 #import <PonyDebugger/PDDebugger.h>
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
+#import <PonyDebugger/PDDomBoxModel.h>
 
 @class PDRuntimeRemoteObject;
 @class PDDOMHighlightConfig;
@@ -235,6 +236,7 @@
 // Marks last undoable state.
 - (void)domain:(PDDOMDomain *)domain markUndoableStateWithCallback:(void (^)(id error))callback;
 
+- (void)domain:(PDDOMDomain *)domain getBoxModelWithNodeId:(NSNumber *)nodeId callback:(void (^)(PDDomBoxModel *box, id error))callback;
 @end
 
 @interface PDDebugger (PDDOMDomain)
