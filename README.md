@@ -21,7 +21,7 @@ PonyDebugger is licensed under the Apache Licence, Version 2.0
 Changes
 -------
 ### HEAD - 2016-07-16
-This is still a work in progress by huang, shaojun (huang.sh). 
+This is still a work in progress by huang, shaojun (http://huang.sh/). 
 
 Adopted for latest Chrome Debugger Protocol Version tot(tip-of-tree).
 You can view the latest protocol https://chromedevtools.github.io/debugger-protocol-viewer/tot/
