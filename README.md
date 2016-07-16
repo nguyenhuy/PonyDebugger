@@ -20,6 +20,27 @@ PonyDebugger is licensed under the Apache Licence, Version 2.0
 
 Changes
 -------
+### HEAD - 2016-07-16
+This is still a work in progress by huang, shaojun (huang.sh). 
+
+Adopted for latest Chrome Debugger Protocol Version tot(tip-of-tree).
+You can view the latest protocol https://chromedevtools.github.io/debugger-protocol-viewer/tot/
+
+Features added
+- Screencast for iOS. 
+- Local Storage for viewing and editing NSUserDefaults (only support editing string and number values)
+- WebSQL for viewing all sqlite3 database in your app
+
+Notes:
+- Google no longer distributes chrome devtools via this link (http://storage.googleapis.com/chromium-browser-continuous/Mac/%s/devtools_frontend.zip). As a result, you cannot use ponyd's built-in downloader to download devtools.
+- Instead, you should get chrome devtools here: https://chromium.googlesource.com/chromium/src/third_party/WebKit/Source/devtools
+- This version is incompatible with devtools downloaded from links like http://storage.googleapis.com/chromium-browser-continuous/Mac/%s/devtools_frontend.zip
+- It will not work with devtools downloaded by ponyd.
+
+#### Screencast iOS
+![Screencast iOS](https://raw.githubusercontent.com/huangjimmy/PonyDebugger/master/screencast.jpg)
+### Select UIView by tapping on Screencast
+![Selet UIView](https://raw.githubusercontent.com/huangjimmy/PonyDebugger/master/inspector.gif)
 
 ### v0.4.0 - 2014-08-15
 
