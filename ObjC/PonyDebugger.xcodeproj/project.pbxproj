@@ -121,8 +121,6 @@
 		943D444E160A73810091CA77 /* PDDOMDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943D444C160A73810091CA77 /* PDDOMDomainController.m */; };
 		947CE06F163CA24E0035FB90 /* PDInspectorDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = 947CE06D163CA24E0035FB90 /* PDInspectorDomainController.h */; };
 		947CE070163CA24E0035FB90 /* PDInspectorDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947CE06E163CA24E0035FB90 /* PDInspectorDomainController.m */; };
-		BFE838351D3A29A90032F3CE /* PDDomBoxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE838331D3A29A90032F3CE /* PDDomBoxModel.m */; };
-		BFE838361D3A29A90032F3CE /* PDDomBoxModel.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE838341D3A29A90032F3CE /* PDDomBoxModel.h */; };
 		BFE838391D3A29C80032F3CE /* PDInputDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE838371D3A29C80032F3CE /* PDInputDomain.m */; };
 		BFE8383A1D3A29C80032F3CE /* PDInputDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE838381D3A29C80032F3CE /* PDInputDomain.h */; };
 		BFE8383D1D3A29FA0032F3CE /* PDInputDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE8383B1D3A29FA0032F3CE /* PDInputDomainController.m */; };
@@ -188,7 +186,6 @@
 		F6BAFDED1B509407009CEBBD /* PDSecurityTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F6BAFDBD1B509407009CEBBD /* PDSecurityTypes.m */; };
 		F6BAFDEE1B509407009CEBBD /* PDServiceWorkerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F6BAFDBE1B509407009CEBBD /* PDServiceWorkerTypes.h */; };
 		F6BAFDEF1B509407009CEBBD /* PDServiceWorkerTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F6BAFDBF1B509407009CEBBD /* PDServiceWorkerTypes.m */; };
-
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -230,7 +227,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1900FD55D6CC7D916ABA008C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2516711015E61023002F2F95 /* PDApplicationCacheDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDApplicationCacheDomain.h; sourceTree = "<group>"; };
 		2516711115E61023002F2F95 /* PDApplicationCacheDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDApplicationCacheDomain.m; sourceTree = "<group>"; };
 		2516711215E61023002F2F95 /* PDApplicationCacheTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDApplicationCacheTypes.h; sourceTree = "<group>"; };
@@ -346,9 +342,6 @@
 		943D444C160A73810091CA77 /* PDDOMDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDDOMDomainController.m; sourceTree = "<group>"; };
 		947CE06D163CA24E0035FB90 /* PDInspectorDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDInspectorDomainController.h; sourceTree = "<group>"; };
 		947CE06E163CA24E0035FB90 /* PDInspectorDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDInspectorDomainController.m; sourceTree = "<group>"; };
-		B597EDBBBA573F281BA627D6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		BFE838331D3A29A90032F3CE /* PDDomBoxModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDDomBoxModel.m; sourceTree = "<group>"; };
-		BFE838341D3A29A90032F3CE /* PDDomBoxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDDomBoxModel.h; sourceTree = "<group>"; };
 		BFE838371D3A29C80032F3CE /* PDInputDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDInputDomain.m; sourceTree = "<group>"; };
 		BFE838381D3A29C80032F3CE /* PDInputDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDInputDomain.h; sourceTree = "<group>"; };
 		BFE8383B1D3A29FA0032F3CE /* PDInputDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDInputDomainController.m; sourceTree = "<group>"; };
@@ -365,7 +358,6 @@
 		BFE838501D3A334D0032F3CE /* PDDOMStorageDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDDOMStorageDomainController.h; sourceTree = "<group>"; };
 		E8D8B39116E00C9600081F80 /* PDPrettyStringPrinter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDPrettyStringPrinter.h; sourceTree = "<group>"; };
 		E8D8B39216E00C9600081F80 /* PDPrettyStringPrinter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDPrettyStringPrinter.m; sourceTree = "<group>"; };
-		F1800994D56DA87580AEF34D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F60EBEA114FC87EE0095B011 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F60EBEA714FC92450095B011 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F60EBEAA14FC92630095B011 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -430,7 +422,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */,
-				F82FF02B898A870AFF721DCF /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,8 +435,6 @@
 				BFE838401D3A2A680032F3CE /* ChromeVirtualMachine.h */,
 				BFE838371D3A29C80032F3CE /* PDInputDomain.m */,
 				BFE838381D3A29C80032F3CE /* PDInputDomain.h */,
-				BFE838331D3A29A90032F3CE /* PDDomBoxModel.m */,
-				BFE838341D3A29A90032F3CE /* PDDomBoxModel.h */,
 				F6BAFD901B509407009CEBBD /* PDAccessibilityDomain.h */,
 				F6BAFD911B509407009CEBBD /* PDAccessibilityDomain.m */,
 				F6BAFD921B509407009CEBBD /* PDAnimationDomain.h */,
@@ -798,8 +787,6 @@
 				F6BAFDDC1B509407009CEBBD /* PDCacheStorageTypes.h in Headers */,
 				2516719415E61023002F2F95 /* PDTimelineTypes.h in Headers */,
 				BFE8384E1D3A31C60032F3CE /* PDDatabaseDomainController.h in Headers */,
-				2516719615E61023002F2F95 /* PDWebGLDomain.h in Headers */,
-				2516719815E61023002F2F95 /* PDWebGLTypes.h in Headers */,
 				F6BAFDDE1B509407009CEBBD /* PDDOMDebuggerTypes.h in Headers */,
 				2516719A15E61023002F2F95 /* PDWorkerDomain.h in Headers */,
 				943D444D160A73810091CA77 /* PDDOMDomainController.h in Headers */,
@@ -819,7 +806,6 @@
 				F6BAFDD61B509407009CEBBD /* PDAccessibilityTypes.h in Headers */,
 				2560D51616BE53EB001BAE89 /* NSSet+PDRuntimePropertyDescriptor.h in Headers */,
 				2560D51A16BE56BF001BAE89 /* NSOrderedSet+PDRuntimePropertyDescriptor.h in Headers */,
-				BFE838361D3A29A90032F3CE /* PDDomBoxModel.h in Headers */,
 				25F6AADA172DD5E100515EF7 /* PDContainerIndex.h in Headers */,
 				2EE444DD1F0668F2F356527F /* NSData+PDDebugger.h in Headers */,
 				BFE838521D3A334D0032F3CE /* PDDOMStorageDomainController.h in Headers */,
@@ -949,7 +935,6 @@
 				F6BAFDE31B509407009CEBBD /* PDEmulationTypes.m in Sources */,
 				F6BAFDD11B509407009CEBBD /* PDSecurityDomain.m in Sources */,
 				2516716515E61023002F2F95 /* PDDatabaseTypes.m in Sources */,
-				BFE838351D3A29A90032F3CE /* PDDomBoxModel.m in Sources */,
 				F6BAFDE51B509407009CEBBD /* PDInputTypes.m in Sources */,
 				2516716715E61023002F2F95 /* PDDebuggerDomain.m in Sources */,
 				2516716915E61023002F2F95 /* PDDebuggerTypes.m in Sources */,
