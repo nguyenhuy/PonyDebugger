@@ -86,9 +86,12 @@
             responseCallback(nil, error);
         }];
     } else if ([methodName isEqualToString:@"getMatchedStylesForNode"] && [self.delegate respondsToSelector:@selector(domain:getMatchedStylesForNodeWithNodeId:excludePseudo:excludeInherited:callback:)]) {
-        [self.delegate domain:self getMatchedStylesForNodeWithNodeId:[params objectForKey:@"nodeId"] excludePseudo:[params objectForKey:@"excludePseudo"] excludeInherited:[params objectForKey:@"excludeInherited"] callback:^(NSArray *matchedCSSRules, NSArray *pseudoElements, NSArray *inherited, id error) {
+        [self.delegate domain:self getMatchedStylesForNodeWithNodeId:[params objectForKey:@"nodeId"] excludePseudo:[params objectForKey:@"excludePseudo"] excludeInherited:[params objectForKey:@"excludeInherited"] callback:^(PDCSSCSSStyle *inlineStyle, NSArray *matchedCSSRules, NSArray *pseudoElements, NSArray *inherited, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:3];
 
+            if (inlineStyle != nil) {
+                [params setObject:inlineStyle forKey:@"inlineStyle"];
+            }
             if (matchedCSSRules != nil) {
                 [params setObject:matchedCSSRules forKey:@"matchedCSSRules"];
             }

@@ -269,6 +269,20 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     callback(@([objectId intValue]), nil);
 }
 
+- (void)domain:(PDDOMDomain *)domain resolveNodeWithNodeId:(NSNumber *)nodeId objectGroup:(NSString *)objectGroup callback:(void (^)(PDRuntimeRemoteObject *object, id error))callback{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+        PDRuntimeRemoteObject *remoteObject = [[PDRuntimeRemoteObject alloc] init];
+        
+        remoteObject.type = @"object";
+        remoteObject.subtype = @"node";
+        remoteObject.objectId = [nodeId stringValue];
+        
+        callback(remoteObject, nil);
+    });
+}
+
+
 #pragma mark - Gesture Moving and Resizing
 
 - (void)handleMovePanGesure:(UIPanGestureRecognizer *)panGR;
@@ -865,7 +879,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
 
 static NSMutableArray *searchResult = nil;
 
-- (void)domain:(PDDOMDomain *)domain performSearchWithQuery:(NSString *)query callback:(void (^)(NSString *, NSNumber *, id))callback{
+- (void)domain:(PDDOMDomain *)domain performSearchWithQuery:(NSString *)query includeUserAgentShadowDOM:(NSNumber *)includeUserAgentShadowDOM callback:(void (^)(NSString *searchId, NSNumber *resultCount, id error))callback{
     searchResult = [[NSMutableArray alloc] init];
     dispatch_async(dispatch_get_main_queue(), ^{
         for (NSString *nodeId in self.objectsForNodeIds) {
@@ -928,11 +942,11 @@ static NSMutableArray *searchResult = nil;
     });
 }
 
-- (void)domain:(PDDOMDomain *)domain getSearchResultsWithSearchId:(NSString *)searchId fromIndex:(NSNumber *)fromIndex toIndex:(NSNumber *)toIndex callback:(void (^)(NSArray *, id))callback{
+- (void)domain:(PDDOMDomain *)domain getSearchResultsWithSearchId:(NSString *)searchId fromIndex:(NSNumber *)fromIndex toIndex:(NSNumber *)toIndex callback:(void (^)(NSArray *nodeIds, id error))callback{
     callback([searchResult subarrayWithRange:NSMakeRange(fromIndex.integerValue, toIndex.integerValue-fromIndex.integerValue)], nil);
 }
 
--(void)domain:(PDDOMDomain *)domain discardSearchResultsWithSearchId:(NSString *)searchId callback:(void (^)(id))callback{
+- (void)domain:(PDDOMDomain *)domain discardSearchResultsWithSearchId:(NSString *)searchId callback:(void (^)(id error))callback{
     callback(nil);
 }
 
