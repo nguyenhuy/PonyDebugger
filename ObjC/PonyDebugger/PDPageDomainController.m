@@ -9,6 +9,7 @@
 //  which Square, Inc. licenses this file to you.
 //
 
+#import "PDDOMDomainController.h"
 #import "PDPageDomainController.h"
 #import "PDRuntimeDomainController.h"
 #import "PDPageDomain.h"
@@ -92,13 +93,13 @@
     resourceTree.frame = frame;
     resourceTree.resources = @[];
     resourceTree.childFrames = [self resourceTreesForPath:NSHomeDirectory()];
+    resourceTree.childFrames = [resourceTree.childFrames arrayByAddingObjectsFromArray:[self resourceTreesForPath:[frame.url stringByAppendingString:@"/"]]];
 
     resourceTree.resources = @[@{
-        @"url": [NSBundle mainBundle].bundleURL.absoluteString,
+        @"url": [[NSBundle mainBundle] bundleURL].absoluteString,
         @"type": @"Document",
         @"mimeType": @"",
-        
-    }];
+        },];
     
     callback(resourceTree, nil);
 }
@@ -175,13 +176,39 @@
     }
 }
 
+- (UIWindow *)statusWindow
+{
+    NSString *statusBarString = [NSString stringWithFormat:@"_statusBarWindow"];
+    return [[UIApplication sharedApplication] valueForKey:statusBarString];
+}
+
 - (void)screencastFrame{
     dispatch_async(dispatch_get_main_queue(),^{
-        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-        CGRect rect = [keyWindow bounds];
+        
+        NSArray *systemWindows = [PDDOMDomainController defaultInstance].systemWindows;
+        
+        NSArray<UIWindow*> *windows = [[UIApplication sharedApplication] windows];
+        windows = [windows arrayByAddingObject:[self statusWindow]];
+        windows = [windows arrayByAddingObjectsFromArray:systemWindows];
+        windows = [windows sortedArrayUsingComparator:^NSComparisonResult(UIWindow * _Nonnull obj1, UIWindow *  _Nonnull obj2) {
+            if (obj1.windowLevel > obj2.windowLevel) {
+                return NSOrderedDescending;
+            }
+            if (obj1.windowLevel < obj2.windowLevel) {
+                return NSOrderedAscending;
+            }
+            return NSOrderedSame;
+        }];
+        
+        CGRect rect = [[UIScreen mainScreen] bounds];
         UIGraphicsBeginImageContextWithOptions(rect.size, NO, 1.0);
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        [keyWindow.layer renderInContext:context];
+        
+        for (UIWindow *keyWindow in windows) {
+            
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            [keyWindow.layer renderInContext:context];
+        }
+        
         UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         NSData *data = UIImageJPEGRepresentation(img, 0.5);

@@ -15,6 +15,7 @@
 
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
+#import <objc/objc-sync.h>
 
 #pragma mark - Definitions
 
@@ -79,6 +80,8 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
         
         [self.inspectModeOverlay addGestureRecognizer:inspectTapGR];
         [self.inspectModeOverlay addGestureRecognizer:inspectPanGR];
+        
+        self.systemWindows = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -108,7 +111,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     dispatch_once(&onceToken, ^{
         Method original, swizzle;
         Class viewClass = [UIView class];
-
+        
         // Using sel_registerName() because compiler complains about the swizzled selectors not being found.
         original = class_getInstanceMethod(viewClass, @selector(addSubview:));
         swizzle = class_getInstanceMethod(viewClass, sel_registerName("pd_swizzled_addSubview:"));
@@ -271,7 +274,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
 
 - (void)domain:(PDDOMDomain *)domain resolveNodeWithNodeId:(NSNumber *)nodeId objectGroup:(NSString *)objectGroup callback:(void (^)(PDRuntimeRemoteObject *object, id error))callback{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-
+        
         PDRuntimeRemoteObject *remoteObject = [[PDRuntimeRemoteObject alloc] init];
         
         remoteObject.type = @"object";
@@ -316,7 +319,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
             self.originalPinchFrame = self.viewToHighlight.frame;
             self.originalPinchLocation = [pinchGR locationInView:self.viewToHighlight.superview];
             break;
-        
+            
         case UIGestureRecognizerStateChanged: {
             // Scale the frame by the pinch amount
             CGFloat scale = [pinchGR scale];
@@ -338,7 +341,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
             self.viewToHighlight.frame = newFrame;
             break;
         }
-        
+            
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:
             self.viewToHighlight.frame = CGRectIntegral(self.viewToHighlight.frame);
@@ -469,11 +472,35 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
 
 - (void)windowHidden:(NSNotification *)windowNotification;
 {
+    UIWindow *window = windowNotification.object;
+    if (window) {
+        NSArray<UIWindow*> *windows = [[UIApplication sharedApplication] windows];
+        if ([windows containsObject:window]) {
+            objc_sync_enter(self.systemWindows);
+            [self.systemWindows removeObject:window];
+            objc_sync_exit(self.systemWindows);
+        }
+        else{
+            
+        }
+    }
     [self removeView:windowNotification.object];
 }
 
 - (void)windowShown:(NSNotification *)windowNotification;
 {
+    UIWindow *window = windowNotification.object;
+    if (window) {
+        NSArray<UIWindow*> *windows = [[UIApplication sharedApplication] windows];
+        if ([windows containsObject:window]) {
+            
+        }
+        else{
+            objc_sync_enter(self.systemWindows);
+            [self.systemWindows addObject:window];
+            objc_sync_exit(self.systemWindows);
+        }
+    }
     [self addView:windowNotification.object];
 }
 
@@ -485,7 +512,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     }
     
     NSNumber *nodeId = [self.nodeIdsForObjects objectForKey:[NSValue valueWithNonretainedObject:view]];
-
+    
     // Only proceed if this is a node we know about
     if ([self.objectsForNodeIds objectForKey:nodeId]) {
         
@@ -509,7 +536,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     if ([self shouldIgnoreView:view] || !self.objectsForNodeIds) {
         return;
     }
-
+    
     // Only proceed if we know about this view's superview (corresponding to the parent node)
     NSNumber *parentNodeId = nil;
     if (view.superview) {
@@ -519,7 +546,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     if ([self.objectsForNodeIds objectForKey:parentNodeId]) {
         
         PDDOMNode *node = [self nodeForView:view];
-
+        
         // Find the sibling view to insert the node in the right place
         // We're actually looking for the next view in the subviews array. Index 0 holds the back-most view.
         // We essentialy dispay the subviews array backwards.
@@ -542,9 +569,11 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
         NSArray *windows = [[UIApplication sharedApplication] windows];
         NSUInteger indexOfWindow = [windows indexOfObject:view];
         
-        if (indexOfWindow > 0) {
+        if (indexOfWindow != NSNotFound) {
             UIWindow *previousWindow = [windows objectAtIndex:indexOfWindow - 1];
             previousNodeId = [self.nodeIdsForObjects objectForKey:[NSValue valueWithNonretainedObject:previousWindow]];
+        }
+        else{
         }
         
         // Note that windows are always children of the root element node (id 1)
@@ -866,7 +895,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     }
     else{
         PDDOMBoxModel *box = [[PDDOMBoxModel alloc] init];
-        NSArray *quad = @[@(0),@(0),@(0),@(0),@(0),@(0),@(0),@(0),];
+        NSArray *quad = @[@(2000),@(2000),@(2000),@(2000),@(2000),@(2000),@(2000),@(2000),];
         box.content = quad;
         box.padding = quad;
         box.border = quad;

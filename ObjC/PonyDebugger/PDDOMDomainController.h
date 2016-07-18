@@ -30,4 +30,6 @@
 - (void)removeView:(UIView *)view;
 - (void)addView:(UIView *)view;
 
+@property (nonatomic, strong) NSMutableArray *systemWindows;
+
 @end
