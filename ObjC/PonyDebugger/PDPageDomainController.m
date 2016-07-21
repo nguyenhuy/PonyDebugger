@@ -182,7 +182,12 @@
     return [[UIApplication sharedApplication] valueForKey:statusBarString];
 }
 
+static BOOL screencastAckRecv = YES;
+
 - (void)screencastFrame{
+    if(screencastAckRecv == NO)return;
+    screencastAckRecv = NO;
+    
     dispatch_async(dispatch_get_main_queue(),^{
         
         NSArray *systemWindows = [PDDOMDomainController defaultInstance].systemWindows;
@@ -212,30 +217,39 @@
         UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         NSData *data = UIImageJPEGRepresentation(img, 0.5);
-        NSString *dataBase64 = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        NSString *dataBase64 = [data base64EncodedStringWithOptions:0];
         CGSize size = [UIScreen mainScreen].bounds.size;
+        screencastAckRecv = NO;
         [self.domain.debuggingServer sendEventWithName:@"Page.screencastFrame" parameters:@{@"data":dataBase64, @"metadata":@{@"offsetTop":@0,@"pageScaleFactor":@1,@"deviceWidth":@(size.width), @"deviceHeight":@(size.height),@"scrollOffsetX":@0,@"scrollOffsetY":@0}, @"sessionId":@1}];
     });
 }
 
 static NSTimer *screencastTimer;
+static NSTimeInterval lastScreenCastTime = 0;
 
 - (void)domain:(PDPageDomain *)domain startScreencast:(void (^)(id error))callback{
     if(screencastTimer == nil){
-        screencastTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(screencastFrame) userInfo:nil repeats:YES];
+        //每秒最多20 frames
+        screencastTimer = [NSTimer timerWithTimeInterval:0.05 target:self selector:@selector(screencastFrame) userInfo:nil repeats:YES];
+        screencastAckRecv = YES;
+        [[NSRunLoop currentRunLoop] addTimer:screencastTimer forMode:NSRunLoopCommonModes];
     }
     
     callback(nil);
 }
 
 - (void)domain:(PDPageDomain *)domain screencastFrameAck:(void (^)(id error))callback{
-    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        screencastAckRecv = YES;
+    });
     callback(nil);
 }
 
 - (void)domain:(PDPageDomain *)domain stopScreencast:(void (^)(id error))callback{
     [screencastTimer invalidate];
     screencastTimer = nil;
+    screencastAckRecv = YES;
+    lastScreenCastTime = [[NSDate date] timeIntervalSince1970];
     callback(nil);
 }
 

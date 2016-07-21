@@ -210,7 +210,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
 - (void)domain:(PDDOMDomain *)domain setAttributesAsTextWithNodeId:(NSNumber *)nodeId text:(NSString *)text name:(NSString *)name callback:(void (^)(id))callback;
 {
     // The "class" attribute cannot be edited. Bail early
-    if ([name isEqualToString:@"class"]) {
+    if ([name isEqualToString:@"class"] || [name isEqualToString:@"id"] || [name isEqualToString:@"_viewController"]) {
         callback(nil);
         return;
     }
@@ -757,11 +757,14 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     
     // Thanks to http://petersteinberger.com/blog/2012/pimping-recursivedescription/
     SEL viewDelSEL = NSSelectorFromString([NSString stringWithFormat:@"%@wDelegate", @"_vie"]);
+    
+    UIViewController *vc = nil;
+    
     if ([object respondsToSelector:viewDelSEL]) {
         
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        UIViewController *vc = [object performSelector:viewDelSEL];
+        vc = [object performSelector:viewDelSEL];
 #pragma clang diagnostic pop
         
         if (vc) {
@@ -770,6 +773,12 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     }
     
     NSMutableArray *attributes = [NSMutableArray arrayWithArray:@[ @"class", className ]];
+    
+    //id as raw pointer
+    [attributes addObjectsFromArray:@[@"id", [NSString stringWithFormat:@"0x%lx", (unsigned long)(__bridge const void*)object]]];
+    if(vc){
+        [attributes addObjectsFromArray:@[@"_viewController", [NSString stringWithFormat:@"0x%lx", (unsigned long)(__bridge const void*)vc]]];
+    }
     
     if ([object isKindOfClass:[UIView class]]) {
         // Get strings for all the key paths in viewKeyPathsToDisplay
@@ -790,9 +799,6 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
             }
         }
     }
-    
-    //id as raw pointer
-    [attributes addObjectsFromArray:@[@"id", [NSString stringWithFormat:@"0x%lx", (unsigned long)(__bridge const void*)object]]];
     
     return attributes;
 }

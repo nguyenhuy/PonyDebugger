@@ -623,36 +623,8 @@ static NSArray *prettyStringPrinters = nil;
 #endif
         isBinary = YES;
     } else {
-        
-        if([response isKindOfClass:[NSHTTPURLResponse class]]){
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-            NSString *contentEncoding = httpResponse.allHeaderFields[@"Content-Encoding"];
-            if ([contentEncoding isEqualToString:@"gzip"]) {
-                //unzip
-                NSData *unzipped = [self gunzippedData:responseBody];
-                if(unzipped){
-                    responseBody = unzipped;
-                    encodedBody = [prettyStringPrinter prettyStringForData:responseBody forResponse:response request:request];
-                    isBinary = NO;
-                }
-                else{
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-                    encodedBody = [responseBody base64EncodedStringWithOptions:0];
-#else
-                    encodedBody = responseBody.base64Encoding;
-#endif
-                    isBinary = YES;
-                }
-                
-            }
-            else{
-                isBinary = NO;
-            }
-        }
-        else{
-            encodedBody = [prettyStringPrinter prettyStringForData:responseBody forResponse:response request:request];
-            isBinary = NO;
-        }
+        encodedBody = [prettyStringPrinter prettyStringForData:responseBody forResponse:response request:request];
+        isBinary = NO;
     }
 
     NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:
