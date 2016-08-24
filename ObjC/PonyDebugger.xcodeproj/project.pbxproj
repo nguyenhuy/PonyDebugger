@@ -130,6 +130,8 @@
 		E8D8B39316E00C9600081F80 /* PDPrettyStringPrinter.h in Headers */ = {isa = PBXBuildFile; fileRef = E8D8B39116E00C9600081F80 /* PDPrettyStringPrinter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8D8B39416E00C9600081F80 /* PDPrettyStringPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8B39216E00C9600081F80 /* PDPrettyStringPrinter.m */; };
 		F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */; };
+		FA50CFBD1D6E01E20074A4F0 /* PDSQLiteDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */; };
+		FA50CFBE1D6E01E20074A4F0 /* PDSQLiteDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -302,6 +304,8 @@
 		F66E1ED214FC7CF0000E0707 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F683ADAC14FC1B4C008EBBA7 /* libPonyDebugger.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPonyDebugger.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDSQLiteDomainController.h; sourceTree = "<group>"; };
+		FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDSQLiteDomainController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,6 +469,8 @@
 				943D444C160A73810091CA77 /* PDDOMDomainController.m */,
 				3DE228BF15D5874C0035A508 /* PDIndexedDBDomainController.h */,
 				3DE228C015D5874C0035A508 /* PDIndexedDBDomainController.m */,
+				FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */,
+				FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */,
 				3DE228C115D5874C0035A508 /* PDNetworkDomainController.h */,
 				3DE228C215D5874C0035A508 /* PDNetworkDomainController.m */,
 				3DE228C515D5874C0035A508 /* PDPageDomainController.h */,
@@ -505,7 +511,7 @@
 			children = (
 				3DE2295415D5885D0035A508 /* libSocketRocket.a */,
 				3D0696B415D58B3B0025D563 /* SocketRocket.framework */,
-				3DE2295615D5885D0035A508 /* SRWebSocketTests.octest */,
+				3DE2295615D5885D0035A508 /* SRWebSocketTests.xctest */,
 				3DE2295815D5885D0035A508 /* TestChat.app */,
 			);
 			name = Products;
@@ -594,6 +600,7 @@
 				2516718415E61023002F2F95 /* PDNetworkTypes.h in Headers */,
 				2516718615E61023002F2F95 /* PDPageDomain.h in Headers */,
 				E8D8B39316E00C9600081F80 /* PDPrettyStringPrinter.h in Headers */,
+				FA50CFBD1D6E01E20074A4F0 /* PDSQLiteDomainController.h in Headers */,
 				2516718815E61023002F2F95 /* PDPageTypes.h in Headers */,
 				2516718A15E61023002F2F95 /* PDProfilerDomain.h in Headers */,
 				2516718C15E61023002F2F95 /* PDProfilerTypes.h in Headers */,
@@ -684,10 +691,10 @@
 			remoteRef = 3DE2295315D5885D0035A508 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3DE2295615D5885D0035A508 /* SRWebSocketTests.octest */ = {
+		3DE2295615D5885D0035A508 /* SRWebSocketTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SRWebSocketTests.octest;
+			path = SRWebSocketTests.xctest;
 			remoteRef = 3DE2295515D5885D0035A508 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -748,6 +755,7 @@
 				2516718B15E61023002F2F95 /* PDProfilerDomain.m in Sources */,
 				2516718D15E61023002F2F95 /* PDProfilerTypes.m in Sources */,
 				2516718F15E61023002F2F95 /* PDRuntimeDomain.m in Sources */,
+				FA50CFBE1D6E01E20074A4F0 /* PDSQLiteDomainController.m in Sources */,
 				2516719115E61023002F2F95 /* PDRuntimeTypes.m in Sources */,
 				2516719315E61023002F2F95 /* PDTimelineDomain.m in Sources */,
 				2516719515E61023002F2F95 /* PDTimelineTypes.m in Sources */,

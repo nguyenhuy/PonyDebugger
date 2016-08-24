@@ -25,6 +25,7 @@
 #import "PDDOMDomainController.h"
 #import "PDInspectorDomainController.h"
 #import "PDConsoleDomainController.h"
+#import "PDSQLiteDomainController.h"
 
 
 static NSString *const PDClientIDKey = @"com.squareup.PDDebugger.clientID";
@@ -407,6 +408,26 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
 {
     [[PDIndexedDBDomainController defaultInstance] removeManagedObjectContext:context];
 }
+
+#pragma mark SQLite Debugging
+
+- (void)enableSQLiteDebugging
+{
+    [self _addController:[PDRuntimeDomainController defaultInstance]];
+    [self _addController:[PDPageDomainController defaultInstance]];
+    [self _addController:[PDSQLiteDomainController defaultInstance]];
+}
+
+- (void)addSQLiteDatabase:(NSString *)filePath
+{
+    [[PDSQLiteDomainController defaultInstance] addSQLiteFile:filePath];
+}
+
+- (void)removeSQLiteDatabase:(NSString *)filePath
+{
+    [[PDSQLiteDomainController defaultInstance] removeSQLiteFile:filePath];
+}
+
 
 #pragma mark View Hierarchy Debugging
 

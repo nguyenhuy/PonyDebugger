@@ -66,6 +66,11 @@ extern void _PDLogObjectsImpl(NSString *severity, NSArray *arguments);
 - (void)addManagedObjectContext:(NSManagedObjectContext *)context withName:(NSString *)name;
 - (void)removeManagedObjectContext:(NSManagedObjectContext *)context;
 
+#pragma mark SQLite Debugging
+- (void)enableSQLiteDebugging;
+- (void)addSQLiteDatabase:(NSString *)filePath;
+- (void)removeSQLiteDatabase:(NSString *)filePath;
+
 #pragma mark View Hierarchy Debugging
 - (void)enableViewHierarchyDebugging;
 - (void)setDisplayedViewAttributeKeyPaths:(NSArray *)keyPaths;
