@@ -16,8 +16,8 @@
 
 + (PDSQLiteDomainController *)defaultInstance;
 
-- (void)addSQLiteFile:(NSString *)context;
+- (void)addSQLiteFile:(NSString *)filePath;
 
-- (void)removeSQLiteFile:(NSString *)context;
+- (void)removeSQLiteFile:(NSString *)filePath;
 
 @end
