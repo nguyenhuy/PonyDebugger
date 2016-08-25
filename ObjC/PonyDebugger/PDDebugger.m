@@ -413,8 +413,6 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
 
 - (void)enableSQLiteDebugging
 {
-    [self _addController:[PDRuntimeDomainController defaultInstance]];
-    [self _addController:[PDPageDomainController defaultInstance]];
     [self _addController:[PDSQLiteDomainController defaultInstance]];
 }
 

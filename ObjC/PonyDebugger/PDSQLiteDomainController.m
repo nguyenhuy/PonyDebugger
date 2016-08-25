@@ -7,36 +7,34 @@
 //
 
 #import "PDSQLiteDomainController.h"
-#import "PDRuntimeDomainController.h"
-#import "PDIndexedDBTypes.h"
-#import "PDRuntimeTypes.h"
+#import "PDDatabaseTypes.h"
 
 #import <sqlite3.h>
 
-@interface SQLiteUtil : NSObject
-
-+ (nullable NSString *)typeDescription:(int)typeInt;
-+ (void)debugStatement:(sqlite3_stmt *)statement;
-
-@end
-
-@interface PDSQLiteDatabase : NSObject
+@interface PDSQLiteDBWrapper : NSObject
 
 - (nullable instancetype)initWithName:(NSString *)name filePath:(NSString *)filePath;
 
 @property (nonatomic, readonly) NSString * filePath;
 @property (nonatomic, readonly) NSString * name;
 
-- (NSArray *)getTables;
+- (NSArray<NSString *> *)getTablesName;
+
+extern const NSString * QueryColumsKey;
+extern const NSString * QueryValuesKey;
+
+- (NSDictionary<NSString *, NSArray *> *)executeQuery:(NSString *)query;
 
 @end
+
 
 #pragma mark - Controller
 
 
 @interface PDSQLiteDomainController ()
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, PDSQLiteDatabase *>* databases;
+@property (nonatomic, strong) NSMutableArray<NSString *> * files;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, PDSQLiteDBWrapper *>* databases;
 @end
 
 @implementation PDSQLiteDomainController
@@ -60,7 +58,7 @@
 
 + (Class)domainClass;
 {
-    return [PDIndexedDBDomain class];
+    return [PDDatabaseDomain class];
 }
 
 #pragma mark - Initialization
@@ -69,6 +67,7 @@
 {
     self = [super init];
     if (self) {
+        _files = [[NSMutableArray alloc] init];
         _databases = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -81,68 +80,83 @@
 
 #pragma mark - PDIndexedDBCommandDelegate
 
-- (void)domain:(PDIndexedDBDomain *)domain requestDatabaseNamesForFrameWithRequestId:(NSNumber *)requestId frameId:(NSString *)frameId callback:(void (^)(id))callback
+- (void)domain:(PDDynamicDebuggerDomain *)domain enableWithCallback:(void (^)(id))callback
 {
-    [self _broadcastDatabaseNamesWithRequestId:requestId];
+    for (NSString * filePath in self.files) {
+        [self _loadDatabaseFromFile:filePath];
+    }
     
-    callback(nil);
+    [super domain:domain enableWithCallback:callback];
 }
 
-- (void)domain:(PDIndexedDBDomain *)domain requestDatabaseWithRequestId:(NSNumber *)requestId frameId:(NSString *)frameId databaseName:(NSString *)databaseName callback:(void (^)(id))callback;
+- (void)domain:(PDDynamicDebuggerDomain *)domain disableWithCallback:(void (^)(id))callback
 {
-    [self _broadcastDatabase:[self.databases objectForKey:databaseName]
-                   requestId:requestId];
+    for (NSString * filePath in self.files) {
+        [self _unloadDatabaseFromFile:filePath];
+    }
     
-    callback(nil);
+    [super domain:domain enableWithCallback:callback];
 }
 
-- (void)domain:(PDIndexedDBDomain *)domain requestDataWithRequestId:(NSNumber *)requestId frameId:(NSString *)frameId databaseName:(NSString *)databaseName objectStoreName:(NSString *)objectStoreName indexName:(NSString *)indexName skipCount:(NSNumber *)skipCount pageSize:(NSNumber *)pageSize keyRange:(PDIndexedDBKeyRange *)keyRange callback:(void (^)(id))callback;
+- (void)domain:(PDDatabaseDomain *)domain getDatabaseTableNamesWithDatabaseId:(NSString *)databaseId callback:(void (^)(NSArray *, id))callback
 {
-    NSLog(@"requestData");
-    NSLog(@"databaseName: %@", databaseName);
-    NSLog(@"objectStoreName: %@", objectStoreName);
-    NSLog(@"indexName: %@", indexName);
-    NSLog(@"skipCount: %@", skipCount);
-    NSLog(@"pageSize: %@", pageSize);
-    NSLog(@"keyRange: %@", keyRange);
+    PDSQLiteDBWrapper * db = [self.databases objectForKey:databaseId];
     
+    NSArray * tables = [db getTablesName];
     
-    //TODO
-    
-    NSArray * dataEntries = [[NSArray alloc] init];
-    
-    NSNumber * hasMore = [NSNumber numberWithBool:NO];
-    
-    [self.domain objectStoreDataLoadedWithRequestId:requestId
-                             objectStoreDataEntries:dataEntries
-                                            hasMore:hasMore];
-    
-    callback(nil);
+    callback(tables, nil);
 }
+
+- (void)domain:(PDDatabaseDomain *)domain executeSQLWithDatabaseId:(NSString *)databaseId query:(NSString *)query callback:(void (^)(NSNumber *, NSNumber *, id))callback
+{
+    PDSQLiteDBWrapper * db = [self.databases objectForKey:databaseId];
+    
+    NSNumber * transactionId = [NSNumber numberWithInteger:[[NSDate new] timeIntervalSince1970] * 1000];
+    
+    NSDictionary * result = [db executeQuery:query];
+    NSArray * columns = [result objectForKey:QueryColumsKey];
+    NSArray * values = [result objectForKey:QueryValuesKey];
+    
+    BOOL success = columns != nil && values != nil;
+    
+    // Order matters!
+    // callback first, domain second
+    callback([NSNumber numberWithBool:success], transactionId, nil);
+    
+    if (success) {
+        [domain sqlTransactionSucceededWithTransactionId:transactionId columnNames:columns values:values];
+    } else {
+        [domain sqlTransactionFailedWithTransactionId:transactionId sqlError:@{ /* who knows that to put here */ }];
+    }
+}
+
 
 #pragma mark - Public Methods
 
 - (void)addSQLiteFile:(NSString *)file
 {
-    NSString * name = [self _databaseNameFromFilePath:file];
-    
-    if ([self.databases objectForKey:name] != nil) {
+    if ([self.files containsObject:file]) {
         return;
     }
     
-    [self.databases setObject:[self _createDatabaseWithName:name filePath:file]
-                       forKey:name];
+    [self.files addObject:file];
+    
+    if ([self enabled]) {
+        [self _loadDatabaseFromFile:file];
+    }
 }
 
 - (void)removeSQLiteFile:(NSString *)file
 {
-    NSString * name = [self _databaseNameFromFilePath:file];
-    
-    if ([self.databases objectForKey:name] == nil) {
+    if (![self.files containsObject:file]) {
         return;
     }
     
-    [self.databases removeObjectForKey:name];
+    [self.files removeObject:file];
+    
+    if ([self enabled]) {
+        [self _unloadDatabaseFromFile:file];
+    }
 }
 
 #pragma mark - Private Methods
@@ -152,44 +166,48 @@
     return [[filePath lastPathComponent] stringByDeletingPathExtension];
 }
 
-- (nullable PDSQLiteDatabase *)_createDatabaseWithName:(NSString *)name filePath:(NSString *)filePath
+- (void)_loadDatabaseFromFile:(NSString *)file
 {
-    return [[PDSQLiteDatabase alloc] initWithName:name filePath:filePath];
+    NSString * name = [self _databaseNameFromFilePath:file];
+    
+    if ([self.databases objectForKey:name] != nil) {
+        return;
+    }
+    
+    [self.databases setObject:[[PDSQLiteDBWrapper alloc] initWithName:name filePath:file]
+                       forKey:name];
+    
+    // Notify domain
+    PDDatabaseDatabase * db = [[PDDatabaseDatabase alloc] init];
+    db.identifier = name;
+    db.name = name;
+    
+    [self.domain addDatabaseWithDatabase:db];
 }
 
-- (void)_broadcastDatabaseNamesWithRequestId:(NSNumber *)requestId
+- (void)_unloadDatabaseFromFile:(NSString *)file
 {
-    PDIndexedDBSecurityOriginWithDatabaseNames * databaseNames = [[PDIndexedDBSecurityOriginWithDatabaseNames alloc] init];
+    NSString * name = [self _databaseNameFromFilePath:file];
     
-    databaseNames.databaseNames = self.databases.allKeys;
-    databaseNames.securityOrigin = [[NSBundle mainBundle] bundleIdentifier];
+    if ([self.databases objectForKey:name] == nil) {
+        return;
+    }
     
-    [self.domain databaseNamesLoadedWithRequestId:requestId
-                  securityOriginWithDatabaseNames:databaseNames];
-}
-
-// Emit the database structure
-- (void)_broadcastDatabase:(PDSQLiteDatabase *)database requestId:(NSNumber *)requestId
-{
-    // objectStore (PDIndexedDBObjectStore) -> Table
-    // index (PDIndexedDBObjectStoreIndex) -> Column
-    // keyPath (PDIndexedDBKeyPath) -> ???
+    [self.databases removeObjectForKey:name];
     
-    PDIndexedDBDatabaseWithObjectStores * db = [[PDIndexedDBDatabaseWithObjectStores alloc] init];
-    db.name = database.name;
-    db.version = @"N/A";
-    db.objectStores = [database getTables];
-    
-    [self.domain databaseLoadedWithRequestId:requestId
-                    databaseWithObjectStores:db];
+    // Notify domain
+    // function not available on domain
 }
 
 @end
 
-@implementation PDSQLiteDatabase
+@implementation PDSQLiteDBWrapper
 {
     sqlite3 * sqlite3db;
 }
+
+const NSString * QueryColumsKey = @"QueryColumsKey";
+const NSString * QueryValuesKey = @"QueryValuesKey";
 
 - (instancetype)initWithName:(NSString *)name filePath:(NSString *)filePath
 {
@@ -201,24 +219,27 @@
     return self;
 }
 
-- (BOOL)open
+// Open the database.
+- (BOOL)_open
 {
-    // Open the database.
     int openDatabaseResult = sqlite3_open_v2([self.filePath UTF8String], &sqlite3db, SQLITE_OPEN_NOMUTEX | SQLITE_OPEN_READONLY, NULL);
     
     return openDatabaseResult == SQLITE_OK;
 }
 
-- (BOOL)close
+// Close the database.
+- (BOOL)_close
 {
-    // Close the database.
     int result = sqlite3_close(sqlite3db);
     
     return result == SQLITE_OK;
 }
 
-- (NSArray<NSString *> *)_getTablesName
+// Get all tables name
+- (NSArray<NSString *> *)getTablesName
 {
+    [self _open];
+    
     NSMutableArray<NSString *> * names = [[NSMutableArray alloc] init];
     NSString * query = @"SELECT name FROM sqlite_master WHERE type='table';";
     
@@ -231,184 +252,85 @@
             char * nameChars = (char *) sqlite3_column_text(statement, 0);
             NSString * name = [[NSString alloc] initWithUTF8String:nameChars];
             
-            NSLog(@"found table: %@", name);
+            //NSLog(@"found table: %@", name);
             [names addObject:name];
         }
         
         sqlite3_finalize(statement);
     }
     
+    [self _close];
+    
     return names;
 }
 
-- (NSArray<PDIndexedDBObjectStoreIndex *> *)_getTableColumns:(NSString *)tableName
+// Return result of a SQL query
+- (NSDictionary<NSString *, NSArray *> *)executeQuery:(NSString *)query
 {
-    NSLog(@"getting columns from table %@", tableName);
+    [self _open];
     
-    NSMutableArray<PDIndexedDBObjectStoreIndex *> * columns = [[NSMutableArray alloc] init];
-    NSString * query = [NSString stringWithFormat:@"pragma table_info('%@');", tableName];
+    NSMutableArray<NSString *> * columns = [[NSMutableArray alloc] init];
+    NSMutableArray * values = [[NSMutableArray alloc] init];
     
     sqlite3_stmt * statement;
-    if (sqlite3_prepare_v2(sqlite3db, [query UTF8String], -1, &statement, nil)
-        == SQLITE_OK) {
+    if (sqlite3_prepare_v2(sqlite3db, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+    
+        // Get columns
+        int columnsCount = sqlite3_column_count(statement);
         
-        [SQLiteUtil debugStatement:statement];
-        
-        while (sqlite3_step(statement) == SQLITE_ROW) {
+        for (int columnIndex=0; columnIndex < columnsCount; columnIndex++) {
             
-            char * nameChars = (char *) sqlite3_column_text(statement, 1);
+            char* nameChars = sqlite3_column_name(statement, columnIndex);
             NSString * name = [[NSString alloc] initWithUTF8String:nameChars];
             
-            int typeInt = sqlite3_column_type(statement, 2);
-            NSString * type = [SQLiteUtil typeDescription:typeInt];
+            [columns addObject:name];
+        }
+        
+        // Get values
+        while (sqlite3_step(statement) == SQLITE_ROW) {
             
-            int primaryInt = sqlite3_column_int(statement, 5);
-            BOOL isPrimary = primaryInt > 0;
-            
-            NSLog(@"found column: %@ type: %d %@ primary: %d", name, typeInt, type, primaryInt);
-            
-            PDIndexedDBKeyPath * columnKeyPath = [[PDIndexedDBKeyPath alloc] init];
-            columnKeyPath.type = type;
-            columnKeyPath.string = name;
-            
-            PDIndexedDBObjectStoreIndex * column = [[PDIndexedDBObjectStoreIndex alloc] init];
-            column.name = name;
-            column.keyPath = columnKeyPath;
-            column.unique = [NSNumber numberWithBool:isPrimary];
-            column.multiEntry = [NSNumber numberWithBool:YES];
-            
-            [columns addObject:column];
+            for (int columnIndex=0; columnIndex < columnsCount; columnIndex++) {
+                
+                sqlite3_value * value = sqlite3_column_value(statement, columnIndex);
+                
+                int type = sqlite3_value_type(value);
+                switch (type) {
+                    case SQLITE_INTEGER:
+                        [values addObject:[NSNumber numberWithInteger: sqlite3_value_int(value)]];
+                        break;
+                        
+                    case SQLITE_FLOAT:
+                        [values addObject:[NSNumber numberWithDouble: sqlite3_value_double(value)]];
+                        break;
+                        
+                    case SQLITE_BLOB:
+                        [values addObject:@"BLOB"];
+                        break;
+                        
+                    case SQLITE_NULL:
+                        [values addObject:[NSNull null]];
+                        break;
+                        
+                    case SQLITE_TEXT: {
+                        char * textChars = (char *) sqlite3_value_text(value);
+                        [values addObject:[NSString stringWithUTF8String:textChars]];
+                        break;
+                    }
+                        
+                    default:
+                        [values addObject:@"???"];
+                        break;
+                }
+                
+            }
         }
         
         sqlite3_finalize(statement);
     }
     
-    return columns;
-}
-
-- (NSArray<PDIndexedDBObjectStore *> *)getTables
-{
-    [self open];
+    [self _close];
     
-    NSMutableArray<PDIndexedDBObjectStore *> * tables = [[NSMutableArray alloc] init];
-    
-    // Step 1: fetch all table names
-    NSArray<NSString *> * tablesName = [self _getTablesName];
-    
-    // Step 2: fetch fields for each table name and build the final structure
-    for (NSString * tableName in tablesName) {
-        
-        PDIndexedDBKeyPath * tableKeyPath = [[PDIndexedDBKeyPath alloc] init];
-        tableKeyPath.type = @"string";
-        tableKeyPath.string = tableName;
-        
-        PDIndexedDBObjectStore * table = [[PDIndexedDBObjectStore alloc] init];
-        table.keyPath = tableKeyPath;
-        table.autoIncrement = [NSNumber numberWithBool:NO];
-        table.name = tableName;
-        table.indexes = [self _getTableColumns:tableName];
-        
-        [tables addObject:table];
-    }
-    
-    [self close];
-    
-    return tables;
-}
-
-@end
-
-@implementation SQLiteUtil
-
-+ (nullable NSString *)typeDescription:(int)typeInt
-{
-    switch (typeInt) {
-        case SQLITE_INTEGER:
-            return @"integer";
-            break;
-            
-        case SQLITE_FLOAT:
-            return @"float";
-            break;
-            
-        case SQLITE_BLOB:
-            return @"blob";
-            break;
-            
-        case SQLITE_NULL:
-            return @"null";
-            break;
-            
-        case SQLITE_TEXT:
-            return @"text";
-            break;
-            
-        default:
-            return nil;
-            break;
-    }
-}
-
-+ (void)debugStatement:(sqlite3_stmt *)statement
-{
-    // Print structure
-    int columnsCount = sqlite3_column_count(statement);
-    
-    for (int columnIndex=0; columnIndex < columnsCount; columnIndex++) {
-        
-        char* nameChars = sqlite3_column_name(statement, columnIndex);
-        NSString * name = [[NSString alloc] initWithUTF8String:nameChars];
-        
-        int type = sqlite3_column_type(statement, columnIndex);
-        
-        NSLog(@"column %d: %@ (type: %d %@)", columnIndex, name, type, [self typeDescription:type]);
-    }
-    
-    // Print content
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-        
-        NSMutableArray<NSString *>* content = [[NSMutableArray alloc] init];
-        
-        for (int columnIndex=0; columnIndex < columnsCount; columnIndex++) {
-            
-            sqlite3_value * value = sqlite3_column_value(statement, columnIndex);
-            
-            int type = sqlite3_value_type(value);
-            switch (type) {
-                case SQLITE_INTEGER:
-                    [content addObject:[NSString stringWithFormat:@"%d", sqlite3_value_int(value)]];
-                    break;
-                    
-                case SQLITE_FLOAT:
-                    [content addObject:[NSString stringWithFormat:@"%f", sqlite3_value_double(value)]];
-                    break;
-                    
-                case SQLITE_BLOB:
-                    [content addObject:@"BLOB"];
-                    break;
-                    
-                case SQLITE_NULL:
-                    [content addObject:@"NULL"];
-                    break;
-                    
-                case SQLITE_TEXT: {
-                    char * textChars = (char *) sqlite3_value_text(value);
-                    [content addObject:[NSString stringWithUTF8String:textChars]];
-                    break;
-                }
-                    
-                default:
-                    [content addObject:@"???"];
-                    break;
-            }
-            
-        }
-        
-        NSLog(@"row %@", content);
-        
-    }
-    
-    sqlite3_reset(statement);
+    return @{ QueryColumsKey: columns, QueryValuesKey : values };
 }
 
 @end

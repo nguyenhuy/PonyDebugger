@@ -10,9 +10,11 @@
 #import <PonyDebugger/PDIndexedDBDomain.h>
 #import <PonyDebugger/PDIndexedDBTypes.h>
 
-@interface PDSQLiteDomainController : PDDomainController <PDIndexedDBCommandDelegate>
+#import <PonyDebugger/PDDatabaseDomain.h>
 
-@property (nonatomic, strong) PDIndexedDBDomain *domain;
+@interface PDSQLiteDomainController : PDDomainController <PDDatabaseCommandDelegate>
+
+@property (nonatomic, strong) PDDatabaseDomain *domain;
 
 + (PDSQLiteDomainController *)defaultInstance;
 
