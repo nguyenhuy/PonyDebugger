@@ -132,6 +132,7 @@
 		F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */; };
 		FA50CFBD1D6E01E20074A4F0 /* PDSQLiteDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */; };
 		FA50CFBE1D6E01E20074A4F0 /* PDSQLiteDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */; };
+		FAD027041D6EE0F3004236DF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD027031D6EE0F3004236DF /* libsqlite3.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -306,6 +307,7 @@
 		F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDSQLiteDomainController.h; sourceTree = "<group>"; };
 		FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDSQLiteDomainController.m; sourceTree = "<group>"; };
+		FAD027031D6EE0F3004236DF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,6 +315,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAD027041D6EE0F3004236DF /* libsqlite3.tbd in Frameworks */,
 				F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -540,6 +543,7 @@
 		F683ADAE14FC1B4D008EBBA7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FAD027031D6EE0F3004236DF /* libsqlite3.tbd */,
 				F60EBEAC14FC926E0095B011 /* Security.framework */,
 				F60EBEA714FC92450095B011 /* CFNetwork.framework */,
 				F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */,
