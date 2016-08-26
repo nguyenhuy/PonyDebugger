@@ -71,6 +71,9 @@ extern void _PDLogObjectsImpl(NSString *severity, NSArray *arguments);
 - (void)addSQLiteDatabase:(NSString *)filePath;
 - (void)removeSQLiteDatabase:(NSString *)filePath;
 
+#pragma mark NSUserDefaults Debugging
+- (void)enableUserDefaultsDebugging;
+
 #pragma mark View Hierarchy Debugging
 - (void)enableViewHierarchyDebugging;
 - (void)setDisplayedViewAttributeKeyPaths:(NSArray *)keyPaths;

@@ -132,7 +132,8 @@
 		F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */; };
 		FA50CFBD1D6E01E20074A4F0 /* PDSQLiteDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */; };
 		FA50CFBE1D6E01E20074A4F0 /* PDSQLiteDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */; };
-		FAD027041D6EE0F3004236DF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD027031D6EE0F3004236DF /* libsqlite3.tbd */; };
+		FADB4E4A1D703184009924F1 /* PDUserDefaultsDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = FADB4E481D703184009924F1 /* PDUserDefaultsDomainController.h */; };
+		FADB4E4B1D703184009924F1 /* PDUserDefaultsDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADB4E491D703184009924F1 /* PDUserDefaultsDomainController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -308,6 +309,8 @@
 		FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDSQLiteDomainController.h; sourceTree = "<group>"; };
 		FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDSQLiteDomainController.m; sourceTree = "<group>"; };
 		FAD027031D6EE0F3004236DF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		FADB4E481D703184009924F1 /* PDUserDefaultsDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDUserDefaultsDomainController.h; sourceTree = "<group>"; };
+		FADB4E491D703184009924F1 /* PDUserDefaultsDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDUserDefaultsDomainController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,7 +318,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAD027041D6EE0F3004236DF /* libsqlite3.tbd in Frameworks */,
 				F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,6 +476,8 @@
 				3DE228C015D5874C0035A508 /* PDIndexedDBDomainController.m */,
 				FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */,
 				FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */,
+				FADB4E481D703184009924F1 /* PDUserDefaultsDomainController.h */,
+				FADB4E491D703184009924F1 /* PDUserDefaultsDomainController.m */,
 				3DE228C115D5874C0035A508 /* PDNetworkDomainController.h */,
 				3DE228C215D5874C0035A508 /* PDNetworkDomainController.m */,
 				3DE228C515D5874C0035A508 /* PDPageDomainController.h */,
@@ -620,6 +624,7 @@
 				25E5BCD916B9205200152A45 /* PDConsoleDomainController.h in Headers */,
 				25E5BCE616BA41EA00152A45 /* NSDate+PDDebugger.h in Headers */,
 				25E5BCEB16BE3F1C00152A45 /* NSDictionary+PDRuntimePropertyDescriptor.h in Headers */,
+				FADB4E4A1D703184009924F1 /* PDUserDefaultsDomainController.h in Headers */,
 				2560D50F16BE4C06001BAE89 /* NSArray+PDRuntimePropertyDescriptor.h in Headers */,
 				2560D51616BE53EB001BAE89 /* NSSet+PDRuntimePropertyDescriptor.h in Headers */,
 				2560D51A16BE56BF001BAE89 /* NSOrderedSet+PDRuntimePropertyDescriptor.h in Headers */,
@@ -736,6 +741,7 @@
 				2516715D15E61023002F2F95 /* PDConsoleTypes.m in Sources */,
 				2516715F15E61023002F2F95 /* PDCSSDomain.m in Sources */,
 				2516716115E61023002F2F95 /* PDCSSTypes.m in Sources */,
+				FADB4E4B1D703184009924F1 /* PDUserDefaultsDomainController.m in Sources */,
 				2516716315E61023002F2F95 /* PDDatabaseDomain.m in Sources */,
 				2516716515E61023002F2F95 /* PDDatabaseTypes.m in Sources */,
 				2516716715E61023002F2F95 /* PDDebuggerDomain.m in Sources */,

@@ -280,7 +280,7 @@ const NSString * QueryValuesKey = @"QueryValuesKey";
         
         for (int columnIndex=0; columnIndex < columnsCount; columnIndex++) {
             
-            char* nameChars = sqlite3_column_name(statement, columnIndex);
+            char* nameChars = (char*) sqlite3_column_name(statement, columnIndex);
             NSString * name = [[NSString alloc] initWithUTF8String:nameChars];
             
             [columns addObject:name];
