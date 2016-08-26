@@ -19,7 +19,7 @@
 @implementation PDUserDefaultsDomainController
 {
     NSString * _userDefaultsName;
-    NSUserDefaults * _userDefaults;
+    NSUserDefaults * _userDefaultsObj;
 }
 
 @dynamic domain;
@@ -49,7 +49,7 @@
     self = [super init];
     if (self) {
         _userDefaultsName = @"standardUserDefaults";
-        _userDefaults = [NSUserDefaults standardUserDefaults];
+        _userDefaultsObj = [NSUserDefaults standardUserDefaults];
     }
     
     return self;
@@ -80,18 +80,20 @@
 {
     callback(nil);
     
-    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    
     //FIXME keyRange is a NSDictionary, not a PDIndexedDBKeyRange
     NSString * prefix = nil;
     NSString * suffix = nil;
-    if (keyRange != nil) {
+    if ([keyRange isKindOfClass:[PDIndexedDBKeyRange class]]) {
+        prefix = keyRange.lower.string;
+        suffix = keyRange.upper.string;
+    }
+    else if ([keyRange isKindOfClass:[NSDictionary class]]) {
         NSDictionary * filter = (NSDictionary *)keyRange;
         prefix = [filter objectForKey:@"lower"] != [NSNull null] ? [[filter objectForKey:@"lower"] objectForKey:@"string"] : nil;
         suffix = [filter objectForKey:@"upper"] != [NSNull null] ? [[filter objectForKey:@"upper"] objectForKey:@"string"] : nil;
     }
     
-    [self _broadcastContentOf:userDefaults
+    [self _broadcastContentOf:_userDefaultsObj
                     keyPrefix:prefix
                     keySuffix:suffix
                     requestId:requestId];
@@ -143,10 +145,11 @@
 
     for (NSString * key in content.allKeys) {
         
-        if (keyPrefix != nil && ![key hasPrefix:keyPrefix]) {
+        NSString * lowerCaseKey = [key lowercaseString];
+        if (keyPrefix != nil && ![lowerCaseKey hasPrefix:[keyPrefix lowercaseString]]) {
             continue;
         }
-        if (keySuffix != nil && ![key hasSuffix:keySuffix]) {
+        if (keySuffix != nil && ![lowerCaseKey hasSuffix:[keySuffix lowercaseString]]) {
             continue;
         }
         
@@ -163,25 +166,26 @@
         PDRuntimeRemoteObject * remoteObject = [[PDRuntimeRemoteObject alloc] init];
         remoteObject.objectId = key;
         
+        // types are object
+        // subtype are array, date
+        
         if ([object isKindOfClass:[NSNumber class]]) {
+
+            remoteObject.type = @"number";
+            remoteObject.objectDescription = [object description];
             
-            if (strcmp([object objCType], @encode(BOOL)) == 0) {
-                remoteObject.type = @"boolean";
-                remoteObject.value = object;
-            } else if (strcmp([object objCType], @encode(int)) == 0 || strcmp([object objCType], @encode(NSInteger)) == 0) {
-                remoteObject.type = @"int";
-                remoteObject.value = object;
-            } else if (strcmp([object objCType], @encode(float)) == 0 || strcmp([object objCType], @encode(double)) == 0) {
-                remoteObject.type = @"double";
-                remoteObject.value = object;
-            } else {
-                remoteObject.type = @"object";
-                remoteObject.objectDescription = [object description];
-            }
         } else if ([object isKindOfClass:[NSString class]]) {
+            
             remoteObject.type = @"string";
             remoteObject.objectDescription = object;
+
+        } else if ([object isKindOfClass:[NSDate class]]) {
+            
+            remoteObject.type = @"date";
+            remoteObject.objectDescription = [object description];
+            
         } else {
+            
             remoteObject.type = @"object";
             remoteObject.objectDescription = [object description];
         }
