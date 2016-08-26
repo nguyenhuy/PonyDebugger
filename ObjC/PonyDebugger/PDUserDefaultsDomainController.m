@@ -164,7 +164,7 @@
         dataEntry.key = primaryKey;
         
         PDRuntimeRemoteObject * remoteObject = [[PDRuntimeRemoteObject alloc] init];
-        remoteObject.objectId = key;
+        remoteObject.objectId = [[PDRuntimeDomainController defaultInstance] registerAndGetKeyForObject:object];
         
         // types are object
         // subtype are array, date
@@ -182,6 +182,11 @@
         } else if ([object isKindOfClass:[NSDate class]]) {
             
             remoteObject.type = @"date";
+            remoteObject.objectDescription = [object description];
+            
+        } else if ([object isKindOfClass:[NSArray class]]) {
+            
+            remoteObject.type = @"array";
             remoteObject.objectDescription = [object description];
             
         } else {

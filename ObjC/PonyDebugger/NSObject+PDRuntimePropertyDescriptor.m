@@ -189,7 +189,7 @@ NSDictionary *PDExtractPropertyAttributes(objc_property_t property);
 {
     id object = nil;
     @try {
-        object = [self valueForKey:propertyName];
+        object = [self PD_valueForKey:propertyName];
     } @catch (NSException *exception) {
         // valueForKey won't work for certain types (like selectors, pointers, blocks).
         // TODO: Make introspection for primitive types work.
