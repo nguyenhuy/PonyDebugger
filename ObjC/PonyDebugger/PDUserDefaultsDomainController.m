@@ -7,6 +7,9 @@
 //
 
 #import "PDUserDefaultsDomainController.h"
+#import "PDRuntimeDomainController.h"
+#import "PDRuntimeTypes.h"
+
 #import <Foundation/Foundation.h>
 
 @interface PDUserDefaultsDomainController ()
@@ -79,7 +82,18 @@
     
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
     
+    //FIXME keyRange is a NSDictionary, not a PDIndexedDBKeyRange
+    NSString * prefix = nil;
+    NSString * suffix = nil;
+    if (keyRange != nil) {
+        NSDictionary * filter = (NSDictionary *)keyRange;
+        prefix = [filter objectForKey:@"lower"] != [NSNull null] ? [[filter objectForKey:@"lower"] objectForKey:@"string"] : nil;
+        suffix = [filter objectForKey:@"upper"] != [NSNull null] ? [[filter objectForKey:@"upper"] objectForKey:@"string"] : nil;
+    }
+    
     [self _broadcastContentOf:userDefaults
+                    keyPrefix:prefix
+                    keySuffix:suffix
                     requestId:requestId];
 }
 
@@ -118,9 +132,68 @@
                     databaseWithObjectStores:db];
 }
 
-- (void)_broadcastContentOf:(NSUserDefaults *)userDefaults requestId:(NSNumber *)requestId
+- (void)_broadcastContentOf:(NSUserDefaults *)userDefaults
+                  keyPrefix:(NSString *)keyPrefix
+                  keySuffix:(NSString *)keySuffix
+                  requestId:(NSNumber *)requestId
 {
+    NSDictionary<NSString *, id> * content = [userDefaults dictionaryRepresentation];
     
+    NSMutableArray * dataEntries = [[NSMutableArray alloc] init];
+
+    for (NSString * key in content.allKeys) {
+        
+        if (keyPrefix != nil && ![key hasPrefix:keyPrefix]) {
+            continue;
+        }
+        if (keySuffix != nil && ![key hasSuffix:keySuffix]) {
+            continue;
+        }
+        
+        id object = [content objectForKey:key];
+        
+        PDIndexedDBDataEntry * dataEntry = [[PDIndexedDBDataEntry alloc] init];
+        
+        PDIndexedDBKey * primaryKey = [[PDIndexedDBKey alloc] init];
+        primaryKey.type = @"string";
+        primaryKey.string = key;
+        dataEntry.primaryKey = primaryKey;
+        dataEntry.key = primaryKey;
+        
+        PDRuntimeRemoteObject * remoteObject = [[PDRuntimeRemoteObject alloc] init];
+        remoteObject.objectId = key;
+        
+        if ([object isKindOfClass:[NSNumber class]]) {
+            
+            if (strcmp([object objCType], @encode(BOOL)) == 0) {
+                remoteObject.type = @"boolean";
+                remoteObject.value = object;
+            } else if (strcmp([object objCType], @encode(int)) == 0 || strcmp([object objCType], @encode(NSInteger)) == 0) {
+                remoteObject.type = @"int";
+                remoteObject.value = object;
+            } else if (strcmp([object objCType], @encode(float)) == 0 || strcmp([object objCType], @encode(double)) == 0) {
+                remoteObject.type = @"double";
+                remoteObject.value = object;
+            } else {
+                remoteObject.type = @"object";
+                remoteObject.objectDescription = [object description];
+            }
+        } else if ([object isKindOfClass:[NSString class]]) {
+            remoteObject.type = @"string";
+            remoteObject.objectDescription = object;
+        } else {
+            remoteObject.type = @"object";
+            remoteObject.objectDescription = [object description];
+        }
+        
+        dataEntry.value = remoteObject;
+        
+        [dataEntries addObject:dataEntry];
+    }
+    
+    [self.domain objectStoreDataLoadedWithRequestId:requestId
+                             objectStoreDataEntries:dataEntries
+                                            hasMore:@NO];
 }
 
 @end
