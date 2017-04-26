@@ -69,10 +69,6 @@
 		2516719315E61023002F2F95 /* PDTimelineDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2516714D15E61023002F2F95 /* PDTimelineDomain.m */; };
 		2516719415E61023002F2F95 /* PDTimelineTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2516714E15E61023002F2F95 /* PDTimelineTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2516719515E61023002F2F95 /* PDTimelineTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2516714F15E61023002F2F95 /* PDTimelineTypes.m */; };
-		2516719615E61023002F2F95 /* PDWebGLDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 2516715015E61023002F2F95 /* PDWebGLDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2516719715E61023002F2F95 /* PDWebGLDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2516715115E61023002F2F95 /* PDWebGLDomain.m */; };
-		2516719815E61023002F2F95 /* PDWebGLTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2516715215E61023002F2F95 /* PDWebGLTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2516719915E61023002F2F95 /* PDWebGLTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2516715315E61023002F2F95 /* PDWebGLTypes.m */; };
 		2516719A15E61023002F2F95 /* PDWorkerDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 2516715415E61023002F2F95 /* PDWorkerDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2516719B15E61023002F2F95 /* PDWorkerDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2516715515E61023002F2F95 /* PDWorkerDomain.m */; };
 		2560D50F16BE4C06001BAE89 /* NSArray+PDRuntimePropertyDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 2560D50D16BE4C06001BAE89 /* NSArray+PDRuntimePropertyDescriptor.h */; };
@@ -142,10 +138,7 @@
 		E8D8B39316E00C9600081F80 /* PDPrettyStringPrinter.h in Headers */ = {isa = PBXBuildFile; fileRef = E8D8B39116E00C9600081F80 /* PDPrettyStringPrinter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8D8B39416E00C9600081F80 /* PDPrettyStringPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8B39216E00C9600081F80 /* PDPrettyStringPrinter.m */; };
 		F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */; };
-		FA50CFBD1D6E01E20074A4F0 /* PDSQLiteDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */; };
-		FA50CFBE1D6E01E20074A4F0 /* PDSQLiteDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */; };
-		FADB4E4A1D703184009924F1 /* PDUserDefaultsDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = FADB4E481D703184009924F1 /* PDUserDefaultsDomainController.h */; };
-		FADB4E4B1D703184009924F1 /* PDUserDefaultsDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADB4E491D703184009924F1 /* PDUserDefaultsDomainController.m */; };
+<<<<<<< HEAD
 		F6BAFDC01B509407009CEBBD /* PDAccessibilityDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = F6BAFD901B509407009CEBBD /* PDAccessibilityDomain.h */; };
 		F6BAFDC11B509407009CEBBD /* PDAccessibilityDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = F6BAFD911B509407009CEBBD /* PDAccessibilityDomain.m */; };
 		F6BAFDC21B509407009CEBBD /* PDAnimationDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = F6BAFD921B509407009CEBBD /* PDAnimationDomain.h */; };
@@ -194,6 +187,12 @@
 		F6BAFDED1B509407009CEBBD /* PDSecurityTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F6BAFDBD1B509407009CEBBD /* PDSecurityTypes.m */; };
 		F6BAFDEE1B509407009CEBBD /* PDServiceWorkerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F6BAFDBE1B509407009CEBBD /* PDServiceWorkerTypes.h */; };
 		F6BAFDEF1B509407009CEBBD /* PDServiceWorkerTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F6BAFDBF1B509407009CEBBD /* PDServiceWorkerTypes.m */; };
+=======
+		FA50CFBD1D6E01E20074A4F0 /* PDSQLiteDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */; };
+		FA50CFBE1D6E01E20074A4F0 /* PDSQLiteDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */; };
+		FADB4E4A1D703184009924F1 /* PDUserDefaultsDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = FADB4E481D703184009924F1 /* PDUserDefaultsDomainController.h */; };
+		FADB4E4B1D703184009924F1 /* PDUserDefaultsDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADB4E491D703184009924F1 /* PDUserDefaultsDomainController.m */; };
+>>>>>>> master_spreaker
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,8 +276,6 @@
 		2516713715E61023002F2F95 /* PDInspectorDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDInspectorDomain.m; sourceTree = "<group>"; };
 		2516713815E61023002F2F95 /* PDMemoryDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDMemoryDomain.h; sourceTree = "<group>"; };
 		2516713915E61023002F2F95 /* PDMemoryDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDMemoryDomain.m; sourceTree = "<group>"; };
-		2516713A15E61023002F2F95 /* PDMemoryTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDMemoryTypes.h; sourceTree = "<group>"; };
-		2516713B15E61023002F2F95 /* PDMemoryTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDMemoryTypes.m; sourceTree = "<group>"; };
 		2516713C15E61023002F2F95 /* PDNetworkDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDNetworkDomain.h; sourceTree = "<group>"; };
 		2516713D15E61023002F2F95 /* PDNetworkDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDNetworkDomain.m; sourceTree = "<group>"; };
 		2516713E15E61023002F2F95 /* PDNetworkTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDNetworkTypes.h; sourceTree = "<group>"; };
@@ -299,10 +296,6 @@
 		2516714D15E61023002F2F95 /* PDTimelineDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTimelineDomain.m; sourceTree = "<group>"; };
 		2516714E15E61023002F2F95 /* PDTimelineTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTimelineTypes.h; sourceTree = "<group>"; };
 		2516714F15E61023002F2F95 /* PDTimelineTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTimelineTypes.m; sourceTree = "<group>"; };
-		2516715015E61023002F2F95 /* PDWebGLDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDWebGLDomain.h; sourceTree = "<group>"; };
-		2516715115E61023002F2F95 /* PDWebGLDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDWebGLDomain.m; sourceTree = "<group>"; };
-		2516715215E61023002F2F95 /* PDWebGLTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDWebGLTypes.h; sourceTree = "<group>"; };
-		2516715315E61023002F2F95 /* PDWebGLTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDWebGLTypes.m; sourceTree = "<group>"; };
 		2516715415E61023002F2F95 /* PDWorkerDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDWorkerDomain.h; sourceTree = "<group>"; };
 		2516715515E61023002F2F95 /* PDWorkerDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDWorkerDomain.m; sourceTree = "<group>"; };
 		2560D50D16BE4C06001BAE89 /* NSArray+PDRuntimePropertyDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+PDRuntimePropertyDescriptor.h"; sourceTree = "<group>"; };
@@ -380,12 +373,8 @@
 		F66E1ED214FC7CF0000E0707 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F683ADAC14FC1B4C008EBBA7 /* libPonyDebugger.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPonyDebugger.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDSQLiteDomainController.h; sourceTree = "<group>"; };
-		FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDSQLiteDomainController.m; sourceTree = "<group>"; };
-		FAD027031D6EE0F3004236DF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		FADB4E481D703184009924F1 /* PDUserDefaultsDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDUserDefaultsDomainController.h; sourceTree = "<group>"; };
-		FADB4E491D703184009924F1 /* PDUserDefaultsDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDUserDefaultsDomainController.m; sourceTree = "<group>"; };
-F6BAFD901B509407009CEBBD /* PDAccessibilityDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDAccessibilityDomain.h; sourceTree = "<group>"; };
+<<<<<<< HEAD
+		F6BAFD901B509407009CEBBD /* PDAccessibilityDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDAccessibilityDomain.h; sourceTree = "<group>"; };
 		F6BAFD911B509407009CEBBD /* PDAccessibilityDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDAccessibilityDomain.m; sourceTree = "<group>"; };
 		F6BAFD921B509407009CEBBD /* PDAnimationDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDAnimationDomain.h; sourceTree = "<group>"; };
 		F6BAFD931B509407009CEBBD /* PDAnimationDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDAnimationDomain.m; sourceTree = "<group>"; };
@@ -433,6 +422,13 @@ F6BAFD901B509407009CEBBD /* PDAccessibilityDomain.h */ = {isa = PBXFileReference
 		F6BAFDBD1B509407009CEBBD /* PDSecurityTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDSecurityTypes.m; sourceTree = "<group>"; };
 		F6BAFDBE1B509407009CEBBD /* PDServiceWorkerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDServiceWorkerTypes.h; sourceTree = "<group>"; };
 		F6BAFDBF1B509407009CEBBD /* PDServiceWorkerTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDServiceWorkerTypes.m; sourceTree = "<group>"; };
+=======
+		FA50CFBB1D6E01E20074A4F0 /* PDSQLiteDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDSQLiteDomainController.h; sourceTree = "<group>"; };
+		FA50CFBC1D6E01E20074A4F0 /* PDSQLiteDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDSQLiteDomainController.m; sourceTree = "<group>"; };
+		FAD027031D6EE0F3004236DF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		FADB4E481D703184009924F1 /* PDUserDefaultsDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDUserDefaultsDomainController.h; sourceTree = "<group>"; };
+		FADB4E491D703184009924F1 /* PDUserDefaultsDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDUserDefaultsDomainController.m; sourceTree = "<group>"; };
+>>>>>>> master_spreaker
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -544,8 +540,6 @@ F6BAFD901B509407009CEBBD /* PDAccessibilityDomain.h */ = {isa = PBXFileReference
 				2516713715E61023002F2F95 /* PDInspectorDomain.m */,
 				2516713815E61023002F2F95 /* PDMemoryDomain.h */,
 				2516713915E61023002F2F95 /* PDMemoryDomain.m */,
-				2516713A15E61023002F2F95 /* PDMemoryTypes.h */,
-				2516713B15E61023002F2F95 /* PDMemoryTypes.m */,
 				2516713C15E61023002F2F95 /* PDNetworkDomain.h */,
 				2516713D15E61023002F2F95 /* PDNetworkDomain.m */,
 				2516713E15E61023002F2F95 /* PDNetworkTypes.h */,
@@ -801,6 +795,11 @@ F6BAFD901B509407009CEBBD /* PDAccessibilityDomain.h */ = {isa = PBXFileReference
 				F6BAFDCA1B509407009CEBBD /* PDLayerTreeDomain.h in Headers */,
 				F6BAFDD81B509407009CEBBD /* PDAnimationTypes.h in Headers */,
 				E8D8B39316E00C9600081F80 /* PDPrettyStringPrinter.h in Headers */,
+<<<<<<< HEAD
+				F6BAFDC81B509407009CEBBD /* PDInputDomain.h in Headers */,
+=======
+				FA50CFBD1D6E01E20074A4F0 /* PDSQLiteDomainController.h in Headers */,
+>>>>>>> master_spreaker
 				2516718815E61023002F2F95 /* PDPageTypes.h in Headers */,
 				2516718A15E61023002F2F95 /* PDProfilerDomain.h in Headers */,
 				2516718C15E61023002F2F95 /* PDProfilerTypes.h in Headers */,
@@ -825,6 +824,12 @@ F6BAFD901B509407009CEBBD /* PDAccessibilityDomain.h */ = {isa = PBXFileReference
 				25E5BCD916B9205200152A45 /* PDConsoleDomainController.h in Headers */,
 				25E5BCE616BA41EA00152A45 /* NSDate+PDDebugger.h in Headers */,
 				25E5BCEB16BE3F1C00152A45 /* NSDictionary+PDRuntimePropertyDescriptor.h in Headers */,
+<<<<<<< HEAD
+				BFE838491D3A317C0032F3CE /* NSValue+PD_JSONObject.h in Headers */,
+				BFE8383A1D3A29C80032F3CE /* PDInputDomain.h in Headers */,
+=======
+				FADB4E4A1D703184009924F1 /* PDUserDefaultsDomainController.h in Headers */,
+>>>>>>> master_spreaker
 				2560D50F16BE4C06001BAE89 /* NSArray+PDRuntimePropertyDescriptor.h in Headers */,
 				F6BAFDD61B509407009CEBBD /* PDAccessibilityTypes.h in Headers */,
 				2560D51616BE53EB001BAE89 /* NSSet+PDRuntimePropertyDescriptor.h in Headers */,
