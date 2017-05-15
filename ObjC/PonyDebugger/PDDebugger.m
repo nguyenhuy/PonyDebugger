@@ -454,7 +454,7 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
     return [cls domainName];
 }
 
-- (void)_addController:(PDDomainController *)controller;
+- (void)addController:(PDDomainController *)controller;
 {
     NSString *domainName = [self _domainNameForController:controller];
     if ([_domains objectForKey:domainName]) {

@@ -74,4 +74,7 @@ extern void _PDLogObjectsImpl(NSString *severity, NSArray *arguments);
 - (void)enableRemoteLogging;
 - (void)clearConsole;
 
+#pragma mark Custom Controller Support
+- (void)addController:(PDDomainController *)controller;
+
 @end
