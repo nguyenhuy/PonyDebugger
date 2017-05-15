@@ -40,7 +40,7 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
 @interface PDDebugger () <SRWebSocketDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate>
 
 - (void)_resolveService:(NSNetService*)service;
-- (void)_addController:(PDDomainController *)controller;
+- (void)addController:(PDDomainController *)controller;
 - (NSString *)_domainNameForController:(PDDomainController *)controller;
 - (BOOL)_isTrackingDomainController:(PDDomainController *)controller;
 
@@ -359,7 +359,7 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
 
 - (void)enableNetworkTrafficDebugging;
 {
-    [self _addController:[PDNetworkDomainController defaultInstance]];
+    [self addController:[PDNetworkDomainController defaultInstance]];
 }
 
 - (void)forwardAllNetworkTraffic;
@@ -388,9 +388,9 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
 
 - (void)enableCoreDataDebugging;
 {
-    [self _addController:[PDRuntimeDomainController defaultInstance]];
-    [self _addController:[PDPageDomainController defaultInstance]];
-    [self _addController:[PDIndexedDBDomainController defaultInstance]];
+    [self addController:[PDRuntimeDomainController defaultInstance]];
+    [self addController:[PDPageDomainController defaultInstance]];
+    [self addController:[PDIndexedDBDomainController defaultInstance]];
 }
 
 - (void)addManagedObjectContext:(NSManagedObjectContext *)context;
@@ -412,8 +412,8 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
 
 - (void)enableViewHierarchyDebugging;
 {
-    [self _addController:[PDDOMDomainController defaultInstance]];
-    [self _addController:[PDInspectorDomainController defaultInstance]];
+    [self addController:[PDDOMDomainController defaultInstance]];
+    [self addController:[PDInspectorDomainController defaultInstance]];
     
     // Choosing frame, alpha, and hidden as the default key paths to display
     [[PDDOMDomainController defaultInstance] setViewKeyPathsToDisplay:@[@"frame", @"alpha", @"hidden"]];
@@ -430,7 +430,7 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
 
 - (void)enableRemoteLogging;
 {
-    [self _addController:[PDConsoleDomainController defaultInstance]];
+    [self addController:[PDConsoleDomainController defaultInstance]];
 }
 
 - (void)clearConsole;
@@ -454,7 +454,7 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
     return [cls domainName];
 }
 
-- (void)_addController:(PDDomainController *)controller;
+- (void)addController:(PDDomainController *)controller;
 {
     NSString *domainName = [self _domainNameForController:controller];
     if ([_domains objectForKey:domainName]) {
