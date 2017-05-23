@@ -10,7 +10,10 @@ $(function() {
     },
 
     debuggerURL: function() {
-      return "devtools/devtools.html?host=" + document.location.host + "&page=" + this.get('page');
+      return "devtools/inspector.html?ws="
+           + document.location.host
+           + "/devtools/page/"
+           + this.get('page');
     }
   });
 
