@@ -19,6 +19,10 @@
 
 - (id)PD_JSONObject;
 {
+    NSString *desc = [self description];
+    if([desc hasPrefix:@"<__NSMallocBlock__"] || [desc hasPrefix:@"<__NSGlobalBlock__"]){
+        return desc;
+    }
     return self;
 }
 

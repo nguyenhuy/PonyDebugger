@@ -2,17 +2,17 @@
 //  PDInspectorDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 7/10/15
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDInspectorDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDRuntimeTypes.h>
+#import "PDObject.h"
+#import "PDInspectorDomain.h"
+#import "PDObject.h"
+#import "PDRuntimeTypes.h"
 
 
 @interface PDInspectorDomain ()
@@ -55,6 +55,24 @@
     }
     
     [self.debuggingServer sendEventWithName:@"Inspector.inspect" parameters:params];
+}
+
+// Fired when remote debugging connection is about to be terminated. Contains detach reason.
+- (void)detachedWithReason:(NSString *)reason;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+    if (reason != nil) {
+        [params setObject:[reason PD_JSONObject] forKey:@"reason"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"Inspector.detached" parameters:params];
+}
+
+// Fired when debugging target has crashed
+- (void)targetCrashed;
+{
+    [self.debuggingServer sendEventWithName:@"Inspector.targetCrashed" parameters:nil];
 }
 
 

@@ -11,10 +11,10 @@
 
 #import "NSObject+PDRuntimePropertyDescriptor.h"
 
-#import <PonyDebugger/PDDefinitions.h>
-#import <PonyDebugger/PDRuntimeDomainController.h>
-#import <PonyDebugger/PDRuntimeTypes.h>
-
+#import "PDDefinitions.h"
+#import "PDRuntimeDomainController.h"
+#import "PDRuntimeTypes.h"
+#import <UIKit/UIAccessibilityIdentification.h>
 
 #pragma mark - Definitions
 
@@ -86,20 +86,45 @@ NSDictionary *PDExtractPropertyAttributes(objc_property_t property);
 {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     [array addObject:@"class"];
-
+    
     unsigned int outCount, i;
     objc_property_t *properties = class_copyPropertyList([self class], &outCount);
     for (i = 0; i < outCount; i++) {
-    	objc_property_t property = properties[i];
-    	const char *propName = property_getName(property);
-    	if (propName) {
-    		NSString *propertyName = [NSString stringWithCString:propName encoding:NSASCIIStringEncoding];
+        objc_property_t property = properties[i];
+        const char *propName = property_getName(property);
+        if (propName) {
+            NSString *propertyName = [NSString stringWithCString:propName encoding:NSASCIIStringEncoding];
             [array addObject:propertyName];
-    	}
+        }
     }
     
     free(properties);
-
+    
+    if([self class] == [NSObject class]){
+        return array;
+    }
+    
+    Class cls = class_getSuperclass([self class]);
+    while(cls){
+        if (cls == [NSObject class]) {
+            if([self respondsToSelector:@selector(accessibilityIdentifier)] && [(id)self accessibilityIdentifier] == nil){
+                break;
+            }
+        }
+        properties = class_copyPropertyList(cls, &outCount);
+        for (i = 0; i < outCount; i++) {
+            objc_property_t property = properties[i];
+            const char *propName = property_getName(property);
+            if (propName) {
+                NSString *propertyName = [NSString stringWithCString:propName encoding:NSASCIIStringEncoding];
+                [array addObject:propertyName];
+            }
+        }
+        
+        free(properties);
+        cls = class_getSuperclass(cls);
+    }
+    
     return array;
 }
 
