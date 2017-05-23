@@ -9,9 +9,9 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDDomainController.h>
-#import <PonyDebugger/PDIndexedDBDomain.h>
-#import <PonyDebugger/PDIndexedDBTypes.h>
+#import "PDDomainController.h"
+#import "PDIndexedDBDomain.h"
+#import "PDIndexedDBTypes.h"
 
 @class NSManagedObjectContext;
 

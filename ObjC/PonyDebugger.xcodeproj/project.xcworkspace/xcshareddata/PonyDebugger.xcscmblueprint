@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "74E12EC8FCB06A91BEF72E24723AD24F26EB7D72",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "ABB939127996C66F7E852A780552ADEEF03C6B13" : 0,
+    "74E12EC8FCB06A91BEF72E24723AD24F26EB7D72" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "36102CED-998C-4424-8390-8B865B8C89AD",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "ABB939127996C66F7E852A780552ADEEF03C6B13" : "PonyDebugger\/ObjC\/SocketRocket\/",
+    "74E12EC8FCB06A91BEF72E24723AD24F26EB7D72" : "PonyDebugger\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PonyDebugger",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ObjC\/PonyDebugger.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/huangjimmy\/PonyDebugger.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "74E12EC8FCB06A91BEF72E24723AD24F26EB7D72"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/square\/SocketRocket.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ABB939127996C66F7E852A780552ADEEF03C6B13"
+    }
+  ]
+}

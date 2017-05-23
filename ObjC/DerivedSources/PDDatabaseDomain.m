@@ -2,17 +2,17 @@
 //  PDDatabaseDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 7/10/15
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDatabaseDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDatabaseTypes.h>
+#import "PDObject.h"
+#import "PDDatabaseDomain.h"
+#import "PDObject.h"
+#import "PDDatabaseTypes.h"
 
 
 @interface PDDatabaseDomain ()
@@ -40,35 +40,6 @@
     
     [self.debuggingServer sendEventWithName:@"Database.addDatabase" parameters:params];
 }
-- (void)sqlTransactionSucceededWithTransactionId:(NSNumber *)transactionId columnNames:(NSArray *)columnNames values:(NSArray *)values;
-{
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:3];
-
-    if (transactionId != nil) {
-        [params setObject:[transactionId PD_JSONObject] forKey:@"transactionId"];
-    }
-    if (columnNames != nil) {
-        [params setObject:[columnNames PD_JSONObject] forKey:@"columnNames"];
-    }
-    if (values != nil) {
-        [params setObject:[values PD_JSONObject] forKey:@"values"];
-    }
-    
-    [self.debuggingServer sendEventWithName:@"Database.sqlTransactionSucceeded" parameters:params];
-}
-- (void)sqlTransactionFailedWithTransactionId:(NSNumber *)transactionId sqlError:(NSDictionary *)sqlError;
-{
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
-
-    if (transactionId != nil) {
-        [params setObject:[transactionId PD_JSONObject] forKey:@"transactionId"];
-    }
-    if (sqlError != nil) {
-        [params setObject:[sqlError PD_JSONObject] forKey:@"sqlError"];
-    }
-    
-    [self.debuggingServer sendEventWithName:@"Database.sqlTransactionFailed" parameters:params];
-}
 
 
 
@@ -92,15 +63,19 @@
 
             responseCallback(params, error);
         }];
-    } else if ([methodName isEqualToString:@"executeSQL"] && [self.delegate respondsToSelector:@selector(domain:executeSQLWithDatabaseId:query:callback:)]) {
-        [self.delegate domain:self executeSQLWithDatabaseId:[params objectForKey:@"databaseId"] query:[params objectForKey:@"query"] callback:^(NSNumber *success, NSNumber *transactionId, id error) {
-            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
 
-            if (success != nil) {
-                [params setObject:success forKey:@"success"];
+    } else if ([methodName isEqualToString:@"executeSQL"] && [self.delegate respondsToSelector:@selector(domain:executeSQLWithDatabaseId:query:callback:)]) {
+        [self.delegate domain:self executeSQLWithDatabaseId:[params objectForKey:@"databaseId"] query:[params objectForKey:@"query"] callback:^(NSArray *columnNames, NSArray *values, PDDatabaseError *sqlError, id error) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:3];
+
+            if (columnNames != nil) {
+                [params setObject:columnNames forKey:@"columnNames"];
             }
-            if (transactionId != nil) {
-                [params setObject:transactionId forKey:@"transactionId"];
+            if (values != nil) {
+                [params setObject:values forKey:@"values"];
+            }
+            if (sqlError != nil) {
+                [params setObject:sqlError forKey:@"sqlError"];
             }
 
             responseCallback(params, error);

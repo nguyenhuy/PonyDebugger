@@ -2,31 +2,28 @@
 //  PDDOMStorageTypes.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 7/10/15
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 //
     
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDebugger.h>
-#import <PonyDebugger/PDDynamicDebuggerDomain.h>
+#import "PDObject.h"
+#import "PDDebugger.h"
+#import "PDDynamicDebuggerDomain.h"
 
 
-// DOM Storage entry.
-@interface PDDOMStorageEntry : PDObject
+/// DOM Storage identifier.
+@interface PDDOMStorageStorageId : PDObject
 
-// Document origin.
-// Type: string
-@property (nonatomic, strong) NSString *origin;
+/// Security origin for the storage.
+/// Type: string
+@property (nonatomic, strong) NSString *securityOrigin;
 
-// True for local storage.
-// Type: boolean
+/// Whether the storage is local storage (not session storage).
+/// Type: boolean
 @property (nonatomic, strong) NSNumber *isLocalStorage;
-
-// Entry id for further reference.
-@property (nonatomic, strong) NSString *identifier;
 
 @end
 

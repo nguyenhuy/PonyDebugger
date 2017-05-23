@@ -2,17 +2,17 @@
 //  PDApplicationCacheDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 7/10/15
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDApplicationCacheDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDApplicationCacheTypes.h>
+#import "PDObject.h"
+#import "PDApplicationCacheDomain.h"
+#import "PDObject.h"
+#import "PDApplicationCacheTypes.h"
 
 
 @interface PDApplicationCacheDomain ()

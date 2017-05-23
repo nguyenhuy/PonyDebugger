@@ -2,17 +2,17 @@
 //  PDDOMStorageDomain.m
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 7/10/15
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDOMStorageDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDOMStorageTypes.h>
+#import "PDObject.h"
+#import "PDDOMStorageDomain.h"
+#import "PDObject.h"
+#import "PDDOMStorageTypes.h"
 
 
 @interface PDDOMStorageDomain ()
@@ -30,17 +30,7 @@
 }
 
 // Events
-- (void)addDOMStorageWithStorage:(PDDOMStorageEntry *)storage;
-{
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
-
-    if (storage != nil) {
-        [params setObject:[storage PD_JSONObject] forKey:@"storage"];
-    }
-    
-    [self.debuggingServer sendEventWithName:@"DOMStorage.addDOMStorage" parameters:params];
-}
-- (void)domStorageUpdatedWithStorageId:(NSString *)storageId;
+- (void)domStorageItemsClearedWithStorageId:(PDDOMStorageStorageId *)storageId;
 {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
@@ -48,7 +38,55 @@
         [params setObject:[storageId PD_JSONObject] forKey:@"storageId"];
     }
     
-    [self.debuggingServer sendEventWithName:@"DOMStorage.domStorageUpdated" parameters:params];
+    [self.debuggingServer sendEventWithName:@"DOMStorage.domStorageItemsCleared" parameters:params];
+}
+- (void)domStorageItemRemovedWithStorageId:(PDDOMStorageStorageId *)storageId key:(NSString *)key;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
+
+    if (storageId != nil) {
+        [params setObject:[storageId PD_JSONObject] forKey:@"storageId"];
+    }
+    if (key != nil) {
+        [params setObject:[key PD_JSONObject] forKey:@"key"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"DOMStorage.domStorageItemRemoved" parameters:params];
+}
+- (void)domStorageItemAddedWithStorageId:(PDDOMStorageStorageId *)storageId key:(NSString *)key newValue:(NSString *)newValue;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:3];
+
+    if (storageId != nil) {
+        [params setObject:[storageId PD_JSONObject] forKey:@"storageId"];
+    }
+    if (key != nil) {
+        [params setObject:[key PD_JSONObject] forKey:@"key"];
+    }
+    if (newValue != nil) {
+        [params setObject:[newValue PD_JSONObject] forKey:@"newValue"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"DOMStorage.domStorageItemAdded" parameters:params];
+}
+- (void)domStorageItemUpdatedWithStorageId:(PDDOMStorageStorageId *)storageId key:(NSString *)key oldValue:(NSString *)oldValue newValue:(NSString *)newValue;
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:4];
+
+    if (storageId != nil) {
+        [params setObject:[storageId PD_JSONObject] forKey:@"storageId"];
+    }
+    if (key != nil) {
+        [params setObject:[key PD_JSONObject] forKey:@"key"];
+    }
+    if (oldValue != nil) {
+        [params setObject:[oldValue PD_JSONObject] forKey:@"oldValue"];
+    }
+    if (newValue != nil) {
+        [params setObject:[newValue PD_JSONObject] forKey:@"newValue"];
+    }
+    
+    [self.debuggingServer sendEventWithName:@"DOMStorage.domStorageItemUpdated" parameters:params];
 }
 
 
@@ -63,8 +101,8 @@
         [self.delegate domain:self disableWithCallback:^(id error) {
             responseCallback(nil, error);
         }];
-    } else if ([methodName isEqualToString:@"getDOMStorageEntries"] && [self.delegate respondsToSelector:@selector(domain:getDOMStorageEntriesWithStorageId:callback:)]) {
-        [self.delegate domain:self getDOMStorageEntriesWithStorageId:[params objectForKey:@"storageId"] callback:^(NSArray *entries, id error) {
+    } else if ([methodName isEqualToString:@"getDOMStorageItems"] && [self.delegate respondsToSelector:@selector(domain:getDOMStorageItemsWithStorageId:callback:)]) {
+        [self.delegate domain:self getDOMStorageItemsWithStorageId:[params objectForKey:@"storageId"] callback:^(NSArray *entries, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (entries != nil) {
@@ -74,26 +112,26 @@
             responseCallback(params, error);
         }];
     } else if ([methodName isEqualToString:@"setDOMStorageItem"] && [self.delegate respondsToSelector:@selector(domain:setDOMStorageItemWithStorageId:key:value:callback:)]) {
-        [self.delegate domain:self setDOMStorageItemWithStorageId:[params objectForKey:@"storageId"] key:[params objectForKey:@"key"] value:[params objectForKey:@"value"] callback:^(NSNumber *success, id error) {
-            NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
-
-            if (success != nil) {
-                [params setObject:success forKey:@"success"];
-            }
-
-            responseCallback(params, error);
+        [self.delegate domain:self setDOMStorageItemWithStorageId:[params objectForKey:@"storageId"] key:[params objectForKey:@"key"] value:[params objectForKey:@"value"] callback:^(NSNumber *success,id error) {
+            responseCallback(nil, error);
         }];
     } else if ([methodName isEqualToString:@"removeDOMStorageItem"] && [self.delegate respondsToSelector:@selector(domain:removeDOMStorageItemWithStorageId:key:callback:)]) {
-        [self.delegate domain:self removeDOMStorageItemWithStorageId:[params objectForKey:@"storageId"] key:[params objectForKey:@"key"] callback:^(NSNumber *success, id error) {
+        [self.delegate domain:self removeDOMStorageItemWithStorageId:[params objectForKey:@"storageId"] key:[params objectForKey:@"key"] callback:^(NSNumber *success,id error) {
+            responseCallback(nil, error);
+        }];
+    }
+    else if ([methodName isEqualToString:@"getDOMStorageItems"] && [self.delegate respondsToSelector:@selector(domain:getDOMStorageItemsWithStorageId:callback:)]) {
+        [(id)self.delegate domain:self getDOMStorageItemsWithStorageId:[params objectForKey:@"storageId"] callback:^(NSArray *entries, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
-
-            if (success != nil) {
-                [params setObject:success forKey:@"success"];
+            
+            if (entries != nil) {
+                [params setObject:entries forKey:@"entries"];
             }
-
+            
             responseCallback(params, error);
         }];
-    } else {
+    }
+    else {
         [super handleMethodWithName:methodName parameters:params responseCallback:responseCallback];
     }
 }

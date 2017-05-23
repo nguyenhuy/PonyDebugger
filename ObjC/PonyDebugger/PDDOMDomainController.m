@@ -15,6 +15,7 @@
 
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
+#import <objc/objc-sync.h>
 
 #pragma mark - Definitions
 
@@ -79,6 +80,8 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
         
         [self.inspectModeOverlay addGestureRecognizer:inspectTapGR];
         [self.inspectModeOverlay addGestureRecognizer:inspectPanGR];
+        
+        self.systemWindows = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -108,7 +111,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     dispatch_once(&onceToken, ^{
         Method original, swizzle;
         Class viewClass = [UIView class];
-
+        
         // Using sel_registerName() because compiler complains about the swizzled selectors not being found.
         original = class_getInstanceMethod(viewClass, @selector(addSubview:));
         swizzle = class_getInstanceMethod(viewClass, sel_registerName("pd_swizzled_addSubview:"));
@@ -175,14 +178,16 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     callback([self rootNode], nil);
 }
 
-- (void)domain:(PDDOMDomain *)domain highlightNodeWithNodeId:(NSNumber *)nodeId highlightConfig:(PDDOMHighlightConfig *)highlightConfig callback:(void (^)(id))callback;
+- (void)domain:(PDDOMDomain *)domain highlightNodeWithHighlightConfig:(PDDOMHighlightConfig *)highlightConfig nodeId:(NSNumber *)nodeId backendNodeId:(NSNumber *)backendNodeId objectId:(NSString *)objectId callback:(void (^)(id error))callback;
 {
     id objectForNodeId = [self.objectsForNodeIds objectForKey:nodeId];
     if ([objectForNodeId isKindOfClass:[UIView class]]) {
         [self configureHighlightOverlayWithConfig:highlightConfig];
         [self revealHighlightOverlayForView:objectForNodeId allowInteractions:YES];
     }
-    
+    else{
+        [self domain:domain hideHighlightWithCallback:callback];
+    }
     callback(nil);
 }
 
@@ -205,7 +210,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
 - (void)domain:(PDDOMDomain *)domain setAttributesAsTextWithNodeId:(NSNumber *)nodeId text:(NSString *)text name:(NSString *)name callback:(void (^)(id))callback;
 {
     // The "class" attribute cannot be edited. Bail early
-    if ([name isEqualToString:@"class"]) {
+    if ([name isEqualToString:@"class"] || [name isEqualToString:@"id"] || [name isEqualToString:@"_viewController"]) {
         callback(nil);
         return;
     }
@@ -267,6 +272,20 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     callback(@([objectId intValue]), nil);
 }
 
+- (void)domain:(PDDOMDomain *)domain resolveNodeWithNodeId:(NSNumber *)nodeId objectGroup:(NSString *)objectGroup callback:(void (^)(PDRuntimeRemoteObject *object, id error))callback{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        PDRuntimeRemoteObject *remoteObject = [[PDRuntimeRemoteObject alloc] init];
+        
+        remoteObject.type = @"object";
+        remoteObject.subtype = @"node";
+        remoteObject.objectId = [nodeId stringValue];
+        
+        callback(remoteObject, nil);
+    });
+}
+
+
 #pragma mark - Gesture Moving and Resizing
 
 - (void)handleMovePanGesure:(UIPanGestureRecognizer *)panGR;
@@ -300,7 +319,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
             self.originalPinchFrame = self.viewToHighlight.frame;
             self.originalPinchLocation = [pinchGR locationInView:self.viewToHighlight.superview];
             break;
-        
+            
         case UIGestureRecognizerStateChanged: {
             // Scale the frame by the pinch amount
             CGFloat scale = [pinchGR scale];
@@ -322,7 +341,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
             self.viewToHighlight.frame = newFrame;
             break;
         }
-        
+            
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:
             self.viewToHighlight.frame = CGRectIntegral(self.viewToHighlight.frame);
@@ -453,11 +472,35 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
 
 - (void)windowHidden:(NSNotification *)windowNotification;
 {
+    UIWindow *window = windowNotification.object;
+    if (window) {
+        NSArray<UIWindow*> *windows = [[UIApplication sharedApplication] windows];
+        if ([windows containsObject:window]) {
+            objc_sync_enter(self.systemWindows);
+            [self.systemWindows removeObject:window];
+            objc_sync_exit(self.systemWindows);
+        }
+        else{
+            
+        }
+    }
     [self removeView:windowNotification.object];
 }
 
 - (void)windowShown:(NSNotification *)windowNotification;
 {
+    UIWindow *window = windowNotification.object;
+    if (window) {
+        NSArray<UIWindow*> *windows = [[UIApplication sharedApplication] windows];
+        if ([windows containsObject:window]) {
+            
+        }
+        else{
+            objc_sync_enter(self.systemWindows);
+            [self.systemWindows addObject:window];
+            objc_sync_exit(self.systemWindows);
+        }
+    }
     [self addView:windowNotification.object];
 }
 
@@ -469,7 +512,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     }
     
     NSNumber *nodeId = [self.nodeIdsForObjects objectForKey:[NSValue valueWithNonretainedObject:view]];
-
+    
     // Only proceed if this is a node we know about
     if ([self.objectsForNodeIds objectForKey:nodeId]) {
         
@@ -493,7 +536,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     if ([self shouldIgnoreView:view] || !self.objectsForNodeIds) {
         return;
     }
-
+    
     // Only proceed if we know about this view's superview (corresponding to the parent node)
     NSNumber *parentNodeId = nil;
     if (view.superview) {
@@ -503,7 +546,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     if ([self.objectsForNodeIds objectForKey:parentNodeId]) {
         
         PDDOMNode *node = [self nodeForView:view];
-
+        
         // Find the sibling view to insert the node in the right place
         // We're actually looking for the next view in the subviews array. Index 0 holds the back-most view.
         // We essentialy dispay the subviews array backwards.
@@ -526,9 +569,11 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
         NSArray *windows = [[UIApplication sharedApplication] windows];
         NSUInteger indexOfWindow = [windows indexOfObject:view];
         
-        if (indexOfWindow > 0) {
+        if (indexOfWindow != NSNotFound) {
             UIWindow *previousWindow = [windows objectAtIndex:indexOfWindow - 1];
             previousNodeId = [self.nodeIdsForObjects objectForKey:[NSValue valueWithNonretainedObject:previousWindow]];
+        }
+        else{
         }
         
         // Note that windows are always children of the root element node (id 1)
@@ -712,11 +757,14 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     
     // Thanks to http://petersteinberger.com/blog/2012/pimping-recursivedescription/
     SEL viewDelSEL = NSSelectorFromString([NSString stringWithFormat:@"%@wDelegate", @"_vie"]);
+    
+    UIViewController *vc = nil;
+    
     if ([object respondsToSelector:viewDelSEL]) {
         
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        UIViewController *vc = [object performSelector:viewDelSEL];
+        vc = [object performSelector:viewDelSEL];
 #pragma clang diagnostic pop
         
         if (vc) {
@@ -725,6 +773,12 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     }
     
     NSMutableArray *attributes = [NSMutableArray arrayWithArray:@[ @"class", className ]];
+    
+    //id as raw pointer
+    [attributes addObjectsFromArray:@[@"id", [NSString stringWithFormat:@"0x%lx", (unsigned long)(__bridge const void*)object]]];
+    if(vc){
+        [attributes addObjectsFromArray:@[@"_viewController", [NSString stringWithFormat:@"0x%lx", (unsigned long)(__bridge const void*)vc]]];
+    }
     
     if ([object isKindOfClass:[UIView class]]) {
         // Get strings for all the key paths in viewKeyPathsToDisplay
@@ -822,6 +876,120 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     }
     
     return encoding;
+}
+
+- (void)domain:(PDDOMDomain *)domain getBoxModelWithNodeId:(NSNumber *)nodeId callback:(void (^)(PDDOMBoxModel *box, id error))callback
+{
+    id objectForNodeId = [self.objectsForNodeIds objectForKey:nodeId];
+    if ([objectForNodeId isKindOfClass:[UIView class]]) {
+        UIView *view = objectForNodeId;
+        CGRect frame = view.bounds;
+        frame = [view.window convertRect:frame fromView:view];
+        PDDOMBoxModel *box = [[PDDOMBoxModel alloc] init];
+        NSArray *quad = @[@(frame.origin.x),@(frame.origin.y),
+                          @(frame.origin.x+frame.size.width),@(frame.origin.y),
+                          @(frame.origin.x+frame.size.width),@(frame.origin.y+frame.size.height),
+                          @(frame.origin.x),@(frame.origin.y+frame.size.height),];
+        box.content = quad;
+        box.padding = quad;
+        box.border = quad;
+        box.margin = quad;
+        box.width = @(frame.size.width);
+        box.height = @(frame.size.height);
+        callback(box, nil);
+        
+    }
+    else{
+        PDDOMBoxModel *box = [[PDDOMBoxModel alloc] init];
+        NSArray *quad = @[@(2000),@(2000),@(2000),@(2000),@(2000),@(2000),@(2000),@(2000),];
+        box.content = quad;
+        box.padding = quad;
+        box.border = quad;
+        box.margin = quad;
+        box.width = @(0);
+        box.height = @(0);
+        callback(box, nil);
+    }
+}
+
+static NSMutableArray *searchResult = nil;
+
+- (void)domain:(PDDOMDomain *)domain performSearchWithQuery:(NSString *)query includeUserAgentShadowDOM:(NSNumber *)includeUserAgentShadowDOM callback:(void (^)(NSString *searchId, NSNumber *resultCount, id error))callback{
+    searchResult = [[NSMutableArray alloc] init];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (NSString *nodeId in self.objectsForNodeIds) {
+            UIView *view = [self.objectsForNodeIds objectForKey:nodeId];
+            NSString *className = NSStringFromClass([view class]);
+            NSString *strId = [NSString stringWithFormat:@"0x%lx", (unsigned long)(__bridge const void*)view];
+            if([strId rangeOfString:query].location != NSNotFound){
+                [searchResult addObject:@([nodeId integerValue])];
+                continue;
+            }
+            if ([className rangeOfString:query].location != NSNotFound) {
+                [searchResult addObject:@([nodeId integerValue])];
+                continue;
+            }
+            if([view respondsToSelector:@selector(accessibilityIdentifier)]){
+                NSString *q = [(id)view accessibilityIdentifier];
+                if (q && [q rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(text)]){
+                NSString *q = [(id)view text];
+                if (q && [q rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(attributedText)]){
+                NSString *q = [(id)view attributedText].string;
+                if (q && [q rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(title)]){
+                NSString *q = [(id)view title];
+                if (q && [q rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(request)]){
+                NSURLRequest *q = [(id)view request];
+                if (q && [q.URL.absoluteString rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+            if([view respondsToSelector:@selector(URL)]){
+                NSURL *q = [(id)view URL];
+                if (q && [q.absoluteString rangeOfString:query].location != NSNotFound) {
+                    [searchResult addObject:@([nodeId integerValue])];
+                    continue;
+                }
+            }
+        }
+        
+        callback(@"1", @(searchResult.count), nil);
+    });
+}
+
+- (void)domain:(PDDOMDomain *)domain getSearchResultsWithSearchId:(NSString *)searchId fromIndex:(NSNumber *)fromIndex toIndex:(NSNumber *)toIndex callback:(void (^)(NSArray *nodeIds, id error))callback{
+    callback([searchResult subarrayWithRange:NSMakeRange(fromIndex.integerValue, toIndex.integerValue-fromIndex.integerValue)], nil);
+}
+
+- (void)domain:(PDDOMDomain *)domain discardSearchResultsWithSearchId:(NSString *)searchId callback:(void (^)(id error))callback{
+    callback(nil);
+}
+
+- (void)domain:(PDDOMDomain *)domain pushNodesByBackendIdsToFrontendWithBackendNodeIds:(NSArray *)backendNodeIds callback:(void (^)(NSArray *, id))callback{
+    [self domain:domain hideHighlightWithCallback:^(id error) {
+        
+    }];
+    callback(backendNodeIds, nil);
 }
 
 @end

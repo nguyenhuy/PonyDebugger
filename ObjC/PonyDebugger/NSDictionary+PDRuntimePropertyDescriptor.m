@@ -12,7 +12,7 @@
 #import "NSDictionary+PDRuntimePropertyDescriptor.h"
 #import "NSObject+PDRuntimePropertyDescriptor.h"
 
-#import <PonyDebugger/PDRuntimeTypes.h>
+#import "PDRuntimeTypes.h"
 
 
 #pragma mark - Private Classes

@@ -9,6 +9,7 @@
 //  which Square, Inc. licenses this file to you.
 //
 
+#import <Foundation/Foundation.h>
 #import "NSSet+PDRuntimePropertyDescriptor.h"
 #import "NSObject+PDRuntimePropertyDescriptor.h"
 

@@ -2,18 +2,19 @@
 //  PDDatabaseDomain.h
 //  PonyDebuggerDerivedSources
 //
-//  Generated on 8/23/12
+//  Generated on 7/10/15
 //
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDebugger.h>
-#import <PonyDebugger/PDDynamicDebuggerDomain.h>
+#import "PDObject.h"
+#import "PDDebugger.h"
+#import "PDDynamicDebuggerDomain.h"
 
 @class PDDatabaseDatabase;
+@class PDDatabaseError;
 
 @protocol PDDatabaseCommandDelegate;
 
@@ -23,21 +24,20 @@
 
 // Events
 - (void)addDatabaseWithDatabase:(PDDatabaseDatabase *)database;
-- (void)sqlTransactionSucceededWithTransactionId:(NSNumber *)transactionId columnNames:(NSArray *)columnNames values:(NSArray *)values;
-- (void)sqlTransactionFailedWithTransactionId:(NSNumber *)transactionId sqlError:(NSDictionary *)sqlError;
 
 @end
 
 @protocol PDDatabaseCommandDelegate <PDCommandDelegate>
 @optional
 
-// Enables database tracking, database events will now be delivered to the client.
+/// Enables database tracking, database events will now be delivered to the client.
 - (void)domain:(PDDatabaseDomain *)domain enableWithCallback:(void (^)(id error))callback;
 
-// Disables database tracking, prevents database events from being sent to the client.
+/// Disables database tracking, prevents database events from being sent to the client.
 - (void)domain:(PDDatabaseDomain *)domain disableWithCallback:(void (^)(id error))callback;
 - (void)domain:(PDDatabaseDomain *)domain getDatabaseTableNamesWithDatabaseId:(NSString *)databaseId callback:(void (^)(NSArray *tableNames, id error))callback;
-- (void)domain:(PDDatabaseDomain *)domain executeSQLWithDatabaseId:(NSString *)databaseId query:(NSString *)query callback:(void (^)(NSNumber *success, NSNumber *transactionId, id error))callback;
+
+- (void)domain:(PDDatabaseDomain *)domain executeSQLWithDatabaseId:(NSString *)databaseId query:(NSString *)query callback:(void (^)(NSArray *columnNames, NSArray *values, PDDatabaseError *sqlError, id error))callback;
 
 @end
 
