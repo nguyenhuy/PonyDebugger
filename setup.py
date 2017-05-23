@@ -22,7 +22,7 @@ setup(
     keywords='ponydebugger ponyd remote debugger',
     author='Square, Inc.',
     author_email='eng@squareup.com',
-    url='https://github.com/square/PonyDebugger',
+    url='https://github.com/nguyenhuy/PonyDebugger',
     license='Apache Licence 2.0',
     install_requires=['tornado', 'pybonjour==1.1.1'],
     dependency_links=['https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/pybonjour/pybonjour-1.1.1.tar.gz'],
