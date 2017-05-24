@@ -40,7 +40,7 @@ class Downloader(PonydCommand):
         if self.latest:
             version = urllib2.urlopen(LATEST_URL).read()
         else:
-            version = 338332
+            version = 360003
 
         tools_url = TOOLS_URL_TEMPLATE.format(version)
         print "Downloading %s" % tools_url
