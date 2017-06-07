@@ -387,3 +387,15 @@
 @end
 
 
+// Match data for a CSS rule
+@interface PDCSSRuleMatch : PDObject
+
+// CSS rule in the match.
+@property (nonatomic, strong) PDCSSCSSRule *rule;
+
+// Matching selector indices in the rule's selectorList selectors (0-based).
+// Type: array of integers
+@property (nonatomic, strong) NSArray<NSNumber *> *matchingSelectors;
+
+@end
+

@@ -472,3 +472,24 @@
  
 @end
 
+@implementation PDCSSRuleMatch
+
++ (NSDictionary *)keysToEncode
+{
+  static NSDictionary *mappings = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                @"rule",@"rule",
+                @"matchingSelectors",@"matchingSelectors",
+                nil];
+  });
+  
+  return mappings;
+}
+
+@dynamic rule, matchingSelectors;
+
+@end
+
+

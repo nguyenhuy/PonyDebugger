@@ -20,6 +20,7 @@
 @class PDCSSSelectorProfile;
 @class PDCSSCSSRuleId;
 @class PDCSSNamedFlow;
+@class PDCSSRuleMatch;
 
 @protocol PDCSSCommandDelegate;
 
@@ -63,7 +64,7 @@
 // Callback Param matchedCSSRules: CSS rules matching this node, from all applicable stylesheets.
 // Callback Param pseudoElements: Pseudo style rules for this node.
 // Callback Param inherited: A chain of inherited styles (from the immediate node parent up to the DOM tree root).
-- (void)domain:(PDCSSDomain *)domain getMatchedStylesForNodeWithNodeId:(NSNumber *)nodeId includePseudo:(NSNumber *)includePseudo includeInherited:(NSNumber *)includeInherited callback:(void (^)(NSArray *matchedCSSRules, NSArray *pseudoElements, NSArray *inherited, id error))callback;
+- (void)domain:(PDCSSDomain *)domain getMatchedStylesForNodeWithNodeId:(NSNumber *)nodeId includePseudo:(NSNumber *)includePseudo includeInherited:(NSNumber *)includeInherited callback:(void (^)(NSArray<PDCSSRuleMatch *> *matchedCSSRules, NSArray *pseudoElements, NSArray *inherited, id error))callback;
 
 // Returns the styles defined inline (explicitly in the "style" attribute and implicitly, using DOM attributes) for a DOM node identified by <code>nodeId</code>.
 // Callback Param inlineStyle: Inline style for the specified DOM node.
