@@ -121,7 +121,7 @@
             responseCallback(params, error);
         }];
     } else if ([methodName isEqualToString:@"getComputedStyleForNode"] && [self.delegate respondsToSelector:@selector(domain:getComputedStyleForNodeWithNodeId:callback:)]) {
-        [self.delegate domain:self getComputedStyleForNodeWithNodeId:[params objectForKey:@"nodeId"] callback:^(NSArray *computedStyle, id error) {
+        [self.delegate domain:self getComputedStyleForNodeWithNodeId:[params objectForKey:@"nodeId"] callback:^(NSArray<PDCSSCSSComputedStyleProperty *> *computedStyle, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (computedStyle != nil) {

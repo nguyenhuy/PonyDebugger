@@ -21,6 +21,7 @@
 @class PDCSSCSSRuleId;
 @class PDCSSNamedFlow;
 @class PDCSSRuleMatch;
+@class PDCSSCSSComputedStyleProperty;
 
 @protocol PDCSSCommandDelegate;
 
@@ -73,7 +74,7 @@
 
 // Returns the computed style for a DOM node identified by <code>nodeId</code>.
 // Callback Param computedStyle: Computed style for the specified DOM node.
-- (void)domain:(PDCSSDomain *)domain getComputedStyleForNodeWithNodeId:(NSNumber *)nodeId callback:(void (^)(NSArray *computedStyle, id error))callback;
+- (void)domain:(PDCSSDomain *)domain getComputedStyleForNodeWithNodeId:(NSNumber *)nodeId callback:(void (^)(NSArray<PDCSSCSSComputedStyleProperty *> *computedStyle, id error))callback;
 
 // Returns metainfo entries for all known stylesheets.
 // Callback Param headers: Descriptor entries for all available stylesheets.
