@@ -53,7 +53,7 @@
 
 @end
 
-@implementation PDCSSCSSStyle
+@implementation PDCSSStyle
 
 + (NSDictionary *)keysToEncode;
 {
@@ -96,7 +96,7 @@
 
 @end
 
-@implementation PDCSSCSSStyleAttribute
+@implementation PDCSSStyleAttribute
 
 + (NSDictionary *)keysToEncode;
 {
@@ -116,7 +116,7 @@
 
 @end
 
-@implementation PDCSSCSSStyleSheetHeader
+@implementation PDCSSStyleSheetHeader
 
 + (NSDictionary *)keysToEncode;
 {
@@ -140,7 +140,7 @@
 
 @end
 
-@implementation PDCSSCSSStyleSheetBody
+@implementation PDCSSStyleSheetBody
 
 + (NSDictionary *)keysToEncode;
 {
@@ -244,7 +244,7 @@
 
 @end
 
-@implementation PDCSSCSSMedia
+@implementation PDCSSMedia
 
 + (NSDictionary *)keysToEncode
 {
@@ -268,7 +268,7 @@
 
 @end
 
-@implementation PDCSSCSSRule
+@implementation PDCSSRule
 
 + (NSDictionary *)keysToEncode;
 {
@@ -332,7 +332,7 @@
 
 @end
 
-@implementation PDCSSCSSPropertyInfo
+@implementation PDCSSPropertyInfo
 
 + (NSDictionary *)keysToEncode;
 {
@@ -352,7 +352,7 @@
 
 @end
 
-@implementation PDCSSCSSComputedStyleProperty
+@implementation PDCSSComputedStyleProperty
 
 + (NSDictionary *)keysToEncode;
 {
@@ -372,7 +372,7 @@
 
 @end
 
-@implementation PDCSSCSSProperty
+@implementation PDCSSProperty
 
 + (NSDictionary *)keysToEncode;
 {

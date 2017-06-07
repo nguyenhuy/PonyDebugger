@@ -108,7 +108,7 @@
             responseCallback(params, error);
         }];
     } else if ([methodName isEqualToString:@"getInlineStylesForNode"] && [self.delegate respondsToSelector:@selector(domain:getInlineStylesForNodeWithNodeId:callback:)]) {
-        [self.delegate domain:self getInlineStylesForNodeWithNodeId:[params objectForKey:@"nodeId"] callback:^(PDCSSCSSStyle *inlineStyle, PDCSSCSSStyle *attributesStyle, id error) {
+        [self.delegate domain:self getInlineStylesForNodeWithNodeId:[params objectForKey:@"nodeId"] callback:^(PDCSSStyle *inlineStyle, PDCSSStyle *attributesStyle, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:2];
 
             if (inlineStyle != nil) {
@@ -121,7 +121,7 @@
             responseCallback(params, error);
         }];
     } else if ([methodName isEqualToString:@"getComputedStyleForNode"] && [self.delegate respondsToSelector:@selector(domain:getComputedStyleForNodeWithNodeId:callback:)]) {
-        [self.delegate domain:self getComputedStyleForNodeWithNodeId:[params objectForKey:@"nodeId"] callback:^(NSArray<PDCSSCSSComputedStyleProperty *> *computedStyle, id error) {
+        [self.delegate domain:self getComputedStyleForNodeWithNodeId:[params objectForKey:@"nodeId"] callback:^(NSArray<PDCSSComputedStyleProperty *> *computedStyle, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (computedStyle != nil) {
@@ -141,7 +141,7 @@
             responseCallback(params, error);
         }];
     } else if ([methodName isEqualToString:@"getStyleSheet"] && [self.delegate respondsToSelector:@selector(domain:getStyleSheetWithStyleSheetId:callback:)]) {
-        [self.delegate domain:self getStyleSheetWithStyleSheetId:[params objectForKey:@"styleSheetId"] callback:^(PDCSSCSSStyleSheetBody *styleSheet, id error) {
+        [self.delegate domain:self getStyleSheetWithStyleSheetId:[params objectForKey:@"styleSheetId"] callback:^(PDCSSStyleSheetBody *styleSheet, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (styleSheet != nil) {
@@ -165,7 +165,7 @@
             responseCallback(nil, error);
         }];
     } else if ([methodName isEqualToString:@"setPropertyText"] && [self.delegate respondsToSelector:@selector(domain:setPropertyTextWithStyleId:propertyIndex:text:overwrite:callback:)]) {
-        [self.delegate domain:self setPropertyTextWithStyleId:[params objectForKey:@"styleId"] propertyIndex:[params objectForKey:@"propertyIndex"] text:[params objectForKey:@"text"] overwrite:[params objectForKey:@"overwrite"] callback:^(PDCSSCSSStyle *style, id error) {
+        [self.delegate domain:self setPropertyTextWithStyleId:[params objectForKey:@"styleId"] propertyIndex:[params objectForKey:@"propertyIndex"] text:[params objectForKey:@"text"] overwrite:[params objectForKey:@"overwrite"] callback:^(PDCSSStyle *style, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (style != nil) {
@@ -175,7 +175,7 @@
             responseCallback(params, error);
         }];
     } else if ([methodName isEqualToString:@"toggleProperty"] && [self.delegate respondsToSelector:@selector(domain:togglePropertyWithStyleId:propertyIndex:disable:callback:)]) {
-        [self.delegate domain:self togglePropertyWithStyleId:[params objectForKey:@"styleId"] propertyIndex:[params objectForKey:@"propertyIndex"] disable:[params objectForKey:@"disable"] callback:^(PDCSSCSSStyle *style, id error) {
+        [self.delegate domain:self togglePropertyWithStyleId:[params objectForKey:@"styleId"] propertyIndex:[params objectForKey:@"propertyIndex"] disable:[params objectForKey:@"disable"] callback:^(PDCSSStyle *style, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (style != nil) {
@@ -185,7 +185,7 @@
             responseCallback(params, error);
         }];
     } else if ([methodName isEqualToString:@"setRuleSelector"] && [self.delegate respondsToSelector:@selector(domain:setRuleSelectorWithRuleId:selector:callback:)]) {
-        [self.delegate domain:self setRuleSelectorWithRuleId:[params objectForKey:@"ruleId"] selector:[params objectForKey:@"selector"] callback:^(PDCSSCSSRule *rule, id error) {
+        [self.delegate domain:self setRuleSelectorWithRuleId:[params objectForKey:@"ruleId"] selector:[params objectForKey:@"selector"] callback:^(PDCSSRule *rule, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (rule != nil) {
@@ -195,7 +195,7 @@
             responseCallback(params, error);
         }];
     } else if ([methodName isEqualToString:@"addRule"] && [self.delegate respondsToSelector:@selector(domain:addRuleWithContextNodeId:selector:callback:)]) {
-        [self.delegate domain:self addRuleWithContextNodeId:[params objectForKey:@"contextNodeId"] selector:[params objectForKey:@"selector"] callback:^(PDCSSCSSRule *rule, id error) {
+        [self.delegate domain:self addRuleWithContextNodeId:[params objectForKey:@"contextNodeId"] selector:[params objectForKey:@"selector"] callback:^(PDCSSRule *rule, id error) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:1];
 
             if (rule != nil) {
