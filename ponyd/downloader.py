@@ -40,6 +40,7 @@ class Downloader(PonydCommand):
         if self.latest:
             version = urllib2.urlopen(LATEST_URL).read()
         else:
+            # Protocol: https://chromium.googlesource.com/chromium/src/+/b327bcdb1c84c335e0acddb606ac85f34a07ea70/third_party/WebKit/Source/devtools/protocol.json
             version = 360003
 
         tools_url = TOOLS_URL_TEMPLATE.format(version)
