@@ -19,7 +19,7 @@
 
 @interface PDInspectorDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDInspectorCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDInspectorCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 - (void)evaluateForTestInFrontendWithTestCallId:(NSNumber *)testCallId script:(NSString *)script;

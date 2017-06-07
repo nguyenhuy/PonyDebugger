@@ -20,7 +20,7 @@
 
 @interface PDMemoryDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDMemoryCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDMemoryCommandDelegate, PDCommandDelegate> delegate;
 
 @end
 

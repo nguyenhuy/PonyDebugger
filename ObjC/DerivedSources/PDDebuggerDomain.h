@@ -22,7 +22,7 @@
 // Debugger domain exposes JavaScript debugging capabilities. It allows setting and removing breakpoints, stepping through execution, exploring stack traces, etc.
 @interface PDDebuggerDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDDebuggerCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDDebuggerCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 

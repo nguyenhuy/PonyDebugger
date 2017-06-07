@@ -464,6 +464,7 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
     Class cls = [[controller class] domainClass];
     PDDynamicDebuggerDomain *domain = [(PDDynamicDebuggerDomain *)[cls alloc] initWithDebuggingServer:self];
     [_domains setObject:domain forKey:domainName];
+    [_controllers setObject:controller forKey:domainName];
     
     controller.domain = domain;
     domain.delegate = controller;

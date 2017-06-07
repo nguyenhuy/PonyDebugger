@@ -21,7 +21,7 @@
 // Actions and events related to the inspected page belong to the page domain.
 @interface PDPageDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDPageCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDPageCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 - (void)domContentEventFiredWithTimestamp:(NSNumber *)timestamp;

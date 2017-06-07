@@ -20,7 +20,7 @@
 
 @interface PDFileSystemDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDFileSystemCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDFileSystemCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 

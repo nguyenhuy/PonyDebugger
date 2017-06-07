@@ -18,7 +18,7 @@
 
 @interface PDWorkerDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDWorkerCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDWorkerCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 - (void)workerCreatedWithWorkerId:(NSNumber *)workerId url:(NSString *)url inspectorConnected:(NSNumber *)inspectorConnected;

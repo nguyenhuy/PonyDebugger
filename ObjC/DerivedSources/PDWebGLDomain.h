@@ -19,7 +19,7 @@
 
 @interface PDWebGLDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDWebGLCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDWebGLCommandDelegate, PDCommandDelegate> delegate;
 
 @end
 

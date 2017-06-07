@@ -26,7 +26,7 @@
 // Network domain allows tracking network activities of the page. It exposes information about http, file, data and other requests and responses, their headers, bodies, timing, etc.
 @interface PDNetworkDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDNetworkCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDNetworkCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 

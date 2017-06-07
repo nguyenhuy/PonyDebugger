@@ -19,7 +19,7 @@
 
 @interface PDDatabaseDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDDatabaseCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDDatabaseCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 - (void)addDatabaseWithDatabase:(PDDatabaseDatabase *)database;

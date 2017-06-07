@@ -21,7 +21,7 @@
 
 @interface PDProfilerDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDProfilerCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDProfilerCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 - (void)addProfileHeaderWithHeader:(PDProfilerProfileHeader *)header;

@@ -21,7 +21,7 @@
 
 @interface PDIndexedDBDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDIndexedDBCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDIndexedDBCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 // Param requestId: Request id.

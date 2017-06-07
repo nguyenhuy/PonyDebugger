@@ -19,7 +19,7 @@
 
 @interface PDDOMStorageDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDDOMStorageCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDDOMStorageCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 - (void)addDOMStorageWithStorage:(PDDOMStorageEntry *)storage;

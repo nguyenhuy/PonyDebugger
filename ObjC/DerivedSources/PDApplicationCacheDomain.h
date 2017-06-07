@@ -19,7 +19,7 @@
 
 @interface PDApplicationCacheDomain : PDDynamicDebuggerDomain 
 
-@property (nonatomic, assign) id <PDApplicationCacheCommandDelegate, PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDApplicationCacheCommandDelegate, PDCommandDelegate> delegate;
 
 // Events
 // Param frameId: Identifier of the frame containing document whose application cache updated status.

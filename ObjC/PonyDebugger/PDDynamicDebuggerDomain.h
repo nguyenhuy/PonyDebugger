@@ -22,7 +22,7 @@ typedef void (^PDResponseCallback)(NSDictionary *result, id error);
 @interface PDDynamicDebuggerDomain : NSObject
 
 @property (nonatomic, assign, readonly) PDDebugger * debuggingServer;
-@property (nonatomic, assign) id <PDCommandDelegate> delegate;
+@property (nonatomic, weak) id <PDCommandDelegate> delegate;
 
 + (NSString *)domainName;
 
