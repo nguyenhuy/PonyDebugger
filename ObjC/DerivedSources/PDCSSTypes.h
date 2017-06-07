@@ -13,36 +13,9 @@
 #import <PonyDebugger/PDDebugger.h>
 #import <PonyDebugger/PDDynamicDebuggerDomain.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
-@class PDCSSSourceRange;
-@class PDCSSCSSStyle;
-
-
-// This object identifies a CSS style in a unique way.
-@interface PDCSSCSSStyleId : PDObject
-
-// Enclosing stylesheet identifier.
-@property (nonatomic, strong) NSString *styleSheetId;
-
-// The style ordinal within the stylesheet.
-// Type: integer
-@property (nonatomic, strong) NSNumber *ordinal;
-
-@end
-
-
-// This object identifies a CSS rule in a unique way.
-@interface PDCSSCSSRuleId : PDObject
-
-// Enclosing stylesheet identifier.
-@property (nonatomic, strong) NSString *styleSheetId;
-
-// The rule ordinal within the stylesheet.
-// Type: integer
-@property (nonatomic, strong) NSNumber *ordinal;
-
-@end
-
+typedef NSString PDCSSStyleSheetId;
 
 // CSS rule collection for a single pseudo style.
 @interface PDCSSPseudoIdRules : PDObject
@@ -54,6 +27,98 @@
 // CSS rules applicable to the pseudo style.
 // Type: array
 @property (nonatomic, strong) NSArray *rules;
+
+@end
+
+
+// Text range within a resource. All numbers are zero-based.
+@interface PDCSSSourceRange : PDObject
+
+// Start line of range.
+// Type: integer
+@property (nonatomic, strong) NSNumber *startLine;
+
+// Start column of range (inclusive).
+// Type: integer
+@property (nonatomic, strong) NSNumber *startColumn;
+
+// End line of range.
+// Type: integer
+@property (nonatomic, strong) NSNumber *endLine;
+
+// End column of range (exclusive).
+// Type: integer
+@property (nonatomic, strong) NSNumber *endColumn;
+
+@end
+
+
+// CSS property declaration data.
+@interface PDCSSCSSProperty : PDObject
+
+// The property name.
+@property (nonatomic, strong) NSString *name;
+
+// The property value.
+@property (nonatomic, strong) NSString *value;
+
+// Whether the property has \"!important\" annotation (implies <code>false</code> if absent).
+// Type: boolean
+@property (nonatomic, strong, nullable) NSNumber *important;
+
+// Whether the property is implicit (implies <code>false</code> if absent).
+// Type: boolean
+@property (nonatomic, strong, nullable) NSNumber *implicit;
+
+// The full property text as specified in the style.
+@property (nonatomic, strong, nullable) NSString *text;
+
+// Whether the property is understood by the browser (implies <code>true</code> if absent).
+// Type: boolean
+@property (nonatomic, strong, nullable) NSNumber *parsedOk;
+
+// Whether the property is disabled by the user (present for source-based properties only).
+// Type
+@property (nonatomic, strong, nullable) NSNumber *disabled;
+
+// The entire property range in the enclosing style declaration (if available).
+@property (nonatomic, strong, nullable) PDCSSSourceRange *range;
+
+@end
+
+
+@interface PDCSSShorthandEntry : PDObject
+
+// Shorthand name.
+@property (nonatomic, strong) NSString *name;
+
+// Shorthand value.
+@property (nonatomic, strong) NSString *value;
+
+// Whether the property has \"!important\" annotation (implies <code>false</code> if absent).
+// Type: boolean
+@property (nonatomic, strong, nullable) NSNumber *important;
+
+@end
+
+
+// CSS style representation.
+@interface PDCSSCSSStyle : PDObject
+
+// The css style sheet identifier (absent for user agent stylesheet and user-specified stylesheet rules) this rule came from.
+@property (nonatomic, strong, nullable) PDCSSStyleSheetId *styleSheetId;
+
+// CSS properties in the style.
+@property (nonatomic, strong) NSArray<PDCSSCSSProperty *> *cssProperties;
+
+// Computed values for all shorthands found in the style.
+@property (nonatomic, strong) NSArray<PDCSSShorthandEntry *> *shorthandEntries;
+
+// Style declaration text (if available).
+@property (nonatomic, strong, nullable) NSString *cssText;
+
+// Style declaration range in the enclosing stylesheet (if available).
+@property (nonatomic, strong, nullable) PDCSSSourceRange *range;
 
 @end
 
@@ -122,69 +187,134 @@
 @property (nonatomic, strong) NSArray *rules;
 
 // Stylesheet resource contents (if available).
-// Type: string
 @property (nonatomic, strong) NSString *text;
 
 @end
 
 
+// Data for a simple selector (these are delimited by commas in a selector list).
+@interface PDCSSSelector : PDObject
+
+// Selector text.
+@property (nonatomic, strong) NSString *value;
+
+// Selector range in the underlying resource (if available).
+@property (nonatomic, strong, nullable) PDCSSSourceRange *range;
+
+@end
+
+
+// Selector list data.
+@interface PDCSSSelectorList : PDObject
+
+// Selectors in the list.
+@property (nonatomic, strong) NSArray<PDCSSSelector *> *selectors;
+
+// Rule selector text.
+@property (nonatomic, strong) NSString *text;
+
+@end
+
+
+@interface PDCSSMediaQueryExpression : PDObject
+
+// Media query expression value.
+// Type: number
+@property (nonatomic, strong) NSNumber *value;
+
+// Media query expression units.
+@property (nonatomic, strong) NSString *unit;
+
+// Media query expression feature.
+@property (nonatomic, strong) NSString *feature;
+
+// The associated range of the value text in the enclosing stylesheet (if available).
+@property (nonatomic, strong, nullable) PDCSSSourceRange *valueRange;
+
+// Computed length of media query expression (if applicable).
+// Type: number
+@property (nonatomic, strong, nullable) NSNumber *computedLength;
+
+@end
+
+
+@interface PDCSSMediaQuery : PDObject
+
+// Array of media query expressions.
+@property (nonatomic, strong) NSArray<PDCSSMediaQueryExpression *> *expressions;
+
+// Whether the media query condition is satisfied.
+// Type: boolean
+@property (nonatomic, strong) NSNumber *active;
+
+@end
+
+
+// CSS media query descriptor.
+@interface PDCSSCSSMedia : PDObject
+
+// Media query text.
+@property (nonatomic, strong) NSString *text;
+
+// Source of the media query: "mediaRule" if specified by a @media rule, "importRule" if specified by an @import rule, "linkedSheet" if specified by a "media" attribute in a linked stylesheet's LINK tag, "inlineSheet" if specified by a "media" attribute in an inline stylesheet's STYLE tag.
+@property (nonatomic, strong) NSString *source;
+
+// URL of the document containing the media query description.
+@property (nonatomic, strong, nullable) NSString *sourceURL;
+
+// The associated rule (@media or @import) header range in the enclosing stylesheet (if available).
+@property (nonatomic, strong, nullable) PDCSSSourceRange *range;
+
+// Identifier of the stylesheet containing this object (if exists).
+@property (nonatomic, strong, nullable) PDCSSStyleSheetId *parentStyleSheetId;
+
+// Array of media queries.
+@property (nonatomic, strong, nullable) NSArray<PDCSSMediaQuery *> *mediaList;
+
+@end
+
+
+typedef NSString PDCSSStyleSheetOrigin;
+// for stylesheets injected via extension
+#define PDCSSStyleSheetOriginInjected @"injected"
+// for user-agent stylesheets
+#define PDCSSStyleSheetOriginUserAgent @"user-agent"
+// for stylesheets created by the inspector (i.e. those holding the "via inspector" rules)
+#define PDCSSStyleSheetOriginInspector @"inspector"
+// for regular stylesheets
+#define PDCSSStyleSheetOriginRegular @"regular"
+
 // CSS rule representation.
 @interface PDCSSCSSRule : PDObject
 
-// The CSS rule identifier (absent for user agent stylesheet and user-specified stylesheet rules).
-@property (nonatomic, strong) PDCSSCSSRuleId *ruleId;
+// The css style sheet identifier (absent for user agent stylesheet and user-specified stylesheet rules) this rule came from.
+@property (nonatomic, strong, nullable) NSString *styleSheetId;
 
-// Rule selector.
-// Type: string
-@property (nonatomic, strong) NSString *selectorText;
-
-// Parent stylesheet resource URL (for regular rules).
-// Type: string
-@property (nonatomic, strong) NSString *sourceURL;
-
-// Line ordinal of the rule selector start character in the resource.
-// Type: integer
-@property (nonatomic, strong) NSNumber *sourceLine;
+// Rule selector data.
+@property (nonatomic, strong) PDCSSSelectorList *selectorList;
 
 // Parent stylesheet's origin.
-@property (nonatomic, strong) NSString *origin;
+// Either of PDCSSStyleSheetOriginInjected, PDCSSStyleSheetOriginUserAgent, PDCSSStyleSheetOriginInspector or PDCSSStyleSheetOriginRegular
+@property (nonatomic, strong) PDCSSStyleSheetOrigin *origin;
 
 // Associated style declaration.
 @property (nonatomic, strong) PDCSSCSSStyle *style;
 
-// The rule selector range in the underlying resource (if available).
-@property (nonatomic, strong) PDCSSSourceRange *selectorRange;
-
 // Media list array (for rules involving media queries). The array enumerates media queries starting with the innermost one, going outwards.
-// Type: array
-@property (nonatomic, strong) NSArray *media;
+//@property (nonatomic, strong, nullable) NSArray<PDCSSCSSMedia *> *media;
 
 @end
 
 
-// Text range within a resource.
-@interface PDCSSSourceRange : PDObject
+// Match data for a CSS rule
+@interface PDCSSRuleMatch : PDObject
 
-// Start of range (inclusive).
-// Type: integer
-@property (nonatomic, strong) NSNumber *start;
+// CSS rule in the match.
+@property (nonatomic, strong) PDCSSCSSRule *rule;
 
-// End of range (exclusive).
-// Type: integer
-@property (nonatomic, strong) NSNumber *end;
-
-@end
-
-
-@interface PDCSSShorthandEntry : PDObject
-
-// Shorthand name.
-// Type: string
-@property (nonatomic, strong) NSString *name;
-
-// Shorthand value.
-// Type: string
-@property (nonatomic, strong) NSString *value;
+// Matching selector indices in the rule's selectorList selectors (0-based).
+// Type: array of integers
+@property (nonatomic, strong) NSArray<NSNumber *> *matchingSelectors;
 
 @end
 
@@ -211,97 +341,6 @@
 // Computed style property value.
 // Type: string
 @property (nonatomic, strong) NSString *value;
-
-@end
-
-
-// CSS style representation.
-@interface PDCSSCSSStyle : PDObject
-
-// The CSS style identifier (absent for attribute styles).
-@property (nonatomic, strong) PDCSSCSSStyleId *styleId;
-
-// CSS properties in the style.
-// Type: array
-@property (nonatomic, strong) NSArray *cssProperties;
-
-// Computed values for all shorthands found in the style.
-// Type: array
-@property (nonatomic, strong) NSArray *shorthandEntries;
-
-// Style declaration text (if available).
-// Type: string
-@property (nonatomic, strong) NSString *cssText;
-
-// Style declaration range in the enclosing stylesheet (if available).
-@property (nonatomic, strong) PDCSSSourceRange *range;
-
-// The effective "width" property value from this style.
-// Type: string
-@property (nonatomic, strong) NSString *width;
-
-// The effective "height" property value from this style.
-// Type: string
-@property (nonatomic, strong) NSString *height;
-
-@end
-
-
-// CSS style effective visual dimensions and source offsets.
-@interface PDCSSCSSProperty : PDObject
-
-// The property name.
-// Type: string
-@property (nonatomic, strong) NSString *name;
-
-// The property value.
-// Type: string
-@property (nonatomic, strong) NSString *value;
-
-// The property priority (implies "" if absent).
-// Type: string
-@property (nonatomic, strong) NSString *priority;
-
-// Whether the property is implicit (implies <code>false</code> if absent).
-// Type: boolean
-@property (nonatomic, strong) NSNumber *implicit;
-
-// The full property text as specified in the style.
-// Type: string
-@property (nonatomic, strong) NSString *text;
-
-// Whether the property is understood by the browser (implies <code>true</code> if absent).
-// Type: boolean
-@property (nonatomic, strong) NSNumber *parsedOk;
-
-// The property status: "active" (implied if absent) if the property is effective in the style, "inactive" if the property is overridden by a same-named property in this style later on, "disabled" if the property is disabled by the user, "style" if the property is reported by the browser rather than by the CSS source parser.
-// Type: string
-@property (nonatomic, strong) NSString *status;
-
-// The entire property range in the enclosing style declaration (if available).
-@property (nonatomic, strong) PDCSSSourceRange *range;
-
-@end
-
-
-// CSS media query descriptor.
-@interface PDCSSCSSMedia : PDObject
-
-// Media query text.
-// Type: string
-@property (nonatomic, strong) NSString *text;
-
-// Source of the media query: "mediaRule" if specified by a @media rule, "importRule" if specified by an @import rule, "linkedSheet" if specified by a "media" attribute in a linked stylesheet's LINK tag, "inlineSheet" if specified by a "media" attribute in an inline stylesheet's STYLE tag.
-// Type: string
-@property (nonatomic, strong) NSString *source;
-
-// URL of the document containing the media query description.
-// Type: string
-@property (nonatomic, strong) NSString *sourceURL;
-
-// Line in the document containing the media query (not defined for the "stylesheet" source).
-// Type: integer
-@property (nonatomic, strong) NSNumber *sourceLine;
 
 @end
 
@@ -386,16 +425,5 @@
 
 @end
 
-
-// Match data for a CSS rule
-@interface PDCSSRuleMatch : PDObject
-
-// CSS rule in the match.
-@property (nonatomic, strong) PDCSSCSSRule *rule;
-
-// Matching selector indices in the rule's selectorList selectors (0-based).
-// Type: array of integers
-@property (nonatomic, strong) NSArray<NSNumber *> *matchingSelectors;
-
-@end
+NS_ASSUME_NONNULL_END
 

@@ -11,46 +11,6 @@
 
 #import "PDCSSTypes.h"
 
-@implementation PDCSSCSSStyleId
-
-+ (NSDictionary *)keysToEncode;
-{
-  static NSDictionary *mappings = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                @"styleSheetId",@"styleSheetId",
-                @"ordinal",@"ordinal",
-                nil];
-  });
-  
-  return mappings;
-}
-
-@dynamic styleSheetId, ordinal;
-
-@end
-
-@implementation PDCSSCSSRuleId
-
-+ (NSDictionary *)keysToEncode;
-{
-  static NSDictionary *mappings = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                @"styleSheetId",@"styleSheetId",
-                @"ordinal",@"ordinal",
-                nil];
-  });
-  
-  return mappings;
-}
-
-@dynamic styleSheetId, ordinal;
-
-@end
-
 @implementation PDCSSPseudoIdRules
 
 + (NSDictionary *)keysToEncode;
@@ -68,6 +28,51 @@
 }
 
 @dynamic pseudoId, rules;
+
+@end
+
+@implementation PDCSSSourceRange
+
++ (NSDictionary *)keysToEncode;
+{
+  static NSDictionary *mappings = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                @"startLine",@"startLine",
+                @"startColumn",@"startColumn",
+                @"endLine",@"endLine",
+                @"endColumn",@"endColumn",
+                nil];
+  });
+  
+  return mappings;
+}
+
+@dynamic startLine, startColumn, endLine, endColumn;
+
+@end
+
+@implementation PDCSSCSSStyle
+
++ (NSDictionary *)keysToEncode;
+{
+  static NSDictionary *mappings = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                @"styleSheetId",@"styleSheetId",
+                @"cssProperties",@"cssProperties",
+                @"shorthandEntries",@"shorthandEntries",
+                @"cssText",@"cssText",
+                @"range",@"range",
+                nil];
+  });
+  
+  return mappings;
+}
+
+@dynamic styleSheetId, cssProperties, shorthandEntries, cssText, range;
 
 @end
 
@@ -156,6 +161,113 @@
 
 @end
 
+@implementation PDCSSSelector
+
++ (NSDictionary *)keysToEncode
+{
+  static NSDictionary *mappings = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                @"value",@"value",
+                @"range",@"range",
+                nil];
+  });
+  
+  return mappings;
+}
+
+@dynamic value, range;
+
+@end
+
+@implementation PDCSSSelectorList
+
++ (NSDictionary *)keysToEncode
+{
+  static NSDictionary *mappings = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                @"selectors",@"selectors",
+                @"text",@"text",
+                nil];
+  });
+  
+  return mappings;
+}
+
+@dynamic selectors, text;
+
+@end
+
+@implementation PDCSSMediaQueryExpression
+
++ (NSDictionary *)keysToEncode
+{
+  static NSDictionary *mappings = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                @"value",@"value",
+                @"unit",@"unit",
+                @"feature",@"feature",
+                @"valueRange",@"valueRange",
+                @"computedLength",@"computedLength",
+                nil];
+  });
+  
+  return mappings;
+}
+
+@dynamic value, unit, feature, valueRange, computedLength;
+
+@end
+
+@implementation PDCSSMediaQuery
+
++ (NSDictionary *)keysToEncode
+{
+  static NSDictionary *mappings = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                @"expressions",@"expressions",
+                @"active",@"active",
+                nil];
+  });
+  
+  return mappings;
+}
+
+@dynamic expressions, active;
+
+@end
+
+@implementation PDCSSCSSMedia
+
++ (NSDictionary *)keysToEncode
+{
+  static NSDictionary *mappings = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                @"text",@"text",
+                @"source",@"source",
+                @"sourceURL",@"sourceURL",
+                @"range",@"range",
+                @"parentStyleSheetId",@"parentStyleSheetId",
+                @"mediaList",@"mediaList",
+                nil];
+  });
+  
+  return mappings;
+}
+
+@dynamic text, source, sourceURL, range, parentStyleSheetId, mediaList;
+
+@end
+
 @implementation PDCSSCSSRule
 
 + (NSDictionary *)keysToEncode;
@@ -164,13 +276,10 @@
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                @"ruleId",@"ruleId",
-                @"selectorText",@"selectorText",
-                @"sourceURL",@"sourceURL",
-                @"sourceLine",@"sourceLine",
+                @"styleSheetId",@"styleSheetId",
+                @"selectorList",@"selectorList",
                 @"origin",@"origin",
                 @"style",@"style",
-                @"selectorRange",@"selectorRange",
                 @"media",@"media",
                 nil];
   });
@@ -178,27 +287,27 @@
   return mappings;
 }
 
-@dynamic ruleId, selectorText, sourceURL, sourceLine, origin, style, selectorRange, media;
+@dynamic styleSheetId, selectorList, origin, style;
 
 @end
 
-@implementation PDCSSSourceRange
+@implementation PDCSSRuleMatch
 
-+ (NSDictionary *)keysToEncode;
++ (NSDictionary *)keysToEncode
 {
   static NSDictionary *mappings = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                @"start",@"start",
-                @"end",@"end",
+                @"rule",@"rule",
+                @"matchingSelectors",@"matchingSelectors",
                 nil];
   });
   
   return mappings;
 }
 
-@dynamic start, end;
+@dynamic rule, matchingSelectors;
 
 @end
 
@@ -212,13 +321,14 @@
     mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
                 @"name",@"name",
                 @"value",@"value",
+                @"important",@"important",
                 nil];
   });
   
   return mappings;
 }
 
-@dynamic name, value;
+@dynamic name, value, important;
 
 @end
 
@@ -262,31 +372,6 @@
 
 @end
 
-@implementation PDCSSCSSStyle
-
-+ (NSDictionary *)keysToEncode;
-{
-  static NSDictionary *mappings = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                @"styleId",@"styleId",
-                @"cssProperties",@"cssProperties",
-                @"shorthandEntries",@"shorthandEntries",
-                @"cssText",@"cssText",
-                @"range",@"range",
-                @"width",@"width",
-                @"height",@"height",
-                nil];
-  });
-  
-  return mappings;
-}
-
-@dynamic styleId, cssProperties, shorthandEntries, cssText, range, width, height;
-
-@end
-
 @implementation PDCSSCSSProperty
 
 + (NSDictionary *)keysToEncode;
@@ -297,11 +382,11 @@
     mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
                 @"name",@"name",
                 @"value",@"value",
-                @"priority",@"priority",
+                @"important",@"important",
                 @"implicit",@"implicit",
                 @"text",@"text",
                 @"parsedOk",@"parsedOk",
-                @"status",@"status",
+                @"disabled",@"disabled",
                 @"range",@"range",
                 nil];
   });
@@ -309,29 +394,7 @@
   return mappings;
 }
 
-@dynamic name, value, priority, implicit, text, parsedOk, status, range;
-
-@end
-
-@implementation PDCSSCSSMedia
-
-+ (NSDictionary *)keysToEncode;
-{
-  static NSDictionary *mappings = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                @"text",@"text",
-                @"source",@"source",
-                @"sourceURL",@"sourceURL",
-                @"sourceLine",@"sourceLine",
-                nil];
-  });
-  
-  return mappings;
-}
-
-@dynamic text, source, sourceURL, sourceLine;
+@dynamic name, value, important, implicit, text, parsedOk, disabled, range;
 
 @end
 
@@ -421,25 +484,4 @@
 @dynamic documentNodeId, name, overset, content, regions;
 
 @end
-
-@implementation PDCSSRuleMatch
-
-+ (NSDictionary *)keysToEncode
-{
-  static NSDictionary *mappings = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                @"rule",@"rule",
-                @"matchingSelectors",@"matchingSelectors",
-                nil];
-  });
-  
-  return mappings;
-}
-
-@dynamic rule, matchingSelectors;
-
-@end
-
 
