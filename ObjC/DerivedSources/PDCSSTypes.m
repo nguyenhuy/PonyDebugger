@@ -163,6 +163,13 @@
 
 @implementation PDCSSSelector
 
++ (instancetype)selectorWithValue:(NSString *)value
+{
+  PDCSSSelector *selector = [[PDCSSSelector alloc] init];
+  selector.value = value;
+  return selector;
+}
+
 + (NSDictionary *)keysToEncode
 {
   static NSDictionary *mappings = nil;
@@ -182,6 +189,13 @@
 @end
 
 @implementation PDCSSSelectorList
+
++ (instancetype)selectorListWithSelectors:(NSArray<PDCSSSelector *> *)selectors
+{
+  PDCSSSelectorList *list = [[PDCSSSelectorList alloc] init];
+  list.selectors = selectors;
+  return list;
+}
 
 + (NSDictionary *)keysToEncode
 {
@@ -373,6 +387,14 @@
 @end
 
 @implementation PDCSSProperty
+
++ (instancetype)propertyWithName:(NSString *)name value:(NSString *)value
+{
+  PDCSSProperty *property = [[PDCSSProperty alloc] init];
+  property.name = name;
+  property.value = value;
+  return property;
+}
 
 + (NSDictionary *)keysToEncode;
 {

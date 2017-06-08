@@ -381,7 +381,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     
     remoteObject.type = @"object";
     remoteObject.subtype = @"node";
-    remoteObject.objectId = [chosenNodeId stringValue];
+    remoteObject.objectId = chosenNodeId.stringValue;
     
     [inspectorDomain inspectWithObject:remoteObject hints:nil];
     [self.inspectModeOverlay removeFromSuperview];

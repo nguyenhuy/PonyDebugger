@@ -84,6 +84,8 @@ typedef NSString PDCSSStyleSheetId;
 // The entire property range in the enclosing style declaration (if available).
 @property (nonatomic, strong, nullable) PDCSSSourceRange *range;
 
++ (instancetype)propertyWithName:(NSString *)name value:(NSString *)value;
+
 @end
 
 
@@ -195,6 +197,8 @@ typedef NSString PDCSSStyleSheetId;
 // Data for a simple selector (these are delimited by commas in a selector list).
 @interface PDCSSSelector : PDObject
 
++ (instancetype)selectorWithValue:(NSString *)value;
+
 // Selector text.
 @property (nonatomic, strong) NSString *value;
 
@@ -206,6 +210,8 @@ typedef NSString PDCSSStyleSheetId;
 
 // Selector list data.
 @interface PDCSSSelectorList : PDObject
+
++ (instancetype)selectorListWithSelectors:(NSArray<PDCSSSelector *> *)selectors;
 
 // Selectors in the list.
 @property (nonatomic, strong) NSArray<PDCSSSelector *> *selectors;
