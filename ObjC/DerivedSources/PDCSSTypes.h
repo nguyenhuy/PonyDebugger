@@ -307,7 +307,7 @@ typedef NSString PDCSSStyleSheetOrigin;
 @property (nonatomic, strong) PDCSSStyle *style;
 
 // Media list array (for rules involving media queries). The array enumerates media queries starting with the innermost one, going outwards.
-//@property (nonatomic, strong, nullable) NSArray<PDCSSMedia *> *media;
+@property (nonatomic, strong, nullable) NSArray<PDCSSMedia *> *media;
 
 @end
 

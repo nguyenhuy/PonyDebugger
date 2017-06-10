@@ -40,7 +40,6 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
 @interface PDDebugger () <SRWebSocketDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate>
 
 - (void)_resolveService:(NSNetService*)service;
-- (void)addController:(PDDomainController *)controller;
 - (NSString *)_domainNameForController:(PDDomainController *)controller;
 - (BOOL)_isTrackingDomainController:(PDDomainController *)controller;
 
