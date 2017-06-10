@@ -20,8 +20,8 @@ def tempdir():
         shutil.rmtree(dir)
 
 
-LATEST_URL = "https://www.googleapis.com/download/storage/v1/b/chromium-browser-continuous/o/Linux_x64%2FLAST_CHANGE?alt=media"
-TOOLS_URL_TEMPLATE = "https://www.googleapis.com/download/storage/v1/b/chromium-browser-continuous/o/Linux_x64%2F{}%2Fchrome-linux.zip?alt=media"
+LATEST_URL = "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2FLAST_CHANGE?alt=media"
+TOOLS_URL_TEMPLATE = "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F{}%2Fchrome-linux.zip?alt=media"
 
 INSPECTOR_PATH_PREFIX = 'chrome-linux/resources/inspector'
 
@@ -40,8 +40,8 @@ class Downloader(PonydCommand):
         if self.latest:
             version = urllib2.urlopen(LATEST_URL).read()
         else:
-            # Protocol: https://chromium.googlesource.com/chromium/src/+/b327bcdb1c84c335e0acddb606ac85f34a07ea70/third_party/WebKit/Source/devtools/protocol.json
-            version = 360003
+            # Protocol: https://chromium.googlesource.com/chromium/src/+/6f91eb9692b1fbb8839a0dbf9b0f3c5b10117b62/third_party/WebKit/Source/core/inspector/browser_protocol.json
+            version = 464644
 
         tools_url = TOOLS_URL_TEMPLATE.format(version)
         print "Downloading %s" % tools_url
