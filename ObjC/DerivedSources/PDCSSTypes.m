@@ -49,6 +49,23 @@
   return mappings;
 }
 
+- (instancetype)init
+{
+  self = [super init];
+  if (self) {
+    // These tell the frontend where in the stylesheet a certain style
+    // is located. Since we don't have stylesheets, this is all 0.
+    // We need this because CSS fields are not editable unless
+    // the range is provided.
+    // Credit: https://chromium.googlesource.com/chromium/src.git/+/27d1ff58a6ae0788d6f9d776d3c593d853e919aa/ash/devtools/ash_devtools_css_agent.cc#25
+    self.startLine = @(0);
+    self.startColumn = @(0);
+    self.endLine = @(0);
+    self.endColumn = @(0);
+  }
+  return self;
+}
+
 @dynamic startLine, startColumn, endLine, endColumn;
 
 @end
@@ -70,6 +87,15 @@
   });
   
   return mappings;
+}
+
+- (instancetype)init
+{
+  self = [super init];
+  if (self) {
+    self.range = [[PDCSSSourceRange alloc] init];
+  }
+  return self;
 }
 
 @dynamic styleSheetId, cssProperties, shorthandEntries, cssText, range;
@@ -414,6 +440,15 @@
   });
   
   return mappings;
+}
+
+- (instancetype)init
+{
+  self = [super init];
+  if (self) {
+    self.range = [[PDCSSSourceRange alloc] init];
+  }
+  return self;
 }
 
 @dynamic name, value, important, implicit, text, parsedOk, disabled, range;
