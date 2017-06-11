@@ -195,12 +195,12 @@ typedef NSString PDCSSStyleSheetId;
 
 
 // Data for a simple selector (these are delimited by commas in a selector list).
-@interface PDCSSSelector : PDObject
+@interface PDCSSValue : PDObject
 
-+ (instancetype)selectorWithValue:(NSString *)value;
++ (instancetype)valueWithText:(NSString *)text;
 
 // Selector text.
-@property (nonatomic, strong) NSString *value;
+@property (nonatomic, strong) NSString *text;
 
 // Selector range in the underlying resource (if available).
 @property (nonatomic, strong, nullable) PDCSSSourceRange *range;
@@ -211,10 +211,10 @@ typedef NSString PDCSSStyleSheetId;
 // Selector list data.
 @interface PDCSSSelectorList : PDObject
 
-+ (instancetype)selectorListWithSelectors:(NSArray<PDCSSSelector *> *)selectors;
++ (instancetype)selectorListWithSelectors:(NSArray<PDCSSValue *> *)selectors;
 
 // Selectors in the list.
-@property (nonatomic, strong) NSArray<PDCSSSelector *> *selectors;
+@property (nonatomic, strong) NSArray<PDCSSValue *> *selectors;
 
 // Rule selector text.
 @property (nonatomic, strong) NSString *text;

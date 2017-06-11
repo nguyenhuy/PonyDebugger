@@ -187,13 +187,13 @@
 
 @end
 
-@implementation PDCSSSelector
+@implementation PDCSSValue
 
-+ (instancetype)selectorWithValue:(NSString *)value
++ (instancetype)valueWithText:(NSString *)text
 {
-  PDCSSSelector *selector = [[PDCSSSelector alloc] init];
-  selector.value = value;
-  return selector;
+  PDCSSValue *value = [[PDCSSValue alloc] init];
+  value.text = text;
+  return value;
 }
 
 + (NSDictionary *)keysToEncode
@@ -202,7 +202,7 @@
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                @"value",@"value",
+                @"text",@"text",
                 @"range",@"range",
                 nil];
   });
@@ -210,13 +210,13 @@
   return mappings;
 }
 
-@dynamic value, range;
+@dynamic text, range;
 
 @end
 
 @implementation PDCSSSelectorList
 
-+ (instancetype)selectorListWithSelectors:(NSArray<PDCSSSelector *> *)selectors
++ (instancetype)selectorListWithSelectors:(NSArray<PDCSSValue *> *)selectors
 {
   PDCSSSelectorList *list = [[PDCSSSelectorList alloc] init];
   list.selectors = selectors;
