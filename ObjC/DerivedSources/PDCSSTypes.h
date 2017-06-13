@@ -431,5 +431,19 @@ typedef NSString PDCSSStyleSheetOrigin;
 
 @end
 
+// A descriptor of operation to mutate style declaration text.
+@interface PDCSSStyleDeclarationEdit : PDObject
+
+// The css style sheet identifier.
+@property (nonatomic, strong) PDCSSStyleSheetId *styleSheetId;
+
+// The range of the style text in the enclosing stylesheet.
+@property (nonatomic, strong) PDCSSSourceRange *range;
+
+// New style text.
+@property (nonatomic, strong) NSString *text;
+
+@end
+
 NS_ASSUME_NONNULL_END
 

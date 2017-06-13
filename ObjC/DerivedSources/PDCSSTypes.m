@@ -542,3 +542,23 @@
 
 @end
 
+@implementation PDCSSStyleDeclarationEdit
+
++ (NSDictionary *)keysToEncode
+{
+  static NSDictionary *mappings = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    mappings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                @"styleSheetId",@"styleSheetId",
+                @"range",@"range",
+                @"text",@"text",
+                nil];
+  });
+  
+  return mappings;
+}
+
+@dynamic styleSheetId, range, text;
+
+@end

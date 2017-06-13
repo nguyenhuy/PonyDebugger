@@ -18,10 +18,10 @@
 @class PDCSSStyleSheetBody;
 @class PDCSSStyle;
 @class PDCSSSelectorProfile;
-@class PDCSSRuleId;
 @class PDCSSNamedFlow;
 @class PDCSSRuleMatch;
 @class PDCSSComputedStyleProperty;
+@class PDCSSStyleDeclarationEdit;
 
 @protocol PDCSSCommandDelegate;
 
@@ -67,67 +67,9 @@
 // Callback Param inherited: A chain of inherited styles (from the immediate node parent up to the DOM tree root).
 - (void)domain:(PDCSSDomain *)domain getMatchedStylesForNodeWithNodeId:(NSNumber *)nodeId includePseudo:(NSNumber *)includePseudo includeInherited:(NSNumber *)includeInherited callback:(void (^)(NSArray<PDCSSRuleMatch *> *matchedCSSRules, NSArray *pseudoElements, NSArray *inherited, id error))callback;
 
-// Returns the styles defined inline (explicitly in the "style" attribute and implicitly, using DOM attributes) for a DOM node identified by <code>nodeId</code>.
-// Callback Param inlineStyle: Inline style for the specified DOM node.
-// Callback Param attributesStyle: Attribute-defined element style (e.g. resulting from "width=20 height=100%").
-- (void)domain:(PDCSSDomain *)domain getInlineStylesForNodeWithNodeId:(NSNumber *)nodeId callback:(void (^)(PDCSSStyle *inlineStyle, PDCSSStyle *attributesStyle, id error))callback;
-
-// Returns the computed style for a DOM node identified by <code>nodeId</code>.
-// Callback Param computedStyle: Computed style for the specified DOM node.
-- (void)domain:(PDCSSDomain *)domain getComputedStyleForNodeWithNodeId:(NSNumber *)nodeId callback:(void (^)(NSArray<PDCSSComputedStyleProperty *> *computedStyle, id error))callback;
-
-// Returns metainfo entries for all known stylesheets.
-// Callback Param headers: Descriptor entries for all available stylesheets.
-- (void)domain:(PDCSSDomain *)domain getAllStyleSheetsWithCallback:(void (^)(NSArray *headers, id error))callback;
-
-// Returns stylesheet data for the specified <code>styleSheetId</code>.
-// Callback Param styleSheet: Stylesheet contents for the specified <code>styleSheetId</code>.
-- (void)domain:(PDCSSDomain *)domain getStyleSheetWithStyleSheetId:(NSString *)styleSheetId callback:(void (^)(PDCSSStyleSheetBody *styleSheet, id error))callback;
-
-// Returns the current textual content and the URL for a stylesheet.
-// Callback Param text: The stylesheet text.
-- (void)domain:(PDCSSDomain *)domain getStyleSheetTextWithStyleSheetId:(NSString *)styleSheetId callback:(void (^)(NSString *text, id error))callback;
-
-// Sets the new stylesheet text, thereby invalidating all existing <code>CSSStyleId</code>'s and <code>CSSRuleId</code>'s contained by this stylesheet.
-- (void)domain:(PDCSSDomain *)domain setStyleSheetTextWithStyleSheetId:(NSString *)styleSheetId text:(NSString *)text callback:(void (^)(id error))callback;
-
-// Sets the new <code>text</code> for a property in the respective style, at offset <code>propertyIndex</code>. If <code>overwrite</code> is <code>true</code>, a property at the given offset is overwritten, otherwise inserted. <code>text</code> entirely replaces the property <code>name: value</code>.
-// Callback Param style: The resulting style after the property text modification.
-- (void)domain:(PDCSSDomain *)domain setPropertyTextWithStyleId:(PDCSSStyleId *)styleId propertyIndex:(NSNumber *)propertyIndex text:(NSString *)text overwrite:(NSNumber *)overwrite callback:(void (^)(PDCSSStyle *style, id error))callback;
-
-// Toggles the property in the respective style, at offset <code>propertyIndex</code>. The <code>disable</code> parameter denotes whether the property should be disabled (i.e. removed from the style declaration). If <code>disable == false</code>, the property gets put back into its original place in the style declaration.
-// Callback Param style: The resulting style after the property toggling.
-- (void)domain:(PDCSSDomain *)domain togglePropertyWithStyleId:(PDCSSStyleId *)styleId propertyIndex:(NSNumber *)propertyIndex disable:(NSNumber *)disable callback:(void (^)(PDCSSStyle *style, id error))callback;
-
-// Modifies the rule selector.
-// Callback Param rule: The resulting rule after the selector modification.
-- (void)domain:(PDCSSDomain *)domain setRuleSelectorWithRuleId:(PDCSSRuleId *)ruleId selector:(NSString *)selector callback:(void (^)(PDCSSRule *rule, id error))callback;
-
-// Creates a new empty rule with the given <code>selector</code> in a special "inspector" stylesheet in the owner document of the context node.
-// Callback Param rule: The newly created rule.
-- (void)domain:(PDCSSDomain *)domain addRuleWithContextNodeId:(NSNumber *)contextNodeId selector:(NSString *)selector callback:(void (^)(PDCSSRule *rule, id error))callback;
-
-// Returns all supported CSS property names.
-// Callback Param cssProperties: Supported property metainfo.
-- (void)domain:(PDCSSDomain *)domain getSupportedCSSPropertiesWithCallback:(void (^)(NSArray *cssProperties, id error))callback;
-
-// Ensures that the given node will have specified pseudo-classes whenever its style is computed by the browser.
-// Param nodeId: The element id for which to force the pseudo state.
-// Param forcedPseudoClasses: Element pseudo classes to force when computing the element's style.
-- (void)domain:(PDCSSDomain *)domain forcePseudoStateWithNodeId:(NSNumber *)nodeId forcedPseudoClasses:(NSArray *)forcedPseudoClasses callback:(void (^)(id error))callback;
-- (void)domain:(PDCSSDomain *)domain startSelectorProfilerWithCallback:(void (^)(id error))callback;
-- (void)domain:(PDCSSDomain *)domain stopSelectorProfilerWithCallback:(void (^)(PDCSSSelectorProfile *profile, id error))callback;
-
-// Returns the Named Flows from the document.
-// Param documentNodeId: The document node id for which to get the Named Flow Collection.
-// Callback Param namedFlows: An array containing the Named Flows in the document.
-- (void)domain:(PDCSSDomain *)domain getNamedFlowCollectionWithDocumentNodeId:(NSNumber *)documentNodeId callback:(void (^)(NSArray *namedFlows, id error))callback;
-
-// Returns the Named Flow identified by the given name
-// Param documentNodeId: The document node id.
-// Param name: Named Flow identifier.
-// Callback Param namedFlow: A Named Flow.
-- (void)domain:(PDCSSDomain *)domain getFlowByNameWithDocumentNodeId:(NSNumber *)documentNodeId name:(NSString *)name callback:(void (^)(PDCSSNamedFlow *namedFlow, id error))callback;
+// Applies specified style edits one after another in the given order.
+// Callback Param styles: The resulting styles after modification.
+- (void)domain:(PDCSSDomain *)domain setStyleTextsWithEdits:(NSArray<NSDictionary *> *)edits callback:(void (^)(NSArray<PDCSSStyle *> *styles, id error))callback;
 
 @end
 
