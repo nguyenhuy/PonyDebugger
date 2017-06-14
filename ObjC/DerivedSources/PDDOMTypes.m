@@ -88,7 +88,7 @@
 @dynamic nodeId;
 @dynamic handlerBody;
 @dynamic location;
- 
+
 @end
 
 @implementation PDDOMRGBA

@@ -12,6 +12,7 @@
 #import "PDDOMDomainController.h"
 #import "PDInspectorDomainController.h"
 #import "PDRuntimeTypes.h"
+#import "NSObject+KVSC.h"
 
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
@@ -211,38 +212,13 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     }
     
     id nodeObject = [self.objectsForNodeIds objectForKey:nodeId];
-    const char *typeEncoding = [self typeEncodingForKeyPath:name onObject:nodeObject];
-    
+  
     // Try to parse out the value
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kPDDOMAttributeParsingRegex options:0 error:NULL];
     NSTextCheckingResult *firstMatch = [regex firstMatchInString:text options:0 range:NSMakeRange(0, [text length])];
     if (firstMatch) {
         NSString *valueString = [text substringWithRange:[firstMatch rangeAtIndex:1]];
-        
-        // Note: this is by no means complete...
-        // Allow BOOLs to be set with YES/NO
-        if (typeEncoding && !strcmp(typeEncoding, @encode(BOOL)) && ([valueString isEqualToString:@"YES"] || [valueString isEqualToString:@"NO"])) {
-            BOOL boolValue = [valueString isEqualToString:@"YES"];
-            [nodeObject setValue:[NSNumber numberWithBool:boolValue] forKeyPath:name];
-        } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGPoint))) {
-            CGPoint point = CGPointFromString(valueString);
-            [nodeObject setValue:[NSValue valueWithCGPoint:point] forKeyPath:name];
-        } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGSize))) {
-            CGSize size = CGSizeFromString(valueString);
-            [nodeObject setValue:[NSValue valueWithCGSize:size] forKeyPath:name];
-        } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGRect))) {
-            CGRect rect = CGRectFromString(valueString);
-            [nodeObject setValue:[NSValue valueWithCGRect:rect] forKeyPath:name];
-        } else if (typeEncoding && !strcmp(typeEncoding, @encode(id))) {
-            // Only support editing for string objects (due to the trivial mapping between the string and its description)
-            id currentValue = [nodeObject valueForKeyPath:name];
-            if ([currentValue isKindOfClass:[NSString class]]) {
-                [nodeObject setValue:valueString forKeyPath:name];
-            }
-        } else {
-            NSNumber *number = @([valueString doubleValue]);
-            [nodeObject setValue:number forKeyPath:name];
-        }
+        [nodeObject PD_setValueString:valueString forKeyPath:name];
     }
     
     callback(nil);
@@ -594,7 +570,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     
     if ([self.objectsForNodeIds objectForKey:nodeId] && [self.viewKeyPathsToDisplay containsObject:keyPath]) {
         // Update the attributes on the DOM node
-        NSString *newValue = [self stringForValue:[change objectForKey:NSKeyValueChangeNewKey] atKeyPath:keyPath onObject:object];
+        NSString *newValue = [NSObject PD_stringForValue:[change objectForKey:NSKeyValueChangeNewKey] atKeyPath:keyPath onObject:object];
         [self.domain attributeModifiedWithNodeId:nodeId name:keyPath value:newValue];
     }
     
@@ -729,17 +705,7 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     if ([object isKindOfClass:[UIView class]]) {
         // Get strings for all the key paths in viewKeyPathsToDisplay
         for (NSString *keyPath in self.viewKeyPathsToDisplay) {
-            
-            NSValue *value = nil;
-            
-            @try {
-                value = [object valueForKeyPath:keyPath];
-            } @catch (NSException *exception) {
-                // Continue if valueForKeyPath fails (ie KVC non-compliance)
-                continue;
-            }
-            
-            NSString *stringValue = [self stringForValue:value atKeyPath:keyPath onObject:object];
+            NSString *stringValue = [object PD_valueStringForKeyPath:keyPath];
             if (stringValue) {
                 [attributes addObjectsFromArray:@[ keyPath, stringValue ]];
             }
@@ -747,81 +713,6 @@ static NSString *const kPDDOMAttributeParsingRegex = @"[\"'](.*)[\"']";
     }
     
     return attributes;
-}
-
-- (NSString *)stringForValue:(id)value atKeyPath:(NSString *)keyPath onObject:(id)object;
-{
-    NSString *stringValue = nil;
-    const char *typeEncoding = [self typeEncodingForKeyPath:keyPath onObject:object];
-    
-    if (typeEncoding) {
-        // Special structs
-        if (!strcmp(typeEncoding,@encode(BOOL))) {
-            stringValue = [(id)value boolValue] ? @"YES" : @"NO";
-        } else if (!strcmp(typeEncoding,@encode(CGPoint))) {
-            stringValue = NSStringFromCGPoint([value CGPointValue]);
-        } else if (!strcmp(typeEncoding,@encode(CGSize))) {
-            stringValue = NSStringFromCGSize([value CGSizeValue]);
-        } else if (!strcmp(typeEncoding,@encode(CGRect))) {
-            stringValue = NSStringFromCGRect([value CGRectValue]);
-        }
-    }
-    
-    // Boxed numeric primitives
-    if (!stringValue && [value isKindOfClass:[NSNumber class]]) {
-        stringValue = [(NSNumber *)value stringValue];
-        
-    // Object types
-    } else if (!stringValue && typeEncoding && !strcmp(typeEncoding, @encode(id))) {
-        stringValue = [value description];
-    }
-    
-    return stringValue;
-}
-
-- (const char *)typeEncodingForKeyPath:(NSString *)keyPath onObject:(id)object;
-{
-    const char *encoding = NULL;
-    NSString *lastKeyPathComponent = nil;
-    id targetObject = nil;
-    
-    // Separate the key path components
-    NSArray *keyPathComponents = [keyPath componentsSeparatedByString:@"."];
-    
-    if ([keyPathComponents count] > 1) {
-        // Drill down to find the targetObject.key piece that we're interested in.
-        NSMutableArray *mutableComponents = [keyPathComponents mutableCopy];
-        lastKeyPathComponent = [mutableComponents lastObject];
-        [mutableComponents removeLastObject];
-        
-        NSString *targetKeyPath = [mutableComponents componentsJoinedByString:@"."];
-        @try {
-            targetObject = [object valueForKeyPath:targetKeyPath];
-        } @catch (NSException *exception) {
-            // Silently fail for KVC non-compliance
-        }
-    } else {
-        // This is the simple case with no dots. Use the full key and original target object
-        lastKeyPathComponent = keyPath;
-        targetObject = object;
-    }
-    
-    // Look for a matching set* method to infer the type
-    NSString *selectorString = [NSString stringWithFormat:@"set%@:", [lastKeyPathComponent stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[lastKeyPathComponent substringToIndex:1] uppercaseString]]];
-    NSMethodSignature *methodSignature = [targetObject methodSignatureForSelector:NSSelectorFromString(selectorString)];
-    if (methodSignature) {
-        // We don't care about arg0 (self) or arg1 (_cmd)
-        encoding = [methodSignature getArgumentTypeAtIndex:2];
-    }
-    
-    // If we didn't find a setter, look for the getter
-    // We could be more exhasutive here with KVC conventions, but these two will cover the majority of cases
-    if (!encoding) {
-        NSMethodSignature *getterSignature = [targetObject methodSignatureForSelector:NSSelectorFromString(lastKeyPathComponent)];
-        encoding = [getterSignature methodReturnType];
-    }
-    
-    return encoding;
 }
 
 @end

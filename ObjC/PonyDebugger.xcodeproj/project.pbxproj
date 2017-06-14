@@ -127,6 +127,8 @@
 		943D444E160A73810091CA77 /* PDDOMDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943D444C160A73810091CA77 /* PDDOMDomainController.m */; };
 		947CE06F163CA24E0035FB90 /* PDInspectorDomainController.h in Headers */ = {isa = PBXBuildFile; fileRef = 947CE06D163CA24E0035FB90 /* PDInspectorDomainController.h */; };
 		947CE070163CA24E0035FB90 /* PDInspectorDomainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947CE06E163CA24E0035FB90 /* PDInspectorDomainController.m */; };
+		E5C2D7AB1EF0B661007B865E /* NSObject+KVSC.h in Headers */ = {isa = PBXBuildFile; fileRef = E5C2D7AA1EF0B661007B865E /* NSObject+KVSC.h */; };
+		E5C2D7B01EF0B680007B865E /* NSObject+KVSC.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C2D7AF1EF0B680007B865E /* NSObject+KVSC.m */; };
 		E8D8B39316E00C9600081F80 /* PDPrettyStringPrinter.h in Headers */ = {isa = PBXBuildFile; fileRef = E8D8B39116E00C9600081F80 /* PDPrettyStringPrinter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8D8B39416E00C9600081F80 /* PDPrettyStringPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D8B39216E00C9600081F80 /* PDPrettyStringPrinter.m */; };
 		F683ADB014FC1B4D008EBBA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F683ADAF14FC1B4D008EBBA7 /* Foundation.framework */; };
@@ -292,6 +294,8 @@
 		943D444C160A73810091CA77 /* PDDOMDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDDOMDomainController.m; sourceTree = "<group>"; };
 		947CE06D163CA24E0035FB90 /* PDInspectorDomainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDInspectorDomainController.h; sourceTree = "<group>"; };
 		947CE06E163CA24E0035FB90 /* PDInspectorDomainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDInspectorDomainController.m; sourceTree = "<group>"; };
+		E5C2D7AA1EF0B661007B865E /* NSObject+KVSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+KVSC.h"; sourceTree = "<group>"; };
+		E5C2D7AF1EF0B680007B865E /* NSObject+KVSC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+KVSC.m"; sourceTree = "<group>"; };
 		E8D8B39116E00C9600081F80 /* PDPrettyStringPrinter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDPrettyStringPrinter.h; sourceTree = "<group>"; };
 		E8D8B39216E00C9600081F80 /* PDPrettyStringPrinter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDPrettyStringPrinter.m; sourceTree = "<group>"; };
 		F60EBEA114FC87EE0095B011 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -399,8 +403,10 @@
 				25E5BCE816BA436900152A45 /* Runtime Property Descriptors */,
 				25E5BCE416BA41EA00152A45 /* NSDate+PDDebugger.h */,
 				25E5BCE516BA41EA00152A45 /* NSDate+PDDebugger.m */,
-				2EE449BC647C9B0E86C0D32D /* NSData+PDDebugger.m */,
 				2EE44ED575C4C9C08871F098 /* NSData+PDDebugger.h */,
+				2EE449BC647C9B0E86C0D32D /* NSData+PDDebugger.m */,
+				E5C2D7AA1EF0B661007B865E /* NSObject+KVSC.h */,
+				E5C2D7AF1EF0B680007B865E /* NSObject+KVSC.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -613,6 +619,7 @@
 				2560D51616BE53EB001BAE89 /* NSSet+PDRuntimePropertyDescriptor.h in Headers */,
 				2560D51A16BE56BF001BAE89 /* NSOrderedSet+PDRuntimePropertyDescriptor.h in Headers */,
 				25F6AADA172DD5E100515EF7 /* PDContainerIndex.h in Headers */,
+				E5C2D7AB1EF0B661007B865E /* NSObject+KVSC.h in Headers */,
 				2EE444DD1F0668F2F356527F /* NSData+PDDebugger.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -721,6 +728,7 @@
 				3DE2293015D5874C0035A508 /* PDRuntimeDomainController.m in Sources */,
 				2516715715E61023002F2F95 /* PDApplicationCacheDomain.m in Sources */,
 				2516715915E61023002F2F95 /* PDApplicationCacheTypes.m in Sources */,
+				E5C2D7B01EF0B680007B865E /* NSObject+KVSC.m in Sources */,
 				2516715B15E61023002F2F95 /* PDConsoleDomain.m in Sources */,
 				2516715D15E61023002F2F95 /* PDConsoleTypes.m in Sources */,
 				2516715F15E61023002F2F95 /* PDCSSDomain.m in Sources */,
