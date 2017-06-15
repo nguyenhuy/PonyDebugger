@@ -49,6 +49,10 @@
     id currentValue = [self valueForKeyPath:keyPath];
     if ([currentValue isKindOfClass:[NSString class]]) {
       [self setValue:valueString forKeyPath:keyPath];
+    } else if ([currentValue isKindOfClass:[NSAttributedString class]]) {
+      [self setValue:[[NSAttributedString alloc] initWithString:valueString] forKey:keyPath];
+    } else if ([currentValue isKindOfClass:[NSURL class]]) {
+      [self setValue:[NSURL URLWithString:valueString] forKey:keyPath];
     }
   } else {
     NSNumber *number = @([valueString doubleValue]);
