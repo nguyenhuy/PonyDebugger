@@ -163,6 +163,9 @@ class DeviceHandler(tornado.websocket.WebSocketHandler):
           app_icon_base64=self.app_icon_base64,
           page=self.page)
 
+    def check_origin(self, origin):
+      return True
+
 
 class DevToolsHandler(tornado.websocket.WebSocketHandler):
     app_state = global_app_state
