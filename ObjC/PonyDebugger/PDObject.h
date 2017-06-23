@@ -10,8 +10,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PDDefinitions.h"
 
+#import <Weaver/PDDefinitions.h>
 
 @interface NSObject (PD_JSONObject)
 

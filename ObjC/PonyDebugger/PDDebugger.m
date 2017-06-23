@@ -14,27 +14,12 @@
 
 #import "PDDebugger.h"
 #import "PDDynamicDebuggerDomain.h"
-#import "PDNetworkDomain.h"
-#import "PDPrettyStringPrinter.h"
 #import "PDDomainController.h"
-
-#import "PDNetworkDomainController.h"
-#import "PDRuntimeDomainController.h"
-#import "PDPageDomainController.h"
-#import "PDIndexedDBDomainController.h"
-#import "PDDOMDomainController.h"
-#import "PDInspectorDomainController.h"
-#import "PDConsoleDomainController.h"
+#import "PDObject.h"
 
 
 static NSString *const PDClientIDKey = @"com.squareup.PDDebugger.clientID";
 static NSString *const PDBonjourServiceType = @"_ponyd._tcp";
-
-
-void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
-{
-    [[PDConsoleDomainController defaultInstance] logWithArguments:arguments severity:severity];
-}
 
 
 @interface PDDebugger () <SRWebSocketDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate>
@@ -352,89 +337,22 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
     _socket = nil;
 }
 
-#pragma mark - Public Interface
+#pragma mark Custom Controller Support
 
-#pragma mark Network Debugging
-
-- (void)enableNetworkTrafficDebugging;
+- (void)addController:(PDDomainController *)controller;
 {
-    [self addController:[PDNetworkDomainController defaultInstance]];
-}
-
-- (void)forwardAllNetworkTraffic;
-{
-    [PDNetworkDomainController registerPrettyStringPrinter:[[PDJSONPrettyStringPrinter alloc] init]];
-    [PDNetworkDomainController injectIntoAllNSURLConnectionDelegateClasses];
-    [PDNetworkDomainController swizzleNSURLSessionClasses];
-}
-
-- (void)forwardNetworkTrafficFromDelegateClass:(Class)cls;
-{
-    [PDNetworkDomainController injectIntoDelegateClass:cls];
-}
-
-+ (void)registerPrettyStringPrinter:(id<PDPrettyStringPrinting>)prettyStringPrinter;
-{
-    [PDNetworkDomainController registerPrettyStringPrinter:prettyStringPrinter];
-}
-
-+ (void)unregisterPrettyStringPrinter:(id<PDPrettyStringPrinting>)prettyStringPrinter;
-{
-    [PDNetworkDomainController unregisterPrettyStringPrinter:prettyStringPrinter];
-}
-
-#pragma mark Core Data Debugging
-
-- (void)enableCoreDataDebugging;
-{
-    [self addController:[PDRuntimeDomainController defaultInstance]];
-    [self addController:[PDPageDomainController defaultInstance]];
-    [self addController:[PDIndexedDBDomainController defaultInstance]];
-}
-
-- (void)addManagedObjectContext:(NSManagedObjectContext *)context;
-{
-    [[PDIndexedDBDomainController defaultInstance] addManagedObjectContext:context];
-}
-
-- (void)addManagedObjectContext:(NSManagedObjectContext *)context withName:(NSString *)name;
-{
-    [[PDIndexedDBDomainController defaultInstance] addManagedObjectContext:context withName:name];
-}
-
-- (void)removeManagedObjectContext:(NSManagedObjectContext *)context;
-{
-    [[PDIndexedDBDomainController defaultInstance] removeManagedObjectContext:context];
-}
-
-#pragma mark View Hierarchy Debugging
-
-- (void)enableViewHierarchyDebugging;
-{
-    [self addController:[PDDOMDomainController defaultInstance]];
-    [self addController:[PDInspectorDomainController defaultInstance]];
-    
-    // Choosing frame, alpha, and hidden as the default key paths to display
-    [[PDDOMDomainController defaultInstance] setViewKeyPathsToDisplay:@[@"frame", @"alpha", @"hidden"]];
-    
-    [PDDOMDomainController startMonitoringUIViewChanges];
-}
-
-- (void)setDisplayedViewAttributeKeyPaths:(NSArray *)keyPaths;
-{
-    [[PDDOMDomainController defaultInstance] setViewKeyPathsToDisplay:keyPaths];
-}
-
-#pragma mark Remote Logging
-
-- (void)enableRemoteLogging;
-{
-    [self addController:[PDConsoleDomainController defaultInstance]];
-}
-
-- (void)clearConsole;
-{
-    [[PDConsoleDomainController defaultInstance] clear];
+  NSString *domainName = [self _domainNameForController:controller];
+  if ([_domains objectForKey:domainName]) {
+    return;
+  }
+  
+  Class cls = [[controller class] domainClass];
+  PDDynamicDebuggerDomain *domain = [(PDDynamicDebuggerDomain *)[cls alloc] initWithDebuggingServer:self];
+  [_domains setObject:domain forKey:domainName];
+  [_controllers setObject:controller forKey:domainName];
+  
+  controller.domain = domain;
+  domain.delegate = controller;
 }
 
 #pragma mark - Private Methods
@@ -451,22 +369,6 @@ void _PDLogObjectsImpl(NSString *severity, NSArray *arguments)
 {
     Class cls = [[controller class] domainClass];
     return [cls domainName];
-}
-
-- (void)addController:(PDDomainController *)controller;
-{
-    NSString *domainName = [self _domainNameForController:controller];
-    if ([_domains objectForKey:domainName]) {
-        return;
-    }
-    
-    Class cls = [[controller class] domainClass];
-    PDDynamicDebuggerDomain *domain = [(PDDynamicDebuggerDomain *)[cls alloc] initWithDebuggingServer:self];
-    [_domains setObject:domain forKey:domainName];
-    [_controllers setObject:controller forKey:domainName];
-    
-    controller.domain = domain;
-    domain.delegate = controller;
 }
 
 - (BOOL)_isTrackingDomainController:(PDDomainController *)controller;

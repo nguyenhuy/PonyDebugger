@@ -9,9 +9,9 @@
 //  which Square, Inc. licenses this file to you.
 //
     
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDDebugger.h>
-#import <PonyDebugger/PDDynamicDebuggerDomain.h>
+#import <Weaver/PDObject.h>
+#import <Weaver/PDDebugger.h>
+#import <Weaver/PDDynamicDebuggerDomain.h>
 
 
 @class PDDebuggerLocation;

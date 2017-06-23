@@ -10,7 +10,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <PonyDebugger/PDDynamicDebuggerDomain.h>
+#import <Weaver/PDDynamicDebuggerDomain.h>
 
 @interface PDDomainController : NSObject <PDCommandDelegate>
 

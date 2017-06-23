@@ -9,10 +9,10 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDCSSDomain.h>
-#import <PonyDebugger/PDObject.h>
-#import <PonyDebugger/PDCSSTypes.h>
+#import <Weaver/PDObject.h>
+#import <Weaver/PDCSSDomain.h>
+#import <Weaver/PDObject.h>
+#import <Weaver/PDCSSTypes.h>
 
 
 @interface PDCSSDomain ()
