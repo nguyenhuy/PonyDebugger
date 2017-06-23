@@ -12,14 +12,12 @@
 
 #import <Weaver/NSObject+WVCSSRuleMatchesProviding.h>
 
-#import <AsyncDisplayKit/AsyncDisplayKit.h>
-#import <AsyncDisplayKit/ASCollectionElement.h>
-#import <AsyncDisplayKit/ASLayoutElementStylePrivate.h>
-#import <AsyncDisplaykit/ASRectTable.h>
-#import <AsyncDisplayKit/WVDOMContext.h>
+#import <Weaver/NSObject+KVSC.h>
 
 #import <Weaver/PDCSSTypes.h>
-#import <Weaver/NSObject+KVSC.h>
+
+#import <AsyncDisplayKit/AsyncDisplayKit.h>
+#import <AsyncDisplayKit/ASCollectionElement.h>
 
 #define kTDRuleMatchNameProps @"props"
 #define kTDRuleMatchNameStyle @"style"
@@ -87,13 +85,8 @@ ASDISPLAYNODE_INLINE AS_WARN_UNUSED_RESULT NSString *NSHexStringFromColor(UIColo
   return YES;
 }
 
-- (NSArray<PDCSSRuleMatch *> *)wv_generateCSSRuleMatchesWithContext:(WVDOMContext *)context
+- (NSArray<PDCSSRuleMatch *> *)wv_generateCSSRuleMatchesWithObjectId:(NSNumber *)objectId
 {
-  NSNumber *objectId = [context idForObject:self];
-  if (objectId == nil) {
-    return @[];
-  }
-  
   NSMutableArray<PDCSSRuleMatch *> *result = [NSMutableArray array];
   for (NSString *ruleMatchName in [self wv_ruleMatchNames]) {
     PDCSSRuleMatch *ruleMatch = [self wv_generateCSSRuleMatchWithName:ruleMatchName objectId:objectId];
@@ -385,5 +378,3 @@ ASDISPLAYNODE_INLINE AS_WARN_UNUSED_RESULT NSString *NSHexStringFromColor(UIColo
 }
 
 @end
-
-#endif

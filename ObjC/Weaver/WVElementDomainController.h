@@ -10,10 +10,12 @@
 //      http://www.apache.org/licenses/LICENSE-2.0
 //
 
+#import <Weaver/WVElementPropsDomainController.h>
+
 #import <Weaver/PDDOMDomain.h>
 #import <Weaver/PDDomainController.h>
 
-#import <Weaver/WVElementPropsDomainController.h>
+#import <UIKit/UIKit.h>
 
 @class WVDOMContext;
 
@@ -31,5 +33,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

@@ -12,14 +12,14 @@
 
 #import <Weaver/WVElementPropsDomainController.h>
 
-#import <UIKit/UIKit.h>
+#import <Weaver/WVDOMContext.h>
+#import <Weaver/NSObject+WVCSSRuleMatchesProviding.h>
 
 #import <Weaver/PDCSSTypes.h>
 
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
 
-#import <AsyncDisplayKit/WVDOMContext.h>
-#import <AsyncDisplayKit/NSObject+WVCSSRuleMatchesProviding.h>
+#import <UIKit/UIKit.h>
 
 @implementation WVElementPropsDomainController
 
@@ -56,8 +56,11 @@
 
 - (void)domain:(PDCSSDomain *)domain getMatchedStylesForNodeWithNodeId:(NSNumber *)nodeId includePseudo:(NSNumber *)includePseudo includeInherited:(NSNumber *)includeInherited callback:(void (^)(NSArray<PDCSSRuleMatch *> *, NSArray *, NSArray *, id))callback
 {
-  NSObject *object = [[self context].idToObjectMap objectForKey:nodeId];
-  NSArray<PDCSSRuleMatch *> *matches = [object wv_generateCSSRuleMatchesWithContext:[self context]];
+  NSObject *object = [[self context] objectForKey:nodeId];
+  NSArray<PDCSSRuleMatch *> *matches;
+  if (object != nil) {
+    [object wv_generateCSSRuleMatchesWithObjectId:nodeId];
+  }
   callback(matches, nil, nil, nil);
 }
 
@@ -84,8 +87,8 @@
       continue;
     }
     
-    NSNumber *objectId = [WVDOMContext idFromString:stringComponents[0]];
-    NSObject *object = [[self context].idToObjectMap objectForKey:objectId];
+    NSNumber *objectId = [WVDOMContext keyFromString:stringComponents[0]];
+    NSObject *object = [[self context] objectForKey:objectId];
     ASDisplayNodeAssertNotNil(object, @"Object with given ID not found");
     
     NSString *ruleMatchName = stringComponents[1];
@@ -107,5 +110,3 @@
 }
 
 @end
-
-#endif // AS_TEXTURE_DEBUGGER

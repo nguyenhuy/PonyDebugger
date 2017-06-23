@@ -12,12 +12,11 @@
 
 #import <Weaver/NSObject+WVDOMNodeProviding.h>
 
-#import <AsyncDisplayKit/AsyncDisplayKit.h>
-#import <AsyncDisplayKit/ASCollectionElement.h>
-#import <AsyncDisplaykit/ASRectTable.h>
-#import <AsyncDisplayKit/WVDOMContext.h>
+#import <Weaver/WVDOMContext.h>
 
 #import <Weaver/PDDOMTypes.h>
+
+#import <AsyncDisplayKit/AsyncDisplayKit.h>
 
 #import <queue>
 
@@ -41,8 +40,8 @@ static const int kPDDOMNodeTypeElement = 1;
 
 - (PDDOMNode *)wv_generateDOMNodeWithContext:(WVDOMContext *)context
 {
-  NSNumber *nodeId = [context idForObject:self];
-  [context.idToFrameInWindow setRect:[self wv_frameInWindow] forKey:nodeId];
+  NSNumber *nodeId = [context storeObject:self];
+  [context setRect:[self wv_frameInWindow] forKey:nodeId];
   
   PDDOMNode *node = [[PDDOMNode alloc] init];
   node.nodeType = @(kPDDOMNodeTypeElement);
@@ -172,9 +171,9 @@ static const int kPDDOMNodeTypeElement = 1;
   return @"display-node";
 }
 
-- (PDDOMNode *)wv_generateDOMNodeWithContext:(WVDOMContext *)DOMCcontext
+- (PDDOMNode *)wv_generateDOMNodeWithContext:(WVDOMContext *)context
 {
-  PDDOMNode *rootNode = [super wv_generateDOMNodeWithContext:DOMCcontext];
+  PDDOMNode *rootNode = [super wv_generateDOMNodeWithContext:context];
   if (rootNode.childNodeCount.intValue > 0) {
     // If rootNode.children was populated, return right away.
     return rootNode;
@@ -203,18 +202,18 @@ static const int kPDDOMNodeTypeElement = 1;
   queue.push({rootNode, self.unflattenedCalculatedLayout, self.wv_frameInWindow});
   
   while (!queue.empty()) {
-    Context context = queue.front();
+    Context queueContext = queue.front();
     queue.pop();
     
-    ASLayout *layout = context.layout;
+    ASLayout *layout = queueContext.layout;
     NSArray<ASLayout *> *sublayouts = layout.sublayouts;
-    PDDOMNode *node = context.node;
+    PDDOMNode *node = queueContext.node;
     NSMutableArray<PDDOMNode *> *children = [NSMutableArray arrayWithCapacity:sublayouts.count];
-    CGRect frameInWindow = context.frameInWindow;
+    CGRect frameInWindow = queueContext.frameInWindow;
     
     for (ASLayout *sublayout in sublayouts) {
       NSObject<ASLayoutElement> *sublayoutElement = sublayout.layoutElement;
-      PDDOMNode *subnode = [sublayoutElement wv_generateDOMNodeWithContext:DOMCcontext];
+      PDDOMNode *subnode = [sublayoutElement wv_generateDOMNodeWithContext:context];
       [children addObject:subnode];
       
       // Non-display-node (sub)elements can't generate their own DOM children and frame in window
@@ -228,7 +227,7 @@ static const int kPDDOMNodeTypeElement = 1;
                                                      sublayout.size.width,
                                                      sublayout.size.height);
         }
-        [DOMCcontext.idToFrameInWindow setRect:sublayoutElementFrameInWindow forKey:subnode.nodeId];
+        [context setRect:sublayoutElementFrameInWindow forKey:subnode.nodeId];
         
         queue.push({subnode, sublayout, sublayoutElementFrameInWindow});
       }
@@ -285,5 +284,3 @@ static const int kPDDOMNodeTypeElement = 1;
 }
 
 @end
-
-#endif

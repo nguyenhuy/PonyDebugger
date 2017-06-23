@@ -11,16 +11,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AsyncDisplayKit/ASBaseDefines.h>
-#import <AsyncDisplayKit/ASDimensionInternal.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class WVDOMContext, PDCSSRuleMatch, PDCSSProperty;
+@class PDCSSRuleMatch, PDCSSProperty;
 
 @interface NSObject (PDCSSRuleMatchesProviding)
 
-- (NSArray<PDCSSRuleMatch *> *)wv_generateCSSRuleMatchesWithContext:(WVDOMContext *)context;
+- (NSArray<PDCSSRuleMatch *> *)wv_generateCSSRuleMatchesWithObjectId:(NSNumber *)objectId;
 
 - (nullable PDCSSRuleMatch *)wv_generateCSSRuleMatchWithName:(NSString *)ruleMatchName objectId:(NSNumber *)objectId;
 

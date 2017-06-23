@@ -11,6 +11,7 @@
 //
 
 #import <Weaver/WVDebugger.h>
+
 #import <Weaver/WVElementDomainController.h>
 #import <Weaver/WVElementPropsDomainController.h>
 
@@ -39,5 +40,3 @@
 }
 
 @end
-
-#endif // AS_TEXTURE_DEBUGGER

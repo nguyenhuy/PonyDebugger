@@ -11,23 +11,63 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WVDOMContext : NSObject
 
 /**
- * Id to object map for fast lookup. Populated on-the-fly whenever an object id is requested.
+ * Returns object key represented by the given string
+ *
+ * @param keyString The string represents a key
+ *
+ * @return The key of the string is valid, nil otherwise
  */
-@property (nonatomic, strong) NSMapTable<NSNumber *, NSObject *> *idToObjectMap;
++ (NSNumber *)keyFromString:(NSString *)keyString;
+
 /**
- * Map of id to frame in window of the represented object, for fast lookup. Populated on-the-fly.
+ * Stores the given object and returns its associated key
+ *
+ * @param object The object to be stored
+ *
+ * @return The object's key
  */
-@property (nonatomic, strong) NSMapTable<NSNumber *, id> *idToFrameInWindow;
+- (NSNumber *)storeObject:(NSObject *)object;
 
-+ (NSNumber *)idFromString:(NSString *)idString;
+/**
+ * Retrieves the object associated with the given key
+ *
+ * @param key The key to lookup
+ *
+ * @return The object if found, nil otherwise
+ */
+- (NSObject *)objectForKey:(NSNumber *)key;
 
-- (NSNumber *)idForObject:(NSObject *)object;
+/**
+ * Stores the given rect with the given associated key
+ *
+ * @param rect The rect to be stored
+ *
+ * @param key The key assocaites with the rect
+ */
+- (void)setRect:(CGRect)rect forKey:(NSNumber *)key;
+
+/**
+ * Retrieves the rect associated with the given key
+ *
+ * @param key The key to lookup
+ *
+ * @return The rect if found, CGRectNull otherwise
+ */
+- (CGRect)rectForKey:(NSNumber *)key;
+
+/**
+ * Removes the rect for the given key, if one exists.
+ *
+ * @param key The key to remove.
+ */
+- (void)removeRectForKey:(NSNumber *)key;
 
 @end
 

@@ -9,7 +9,7 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import "NSObject+KVSC.h"
+#import <Weaver/NSObject+KVSC.h>
 
 #import <UIKit/UIKit.h>
 

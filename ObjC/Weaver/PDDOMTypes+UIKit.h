@@ -30,5 +30,3 @@
 - (UIColor *)marginUIColor;
 
 @end
-
-#endif

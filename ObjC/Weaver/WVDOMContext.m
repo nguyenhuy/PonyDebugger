@@ -12,32 +12,75 @@
 
 #import <Weaver/WVDOMContext.h>
 
-#import <AsyncDisplaykit/ASRectTable.h>
+#import <UIKit/UIKit.h>
+
+__attribute__((const))
+static NSUInteger WVRectSize(const void *ptr)
+{
+  return sizeof(CGRect);
+}
 
 @implementation WVDOMContext {
   NSInteger _counter;
+  
+  NSMapTable<NSNumber *, NSObject *> *_objectTable;
+  NSMapTable<NSNumber *, id> *_rectTable;
+}
+
++ (NSMapTable<NSNumber *, id> *)newRectTable
+{
+  NSPointerFunctions *strongObjectPointerFuncs = [NSPointerFunctions pointerFunctionsWithOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality];
+  NSPointerFunctions *cgRectFuncs = [NSPointerFunctions pointerFunctionsWithOptions:NSPointerFunctionsStructPersonality | NSPointerFunctionsCopyIn | NSPointerFunctionsMallocMemory];
+  cgRectFuncs.sizeFunction = &WVRectSize;
+  
+  return [[NSMapTable alloc] initWithKeyPointerFunctions:strongObjectPointerFuncs valuePointerFunctions:cgRectFuncs capacity:0];
 }
 
 - (instancetype)init
 {
   self = [super init];
   if (self) {
-    _idToObjectMap = [NSMapTable strongToStrongObjectsMapTable];
-    _idToFrameInWindow = [ASRectTable rectTableForStrongObjectPointers];
+    _objectTable = [NSMapTable strongToStrongObjectsMapTable];
+    _rectTable = [WVDOMContext newRectTable];
   }
   return self;
 }
 
-+ (NSNumber *)idFromString:(NSString *)idString
++ (NSNumber *)keyFromString:(NSString *)keyString
 {
-  return @([idString integerValue]);
+  return @([keyString integerValue]);
 }
 
-- (NSNumber *)idForObject:(NSObject *)object
+- (NSNumber *)storeObject:(NSObject *)object
 {
-  NSNumber *result = @(_counter++);
-  [_idToObjectMap setObject:object forKey:result];
-  return result;
+  NSNumber *key = @(_counter++);
+  [_objectTable setObject:object forKey:key];
+  return key;
+}
+
+- (NSObject *)objectForKey:(NSNumber *)key
+{
+  return [_objectTable objectForKey:key];
+}
+
+- (void)setRect:(CGRect)rect forKey:(NSNumber *)key
+{
+  __unsafe_unretained id obj = (__bridge id)&rect;
+  [_rectTable setObject:obj forKey:key];
+}
+
+- (CGRect)rectForKey:(NSNumber *)key
+{
+  CGRect *ptr = (__bridge CGRect *)[_rectTable objectForKey:key];
+  if (ptr == NULL) {
+    return CGRectNull;
+  }
+  return *ptr;
+}
+
+- (void)removeRectForKey:(NSNumber *)key
+{
+  [_rectTable removeObjectForKey:key];
 }
 
 @end

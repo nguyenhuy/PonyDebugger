@@ -12,15 +12,13 @@
 
 #import <Weaver/WVElementDomainController.h>
 
-#import <Weaver/PDDOMTypes.h>
-#import <Weaver/PDRuntimeTypes.h>
-
-#import <AsyncDisplayKit/AsyncDisplayKit.h>
-#import <AsyncDisplayKit/ASRectTable.h>
-
-#import <Weaver/WVDOMTypes.h>
 #import <Weaver/WVDOMContext.h>
 #import <Weaver/NSObject+WVDOMNodeProviding.h>
+
+#import <Weaver/PDDOMTypes.h>
+#import <Weaver/PDDOMTypes+UIKit.h>
+
+#import <AsyncDisplayKit/AsyncDisplayKit.h>
 
 #import <UIKit/UIKit.h>
 
@@ -88,7 +86,7 @@ static const int kPDDOMNodeTypeDocument = 9;
 - (void)domain:(PDDOMDomain *)domain highlightNodeWithNodeId:(NSNumber *)nodeId highlightConfig:(PDDOMHighlightConfig *)highlightConfig callback:(void (^)(id))callback;
 {
   [self configureHighlightOverlayWithConfig:highlightConfig];
-  CGRect frameInWindow = [_context.idToFrameInWindow rectForKey:nodeId];
+  CGRect frameInWindow = [_context rectForKey:nodeId];
   [self revealHighlightOverlayAtRect:CGRectIsNull(frameInWindow) ? CGRectZero : frameInWindow];
   
   callback(nil);
@@ -129,7 +127,7 @@ static const int kPDDOMNodeTypeDocument = 9;
 + (PDDOMNode *)documentNodeWithApplication:(UIApplication *)application context:(WVDOMContext *)context
 {
   PDDOMNode *rootNode = [[PDDOMNode alloc] init];
-  rootNode.nodeId = [context idForObject:[NSObject new]];
+  rootNode.nodeId = [context storeObject:[NSObject new]];
   rootNode.nodeType = @(kPDDOMNodeTypeDocument);
   rootNode.nodeName = @"#document";
   rootNode.children = application ? @[ [application wv_generateDOMNodeWithContext:context] ] : nil;
@@ -145,5 +143,3 @@ static const int kPDDOMNodeTypeDocument = 9;
 }
 
 @end
-
-#endif // AS_TEXTURE_DEBUGGER

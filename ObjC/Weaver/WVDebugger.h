@@ -12,6 +12,10 @@
 
 #import <Weaver/PDDebugger.h>
 
+#import <UIKit/UIKit.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface WVDebugger : PDDebugger
 
 + (WVDebugger *)defaultInstance;
@@ -20,4 +24,4 @@
 
 @end
 
-#endif // AS_TEXTURE_DEBUGGER
+NS_ASSUME_NONNULL_END
