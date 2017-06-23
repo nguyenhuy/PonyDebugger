@@ -59,7 +59,7 @@
   NSObject *object = [[self context] objectForKey:nodeId];
   NSArray<PDCSSRuleMatch *> *matches;
   if (object != nil) {
-    [object wv_generateCSSRuleMatchesWithObjectId:nodeId];
+    matches = [object wv_generateCSSRuleMatchesWithObjectId:nodeId];
   }
   callback(matches, nil, nil, nil);
 }
