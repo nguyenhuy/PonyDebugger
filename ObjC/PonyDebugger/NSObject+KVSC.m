@@ -44,15 +44,17 @@
   } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGRect))) {
     CGRect rect = CGRectFromString(valueString);
     [self setValue:[NSValue valueWithCGRect:rect] forKeyPath:keyPath];
+  } else if (typeEncoding && !strcmp(typeEncoding, @encode(UIEdgeInsets))) {
+    UIEdgeInsets insets = UIEdgeInsetsFromString(valueString);
+    [self setValue:[NSValue valueWithUIEdgeInsets:insets] forKeyPath:keyPath];
   } else if (typeEncoding && !strcmp(typeEncoding, @encode(id))) {
-    // Only support editing for string objects (due to the trivial mapping between the string and its description)
     id currentValue = [self valueForKeyPath:keyPath];
     if ([currentValue isKindOfClass:[NSString class]]) {
       [self setValue:valueString forKeyPath:keyPath];
     } else if ([currentValue isKindOfClass:[NSAttributedString class]]) {
-      [self setValue:[[NSAttributedString alloc] initWithString:valueString] forKey:keyPath];
+      [self setValue:[[NSAttributedString alloc] initWithString:valueString] forKeyPath:keyPath];
     } else if ([currentValue isKindOfClass:[NSURL class]]) {
-      [self setValue:[NSURL URLWithString:valueString] forKey:keyPath];
+      [self setValue:[NSURL URLWithString:valueString] forKeyPath:keyPath];
     }
   } else {
     NSNumber *number = @([valueString doubleValue]);

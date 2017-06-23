@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nullable NSString *)PD_stringForValue:(id)value atKeyPath:(NSString *)keyPath onObject:(id)object;
 
++ (const char *)PD_typeEncodingForKeyPath:(NSString *)keyPath onObject:(id)object;
+
 - (nullable NSString *)PD_valueStringForKeyPath:(NSString *)keyPath;
 
 - (void)PD_setValueString:(NSString *)valueString forKeyPath:(NSString *)keyPath;
