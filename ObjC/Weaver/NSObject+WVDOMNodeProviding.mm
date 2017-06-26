@@ -105,8 +105,13 @@ static const int kPDDOMNodeTypeElement = 1;
 
 - (CGRect)wv_frameInWindow
 {
-  // FIXME this is probably wrong :(
-  return [self convertRect:self.bounds toLayer:nil];
+  CALayer *rootLayer = self;
+  CALayer *nextLayer = nil;
+  while ((nextLayer = rootLayer.superlayer) != nil) {
+    rootLayer = nextLayer;
+  }
+  
+  return [self convertRect:self.bounds toLayer:rootLayer];
 }
 
 - (NSArray *)wv_children
