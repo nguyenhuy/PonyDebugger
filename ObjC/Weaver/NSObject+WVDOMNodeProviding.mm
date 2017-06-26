@@ -176,11 +176,20 @@ static const int kPDDOMNodeTypeElement = 1;
   return @"display-node";
 }
 
+- (NSArray *)wv_children
+{
+  // ASDisplayNode by default generates its DOM children from its calculated layout (@see -[ASDisplayNode wv_generateDOMNodeWithContext] below).
+  // Subclasses whose calculated layout doesn't include all children can, for example because it does manual layout
+  // or it is a container node like ASCollectionNode and ASTableNode, can override this method to return the valid children.
+  // -[ASDisplayNode wv_generateDOMNodeWithContext] will respect that and bail early.
+  return @[];
+}
+
 - (PDDOMNode *)wv_generateDOMNodeWithContext:(WVDOMContext *)context
 {
   PDDOMNode *rootNode = [super wv_generateDOMNodeWithContext:context];
   if (rootNode.childNodeCount.intValue > 0) {
-    // If rootNode.children was populated, return right away.
+    // If rootNode.children was populated, return right away. Check the concrete implementation of -wv_children.
     return rootNode;
   }
   
@@ -265,6 +274,20 @@ static const int kPDDOMNodeTypeElement = 1;
 + (NSString *)wv_nodeName
 {
   return @"cell-node";
+}
+
+- (NSArray *)wv_children
+{
+  if (UIViewController *viewController = self.viewController) {
+    // ASCellNodes with a view controller block have only 1 subnode that is the view controller's node.
+    // Since the subnode is manually laid out, the calculated layout of this cell node has no sublayout
+    // and thus can't be used in -[ASDisplayNode wv_generateDOMNodeWithContext].
+    // Therefore, `self.subnodes` should be returned here.
+    return self.subnodes;
+  } else {
+    // Opt into the default behavior of ASDisplayNode.
+    return [super wv_children];
+  }
 }
 
 @end
