@@ -260,6 +260,15 @@ static const int kPDDOMNodeTypeElement = 1;
 
 @end
 
+@implementation ASCellNode (PDDOMNodeProviding)
+
++ (NSString *)wv_nodeName
+{
+  return @"cell-node";
+}
+
+@end
+
 @implementation ASCollectionNode (PDDOMNodeProviding)
 
 + (NSString *)wv_nodeName
