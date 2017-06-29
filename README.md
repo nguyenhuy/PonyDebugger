@@ -34,7 +34,7 @@ $ mv pybonjour-1.1.1 pybonjour
 
 3. Download and run ponyd's boostrap script:
 ```
-$ curl -s https://raw.githubusercontent.com/TextureGroup/Weaver/master/bootstrap-ponyd.py | python - --never-download ~/Library/Weaver
+$ curl -s https://raw.githubusercontent.com/TextureGroup/Weaver/master/scripts/bootstrap-ponyd.py | python - --never-download ~/Library/Weaver
 ```
 
 4. Install dependencies

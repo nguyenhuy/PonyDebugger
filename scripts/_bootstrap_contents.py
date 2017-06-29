@@ -6,8 +6,9 @@ def extend_parser(optparse_parser):
     optparse_parser.add_option('--ponyd-symlink', metavar='PONYD_SYMLINK_PATH', help='Optional location to symlink ponyd to. /usr/local/bin/ponyd is recommended')
 
 def after_install(options, home_dir):
+    subprocess.check_call([join(home_dir, 'bin', 'python'), join('pybonjour', 'setup.py'), 'install'])
     subprocess.check_call([join(home_dir, 'bin', 'pip'),
-                     'install', '--allow-external', 'pybonjour', '--allow-unverified', 'pybonjour', '-U', '-e', 'git+https://github.com/nguyenhuy/PonyDebugger.git#egg=ponydebugger'])
+                     'install', '-U', '-e', 'git+https://github.com/TextureGroup/Weaver.git#egg=weaver'])
 
     ponyd_path = join(home_dir, 'bin', 'ponyd')
 
@@ -25,7 +26,5 @@ def after_install(options, home_dir):
             os.symlink(ponyd_path, symlink_target)
         except:
             print >>sys.stderr, "Error creating symlink. Manually run: sudo ln -s '%s' '%s'" % (ponyd_path, symlink_target)
-
-    subprocess.check_call([ponyd_path, 'update-devtools'])
 
     print "Congratulations! ponyd has been installed to %s" % ponyd_path
