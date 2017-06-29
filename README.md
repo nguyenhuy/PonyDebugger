@@ -4,13 +4,12 @@
 [![License](https://img.shields.io/cocoapods/l/Weaver.svg)](http://cocoadocs.org/docsets/Weaver)
 [![Platform](https://img.shields.io/cocoapods/p/Weaver.svg)](http://cocoadocs.org/docsets/Weaver)
 
-Weaver is a remote debugging tool for Texture apps. It is a client library and gateway server combination that uses Chrome DevTools on your browser to debug
+Weaver is a remote debugging tool for [Texture](http://texturegroup.org) apps. It is a client library and gateway server combination that uses Chrome DevTools on your browser to debug
 your application's layout hierarchy. 
 
 Weaver is a hard fork of [PonyDebugger](https://github.com/square/PonyDebugger). It was trimmed down and modified to work with layout elements from both UIKit and Texture.
 
-To use Weaver, you must enable the client in your iOS application and
-connect it to the gateway server called "ponyd".
+To use Weaver, you must enable the client in your iOS application and connect it to the gateway server called "ponyd".
 
 ## Quick Start
 
@@ -84,8 +83,8 @@ Weaver is available on [CocoaPods](https://cocoapods.org/pods/Weaver). Add the f
 
 ```ruby
 target 'MyApp' do
-	pod 'Texture'
-	pod 'Weaver'
+  pod 'Texture'
+  pod 'Weaver'
 end
 ```
 
@@ -118,20 +117,20 @@ Then enable layout debugging by calling `enableLayoutElementDebuggingWithApplica
 ```
 
 To connect automatically to ponyd on your LAN (via Bonjour):
-``` objective-c
+```objective-c
 [debugger autoConnect];
 ```
 
 Or to open the connection to a specific host, for instance
 `ws://localhost:9229/device`:
 
-``` objective-c
+```objective-c
 [debugger connectToURL:[NSURL URLWithString:@"ws://localhost:9229/device"]];
 ```
 
 To manually close the connection:
 
-``` objective-c
+```objective-c
 [debugger disconnect];
 ```
 
