@@ -1,4 +1,4 @@
-PonyGateway: PonyDebugger Gateway Server (``ponyd``)
+PonyGateway: Weaver's Gateway Server (``ponyd``)
 ====================================================
 
 This directory contains the gateway server that serves Chrome DevTools.
