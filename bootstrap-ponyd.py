@@ -1811,8 +1811,6 @@ def after_install(options, home_dir):
         except:
             print >>sys.stderr, "Error creating symlink. you will have to run: sudo ln -s '%s' '%s'" % (ponyd_path, symlink_target)
 
-    subprocess.check_call([ponyd_path, 'update-devtools'])
-
     print "Congratulations! ponyd has been installed to %s" % ponyd_path
 
 
