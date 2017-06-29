@@ -1,7 +1,7 @@
 PonyGateway: PonyDebugger Gateway Server (``ponyd``)
 ====================================================
 
-This directory contains the gateway server that serves Chrome Developer Tools.
+This directory contains the gateway server that serves Chrome DevTools.
 
 PonyGateway is licensed under the Apache Licence, Version 2.0
 (http://www.apache.org/licenses/LICENSE-2.0.html).
@@ -15,31 +15,25 @@ The end result is the same.
 Quick userland install
 ``````````````````````
 
-::
-
-  curl -sk https://cloud.github.com/downloads/square/PonyDebugger/bootstrap-ponyd.py | \
-    python - --ponyd-symlink=/usr/local/bin/ponyd ~/Library/PonyDebugger
-
-This will install ``ponyd`` script to ``~/Library/PonyDebugger/bin/ponyd`` and
-attempt to symlink ``/usr/local/bin/ponyd`` to it.
+Follow the instructions [here](https://github.com/TextureGroup/Weaver#install-ponyd).
 
 This installer uses a `virtualenv
 <http://www.virtualenv.org/en/latest/index.html>`_ bootstrap script to install
-PonyDebugger and all its dependencies in an isolated python environment in
-``~/Library/PonyDebugger``.
+ponyd and all its dependencies in an isolated python environment in
+``~/Library/Weaver``.
 
 Since this uses virtualenv, you can also download the script and customize the
 installation options::
 
-  curl -O https://cloud.github.com/downloads/square/PonyDebugger/bootstrap-ponyd.py
+  curl -O https://raw.githubusercontent.com/TextureGroup/Weaver/master/scripts/bootstrap-ponyd.py
   python bootstrap-ponyd.py --help
 
 Upgrading your installation can be done with the following commands::
 
   # activate your virtualenv
-  source ~/Library/PonyDebugger/bin/activate
+  source ~/Library/Weaver/bin/activate
   # update the ponyd source
-  pip install -U -e git+https://github.com/square/PonyDebugger.git#egg=ponydebugger
+  pip install -U -e git+https://github.com/TextureGroup/Weaver.git#egg=ponyd
   # updates chrome dev tools source
   ponyd update-devtools     
 
@@ -49,17 +43,17 @@ Upgrading your installation can be done with the following commands::
 Development installation
 ````````````````````````
 
-If you already have PonyDebugger git repo checked out you can can set up a
+If you already have Weaver git repo checked out you can can set up a
 virtualenv manually and have your ponyd installation point to your existing
 checkout.  For demonstration we assume ``$VENV`` is set to your intended install
-path and ``$PONYDEBUGGER_PATH`` is set to your PonyDebugger git checkout::
+path and ``$WEAVER_PATH`` is set to your Weaver git checkout::
 
   # if you don't already have virtualenv installed
   sudo easy_install virtualenv
 
   virtualenv "$VENV"
   source "$VENV/bin/activate"
-  pip install -e "$PONYDEBUGGER_PATH"
+  pip install -e "$WEAVER_PATH"
 
   # to ensure your shell knows ponyd exists
   hash -r
@@ -72,7 +66,7 @@ just call it directly via ``$VENV/bin/ponyd`` without activating first.
 Starting Debugging Server
 -------------------------
 
-Once installed, running PonyDebugger's server is easy::
+Once installed, running Weaver's server is easy::
 
   ponyd serve
 
@@ -84,6 +78,10 @@ listen on ``0.0.0.0`` which is done by::
 
   ponyd serve -i 0.0.0.0
 
+To make the server listen on a different port, for example 9229::
+
+  ponyd serve -i 0.0.0.0 -p 9229
+
 The listen and other ports can be customized as well.  Run ``ponyd serve
 --help`` for more information.
 
@@ -91,15 +89,12 @@ The listen and other ports can be customized as well.  Run ``ponyd serve
 Known Issues / Improvements
 ---------------------------
 
-- Dev Tools not appear to always load properly on Chrome Stable. First, try doing a hard 
-  refresh. If you are still having issues, try Chrome Canary or Safari.
 - Relaunching the client application requires you to navigate back to the main
   page.
-- Chrome Developer Tools shows some unnecessary tabs (such as Elements).
+- Chrome DevTools shows some unnecessary tabs (such as Elements).
   ``ponyd update-devtools`` could possibly be updated to patch the incoming
-  chrome developer tools to hide these unused tabs.
+  Chrome DevTools to hide these unused tabs.
 
 
-Contributing
-------------
-We’re glad you’re interested in PonyDebugger, and we’d love to see where you take it. Please read our `contributing guidelines <https://github.com/square/PonyDebugger/blob/master/Contributing.md>`_ prior to submitting a Pull Request.
+## Contributing
+We welcome any contributions. See the [CONTRIBUTING](https://github.com/TextureGroup/Weaver/blob/master/CONTRIBUTING.md) file for how to get involved.
