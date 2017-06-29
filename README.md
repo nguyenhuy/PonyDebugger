@@ -65,7 +65,7 @@ In your browser, navigate to `http://localhost:9229`. You should see the
 ponyd lobby. Now you need to integrate the client to your application.
 
 For more detailed instructions, check out the gateway server
-[README_ponyd](https://github.com/TextureGroup/Weaver/blob/master/README_ponyd.rst).
+[README_ponyd](https://github.com/TextureGroup/Weaver/blob/master/README_ponyd.md).
 
 ### Weaver iOS Client
 
