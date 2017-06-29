@@ -8,7 +8,7 @@ def extend_parser(optparse_parser):
 def after_install(options, home_dir):
     subprocess.check_call([join(home_dir, 'bin', 'python'), join('pybonjour', 'setup.py'), 'install'])
     subprocess.check_call([join(home_dir, 'bin', 'pip'),
-                     'install', '-U', '-e', 'git+https://github.com/TextureGroup/Weaver.git#egg=weaver'])
+                     'install', '-U', '-e', 'git+https://github.com/TextureGroup/Weaver.git#egg=ponyd'])
 
     ponyd_path = join(home_dir, 'bin', 'ponyd')
 
