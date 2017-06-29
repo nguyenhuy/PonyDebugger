@@ -15,7 +15,7 @@ The end result is the same.
 Quick userland install
 ``````````````````````
 
-Follow the instructions [here](https://github.com/TextureGroup/Weaver#install-ponyd).
+Follow the instructions here: https://github.com/TextureGroup/Weaver#install-ponyd
 
 This installer uses a `virtualenv
 <http://www.virtualenv.org/en/latest/index.html>`_ bootstrap script to install
