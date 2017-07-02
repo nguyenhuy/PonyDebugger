@@ -262,7 +262,10 @@ class Gateway(PonydCommand):
 
         print "PonyGateway starting. Listening on http://%s:%s" % (self.listen_interface, self.listen_port)
 
-        bonjour.register_service(self.bonjour_name, "_ponyd._tcp", self.listen_port)
+        try:
+            bonjour.register_service(self.bonjour_name, "_ponyd._tcp", self.listen_port)
+        except:
+            print "Could not register Bonjour. Auto connect will not work"
 
         application.listen(self.listen_port, self.listen_interface)
         ioloop = tornado.ioloop.IOLoop.instance()
