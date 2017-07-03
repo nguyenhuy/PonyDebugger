@@ -4,8 +4,9 @@
 [![License](https://img.shields.io/cocoapods/l/Weaver.svg)](http://cocoadocs.org/docsets/Weaver)
 [![Platform](https://img.shields.io/cocoapods/p/Weaver.svg)](http://cocoadocs.org/docsets/Weaver)
 
-Weaver is a remote debugging tool for [Texture](http://texturegroup.org) apps. It is a client library and gateway server combination that uses Chrome DevTools on your browser to debug
-your application's layout hierarchy. 
+Weaver is a remote debugging tool for [Texture](http://texturegroup.org) apps. It is a client library and gateway server combination that uses Chrome DevTools on your browser to debug your application's layout hierarchy. 
+
+Demo video: https://youtu.be/zdACP6dQlQ8
 
 Weaver is a hard fork of [PonyDebugger](https://github.com/square/PonyDebugger). It was trimmed down and modified to work with layout elements from both UIKit and Texture.
 
@@ -133,6 +134,9 @@ To manually close the connection:
 ```objective-c
 [debugger disconnect];
 ```
+
+#### Integration example
+You can find an example on how to integrate Weaver into an existing app [here](https://github.com/TextureGroup/Texture/pull/412).
 
 ## Getting Help
 We use Slack for real-time debugging, community updates, and general talk about Texture and Weaver. [Signup](http://asdk-slack-auto-invite.herokuapp.com) yourself and join #weaver channel.
