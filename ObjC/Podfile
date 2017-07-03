@@ -4,5 +4,5 @@ platform :ios, '8.0'
 
 target :'Weaver' do
   pod 'Texture/Core', :git => 'git@github.com:TextureGroup/Texture.git', :branch => 'master'
-  pod 'SocketRocket'
+  pod 'SocketRocket', :inhibit_warnings => true
 end
