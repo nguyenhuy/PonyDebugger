@@ -16,21 +16,25 @@ To use Weaver, you must enable the client in your iOS application and connect it
 
 ### Install ponyd
 
-- Prerequisite: Xcode's Command Line Tools must be installed.
+- Prerequisites: Python 2, pip, virtualenv
   
 1. Create a temporary directory:
 ```sh
-$ mkdir ponyd
-$ cd ponyd
+$ mkdir ponyd && cd ponyd
 ```
 
 2. Download required dependencies
 ```sh
-$ curl -O https://pypi.python.org/packages/11/b6/abcb525026a4be042b486df43905d6893fb04f05aac21c32c638e939e447/pip-9.0.1.tar.gz
-$ curl -O https://pypi.python.org/packages/25/5d/cc55d39ac39383dd6e04ae80501b9af3cc455be64740ad68a4e12ec81b00/setuptools-0.6c11-py2.7.egg
-$ curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/pybonjour/pybonjour-1.1.1.tar.gz
-$ tar xvf pybonjour-1.1.1.tar.gz
-$ mv pybonjour-1.1.1 pybonjour
+$ curl -O https://pypi.python.org/packages/11/b6/abcb525026a4be042b486df43905d6893fb04f05aac21c32c638e939e447/pip-9.0.1.tar.gz && \
+curl -O https://pypi.python.org/packages/25/5d/cc55d39ac39383dd6e04ae80501b9af3cc455be64740ad68a4e12ec81b00/setuptools-0.6c11-py2.7.egg && \
+curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/pybonjour/pybonjour-1.1.1.tar.gz && \
+tar xvf pybonjour-1.1.1.tar.gz && \
+mv pybonjour-1.1.1 pybonjour
+```
+
+- 2.1. If you're on Ubuntu, you need to install `libavahi-compat-libdnssd1` as well:
+```sh
+$ sudo apt-get install libavahi-compat-libdnssd1
 ```
 
 3. Download and run ponyd's boostrap script:
@@ -40,15 +44,15 @@ $ curl -s https://raw.githubusercontent.com/TextureGroup/Weaver/master/scripts/b
 
 4. Install dependencies
 ```
-$ ~/Library/Weaver/bin/easy_install -U backports_abc
-$ ~/Library/Weaver/bin/easy_install -U certifi
-$ ~/Library/Weaver/bin/easy_install -U singledispatch
-$ ~/Library/Weaver/bin/easy_install -U pybonjour
+$ ~/Library/Weaver/bin/easy_install -U backports_abc && \
+~/Library/Weaver/bin/easy_install -U certifi && \
+~/Library/Weaver/bin/easy_install -U singledispatch && \
+~/Library/Weaver/bin/easy_install -U pybonjour
 ```
 
-5. Add ponyd alias to your bash profile
+5. Add `ponyd` symlink
 ```
-$ alias ponyd="~/Library/Weaver/bin/ponyd"
+$ ln -s ~/Library/Weaver/bin/ponyd /usr/bin/ponyd
 ```
 
 6. Install DevTools
