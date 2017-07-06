@@ -61,6 +61,7 @@ static const int kPDDOMNodeTypeDocument = 9;
   if (self = [super init]) {
     self.highlightOverlay = [[UIView alloc] initWithFrame:CGRectZero];
     self.highlightOverlay.layer.borderWidth = 1.0;
+    self.highlightOverlay.userInteractionEnabled = NO;
   }
   return self;
 }
