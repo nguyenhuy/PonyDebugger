@@ -176,12 +176,23 @@ static const int kPDDOMNodeTypeElement = 1;
   return @"display-node";
 }
 
+/**
+ * ASDisplayNode by default generates its DOM children from its calculated layout (@see -[ASDisplayNode wv_generateDOMNodeWithContext] below).
+ * Subclasses whose calculated layout doesn't include all children, for example because it does manual layout
+ * or it is a container node like ASCollectionNode and ASTableNode, can override this method to return the valid children.
+ * -[ASDisplayNode wv_generateDOMNodeWithContext:] will respect that and bail early.
+ */
+// TODO Consider refactoring wv_children and wv_generateDOMNodeWithContext in this class
 - (NSArray *)wv_children
 {
-  // ASDisplayNode by default generates its DOM children from its calculated layout (@see -[ASDisplayNode wv_generateDOMNodeWithContext] below).
-  // Subclasses whose calculated layout doesn't include all children can, for example because it does manual layout
-  // or it is a container node like ASCollectionNode and ASTableNode, can override this method to return the valid children.
-  // -[ASDisplayNode wv_generateDOMNodeWithContext] will respect that and bail early.
+  // If this node doesn't have calculated sublayouts but instead have some subnodes,
+  // it is a container node, i.e the root node of an ASViewController
+  // Handle by returning subnodes and by pass -[ASDisplayNode wv_generateDOMNodeWithContext:]
+  if (self.unflattenedCalculatedLayout.sublayouts.count == 0 && self.subnodes.count > 0) {
+    return self.subnodes;
+  }
+
+  // Return an empty array in most cases so that -[ASDisplayNode wv_generateDOMNodeWithContext:] will pickup unflattenedCalculatedLayout.
   return @[];
 }
 
@@ -250,7 +261,7 @@ static const int kPDDOMNodeTypeElement = 1;
     node.children = children;
     node.childNodeCount = @(children.count);
   }
-  
+
   return rootNode;
 }
 
