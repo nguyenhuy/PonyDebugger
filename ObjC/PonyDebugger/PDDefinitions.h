@@ -9,20 +9,8 @@
 //  which Square, Inc. licenses this file to you.
 //
 
-#import <CoreData/CoreData.h>
-#import <objc/runtime.h>
+#import <Foundation/Foundation.h>
 
 extern NSString *const PDDebuggerErrorDomain;
 extern const NSInteger PDDebuggerUnimplementedDomainMethodErrorCode;
 extern const NSInteger PDDebuggerRequiredAttributeMissingCode;
-
-NSString *PDReturnTypeStringForEncodedType(NSString *string);
-
-NSDictionary *PDRemoteObjectPropertyTypeDetailsForObject(id object);
-NSDictionary *PDRemoteObjectPropertyTypeDetailsForValue(NSValue *value);
-
-NSDictionary *PDRemoteObjectPropertyTypeDetailsForPropertyDescription(NSPropertyDescription *description);
-NSDictionary *PDRemoteObjectPropertyTypeDetailsForAttributeDescription(NSAttributeDescription *description);
-NSDictionary *PDRemoteObjectPropertyTypeDetailsForRelationshipDescription(NSRelationshipDescription *description);
-
-NSDictionary *PDExtractPropertyAttributes(objc_property_t property);
